@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title> Pet-Shop </title>
+	<link rel="stylesheet" type="text/css" href="home.css">
+</head>
+
+<body>
+	<div id="Top">
+		<form>
+			Username:
+			<input id="Usr" type="text" name="Username">
+			Password:
+			<input id="Psw" type="password" name="Password">
+			<input type="button" name="EnterButton" value="Enter" onclick="login();">
+		</form>
+	</div>
+
+	<div id="Menu">
+		<a href="home.html" class="menu_item">Home</a>
+	</div>
+
+	<div id="Content"></div>
+
+	<script type="text/javascript">
+
+		function login() {
+			var user = document.getElementById("Usr").value;
+			var psw = document.getElementById("Psw").value;
+
+			if(user.localeCompare("user") == 0 && psw.localeCompare("user") == 0) location.href = "usuario_compras.html";
+			else if(user.localeCompare("admin") == 0 && psw.localeCompare("admin") == 0) location.href = "admin_cadastro.html";
+		}
+	</script>
+
+</body>
+
+</html>
