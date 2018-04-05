@@ -88,6 +88,7 @@ Esses eram do usuario_compras
 }
 
 .Price{
+	background-color: #240D6D;
 	list-style-type: none;
 	border: 1px solid gray;
 	margin: 0;
@@ -119,7 +120,7 @@ Esses eram do usuario_compras
 }
 
 .Price .Value{
-	border: 1px solid gray;
+	background-color: white;
 	font-weight: bold;
 }
 
