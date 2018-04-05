@@ -50,14 +50,14 @@ form{
 	margin: 20px;
 }
 
-.menu_item{
+.MenuItem{
 	color: white;
 	font-size: 25px;
     text-align: center;
     text-decoration: none;
 }
 
-.sidebar_item{
+.SidebarItem{
 	background-color: gray;
 	color: black;
 	font-size: 16px;
@@ -67,11 +67,11 @@ form{
 	display: block;
 }
 
-.menu_item:hover{
+.MenuItem:hover{
 	background-color: gray;
 }
 
-.sidebar_item:hover{
+.SidebarItem:hover{
 	background-color: black;
 	color: white;
 }
