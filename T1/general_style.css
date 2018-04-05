@@ -101,10 +101,7 @@ Esses eram do usuario_compras
 }
 
 .Price .ImageProduct{
-	width: 30%;
-	height: 30%;
 	border: none;
-	padding-left: 11%;
 }
 
 .Price .ImageProduct img{
