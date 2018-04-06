@@ -74,7 +74,7 @@ form{
 	margin-top: 5%;
 }
 
-#animal_obs{
+#animal_obs, #produto_desc, #servico_desc{
 	height: 200px;
 	vertical-align: top;
 }

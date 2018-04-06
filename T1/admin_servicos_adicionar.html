@@ -2,6 +2,7 @@
 <html>
 
 <head>
+	<meta charset="utf-8">
 	<title> Pet-Shop </title>
 	<link rel="stylesheet" type="text/css" href="general_style.css">
 </head>
@@ -21,13 +22,20 @@
 
 	<div id="Content">
 		<div id="Sidebar">
-			<a href="admin_servicos_remover.html" class="SidebarItem">Remover Servicos</a>
 			<a href="admin_servicos_adicionar.html" class="SidebarItem">Adicionar Servicos</a>
+			<a href="admin_servicos_remover.html" class="SidebarItem">Remover Servicos</a>
 			<a href="admin_servicos_editar.html" class="SidebarItem">Editar Servicos</a>
 				
 		</div>
-		<!--<div id="MainContent">
-		</div>-->
+		<div id="MainContent">
+			<form>
+				Nome servico:						<input id="servico_nome" type="text" name="Servico Nome"><br>
+				ID:								<input id="servico_id" type="text" name="Servico ID"><br>
+				Preço:							<input id="servico_preco" type="text" name="Servico Preço"><br>
+				Descrição:						<textarea id="servico_desc" type="text" name="Servico Descrição"></textarea><br>
+				<input type="button" name="SubmitButton" value="Cadastrar">				<input type="button" name="CancelButton" value="Cancelar">
+			</form>
+		</div>
 	</div>
 
 </body>
