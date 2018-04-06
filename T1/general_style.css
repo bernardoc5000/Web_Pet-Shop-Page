@@ -87,7 +87,7 @@ Esses eram do usuario_compras
 	font-family: "Arial";
 }
 
-.Price{
+.Produto{
 	background-color: #240D6D;
 	list-style-type: none;
 	border: 1px solid gray;
@@ -95,22 +95,22 @@ Esses eram do usuario_compras
 	padding: 0;
 }
 
-.Price li{
+.Produto li{
 	border-bottom: 2px solid gray;
 	padding: 10px;
 	text-align: center;
 }
 
-.Price .ImageProduct{
+.Produto .ImageProduct{
 	border: none;
 }
 
-.Price .ImageProduct img{
-	width: 300px;
-	height: 225px;
+.Produto .ImageProduct img{
+	width: 100%;
+	height: 100%;
 }
 
-.Price .Description{
+.Produto .Description{
 	background-color: white;
 	color: black;
 	border: none;
@@ -119,12 +119,12 @@ Esses eram do usuario_compras
 	font-size: 17px;
 }
 
-.Price .Value{
+.Produto .Value{
 	background-color: white;
 	font-weight: bold;
 }
 
-.Price .Button input{
+.Produto .Button input{
 	background-color: gray;
 	color: white;
 	border-radius: 12px;
