@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title> Pet-Shop </title>
+	<link rel="stylesheet" type="text/css" href="general_style.css">
+</head>
+
+<body>
+	<div id="Top">
+	</div>
+
+	<div id="Menu">
+		<a href="admin_cadastro.html" class="MenuItem">Cadastrar Usuarios/Administradores</a>
+		<span>|</span>
+		<a href="admin_produtos.html" class="MenuItem">Gerenciar Produtos</a>
+		<span>|</span>
+		<a href="admin_servicos.html" class="MenuItem">Gerenciar Servicos</a>
+	</div>
+
+	<div id="Content">
+		<div id="Sidebar">
+			<a href="admin_cadastro_cliente.html" class="SidebarItem">Cadastrar Cliente</a>
+			<a href="admin_cadastro_admin.html" class="SidebarItem">Cadastrar Administrador</a>				
+		</div>
+		<div id="MainContent">
+			<form>
+				Nome:
+				<input id="admin_nome" type="text" name="Admin Nome">
+				RG:
+				<input id="admin" type="text" name="Admin RG">
+				Endereço:
+				<input id="admin_endereco" type="text" name="Admin Endereco">
+				Telefone:
+				<input id="admin_tel" type="text" name="Admin Telefone">
+				<input type="button" name="SubmitButton" value="Cadastrar">
+				<input type="button" name="CancelButton" value="Cancelar">
+			</form>
+		</div>
+	</div>
+
+</body>
+
+</html>

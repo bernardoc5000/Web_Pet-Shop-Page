@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title> Pet-Shop </title>
+	<link rel="stylesheet" type="text/css" href="general_style.css">
+</head>
+
+<body>
+	<div id="Top">
+		<a href="carrinho.html"><img src="carrinho.png" style="width: 10%; height: 60%;"></a>
+	</div>
+
+	<div id="Menu">
+		<a href="usuario_compras.html" class="MenuItem">Comprar Produtos</a>
+		<span>|</span>
+		<a href="usuario_servicos.html" class="MenuItem">Agendar Servicos</a>
+		<span>|</span>
+		<a href="usuario_cadastro.html" class="MenuItem">Gerenciar Cadastro</a>
+		<span>|</span>
+		<a href="usuario_animais.html" class="MenuItem">Gerenciar Animais</a>
+	</div>
+
+	<div id="Content">
+		<div id="Sidebar">
+			<a href="usuario_animais_lista.html" class="SidebarItem">Lista de Animais</a>
+			<a href="usuario_animais_cadastro.html" class="SidebarItem">Adicionar Animais</a>
+		</div>
+		<div id="MainContent">
+			<form>
+				Nome dono:
+				<input id="usuario_nome" type="text" name="Usuário Nome">
+				Nome animal:
+				<input id="animal_nome" type="text" name="Animal Nome">
+				Espécie animal:
+				<input id="animal_especie" type="text" name="Animal Espécie">
+				Raça animal:
+				<input id="animal_raca" type="text" name="Animal Raça">
+				Observações animal:
+				<input id="animal_obs" type="text" name="Animal Observações">
+				<input type="button" name="SubmitButton" value="Cadastrar">
+				<input type="button" name="CancelButton" value="Cancelar">
+			</form>
+		</div>
+	</div>
+
+</body>
+
+</html>
