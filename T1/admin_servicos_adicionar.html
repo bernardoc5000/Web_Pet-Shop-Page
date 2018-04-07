@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title> Pet-Shop </title>
+	<link rel="stylesheet" type="text/css" href="general_style.css">
+</head>
+
+<body>
+	<div id="Top">
+		<br><br><br><br><br><br><a href="home.html" class="Logout">Logout</a>
+	</div>
+
+	<div id="Menu">
+		<a href="admin_cadastro.html" class="MenuItem">Cadastrar Usuarios/Administradores</a>
+		<a href="admin_produtos.html" class="MenuItem">Gerenciar Produtos</a>
+		<a href="admin_servicos.html" class="MenuItem">Gerenciar Servicos</a>
+		<a href="admin_lucros.html" class="MenuItem">Acompanhar Lucros</a>
+	</div>
+
+	<div id="Content">
+		<div id="Sidebar">
+			<a href="admin_servicos_adicionar.html" class="SidebarItem">Adicionar Servicos</a>
+			<a href="admin_servicos_remover.html" class="SidebarItem">Remover Servicos</a>
+			<a href="admin_servicos_editar.html" class="SidebarItem">Editar Servicos</a>
+				
+		</div>
+		<div id="MainContent">
+			<form>
+				Nome servico:						<input id="servico_nome" type="text" name="Servico Nome"><br>
+				ID:								<input id="servico_id" type="text" name="Servico ID"><br>
+				Preço:							<input id="servico_preco" type="text" name="Servico Preço"><br>
+				Descrição:						<textarea id="servico_desc" type="text" name="Servico Descrição"></textarea><br>
+				<input type="button" name="SubmitButton" value="Cadastrar">				<input type="button" name="CancelButton" value="Cancelar">
+			</form>
+		</div>
+	</div>
+
+</body>
+
+</html>
