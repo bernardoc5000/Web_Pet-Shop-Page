@@ -173,3 +173,34 @@ Esses eram do usuario_compras
 .Logout:hover {
 	color: black;
 }
+
+#Calendar{
+	float: center;
+	width: 80%;
+	height: 60%;
+	margin: 0 auto;
+}
+
+#Calendar ul{
+	list-style-type: none;
+}
+
+#Month{
+	font-size: 24px;
+	color: white;
+	background-color: #240D6D;
+    text-align: center;
+}
+
+#Prev{
+	float: left;
+}
+
+#Next{
+	float: right;
+}
+
+#Weekdays li{
+	text-align: center;
+	display: inline-block;
+}
