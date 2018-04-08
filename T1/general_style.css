@@ -326,6 +326,7 @@ Esses eram do usuario_compras
 .Lucro{
 	text-align: left;
 	resize: none;
+	margin-bottom: 50px;
 	width: 1000px;
     height: 400px;
 }
