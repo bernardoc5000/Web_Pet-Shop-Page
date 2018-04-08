@@ -190,13 +190,12 @@ Esses eram do usuario_compras
 
 .Logout{
 	font-size: 25px;
-	color: blue;
-	font-family: "Arial";
 	padding: 10px 10px;
-}
-
-.Logout:hover {
-	color: black;
+	background-color: gray;
+	color: white;
+	border-radius: 12px;
+	text-align: center;
+	text-decoration: none;
 }
 
 .Calendar{
