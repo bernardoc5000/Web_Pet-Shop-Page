@@ -10,21 +10,32 @@ general_style.css:
 home.html:
 	Página de login para todos os usuários. Para essa parte do projeto, o usuario "user" e senha "user" levam para pagina de usuário, e "admin" "admin" para a de administrador.
 
-usuario_compras.html:
+usuario_compras:
 	Página para o usuário fazer compras. Nessa página estão todos os produtos disponíveis na petshop. O usuário seleciona quantidades deles e adiciona ao carrinho. A partir dessa página pode ir para o carrinho, a de agendar servicos, gerenciar cadastro, gerenciar animais e o carrinho.
 
-usuario_servicos.html:
+usuario_servicos:
 	A página tem o calendário, uma lista dropdown de horários, uma lista dropdown de serviços, uma textbox com o nome do animal, uma textbox com o número do cartão de crédito, e um botão de pagar. Quando o usuário seleciona um dia e um horário ocupado o botao de pagar fica vermelho e já há um nome de animal na textbox de nome de animal. Deixar o botão vermelho só será feito na próxima etapa
 
-usuario_cadastro.html:
+usuario_cadastro:
 	Página com todos os campos do cadatro do usuário. O usuário altera os dados dele simplesmente alterando as informações dessa página e clicando em salvar.
 
-usuario_animais.html:
+usuario_animais:
 	Página simplesmente contem 2 opções: adicionar animal e listar animais
 
 usuario_animais_cadastro:
 	Página com todos os campos do cadatro do animal. O usuário insere as informações e clica em cadastrar para cadastrar
 
 usuario_animais_lista:
+	Página com todos os animais que pertencem ao usuário. O usuaŕio pode clicar para ver as informações do animal dele.
 
 usuario_animais_info:
+	Página com todas as informações de cadastro de um animal específico.
+
+admin_cadastro:
+	Página simplesmente contem 2 opções: cadastrar cliente e cadastrar administrador
+
+admin_cadastro_admin:
+	Página com todos os campos necessários para adicionar um novo administrador, e um botão para finalizar o cadastro.
+
+admin_cadastro_cliente:
+	Página com todos os campos necessários para adicionar um novo cliente, e um botão para finalizar o cadastro.
