@@ -2,6 +2,7 @@
 <html>
 
 <head>
+	<meta charset="utf-8">
 	<title> Pet-Shop </title>
 	<link rel="stylesheet" type="text/css" href="general_style.css">
 </head>
@@ -20,16 +21,16 @@
 	</div>
 
 	<div id="Content">
-		<div id="Calendar">
-			<div id="Month">
+		<div class="Calendar">
+			<div class="Month">
 				<ul>
-					<li id="Prev"><</li>
-					<li id="Next">></li>
+					<li class="Prev"><</li>
+					<li class="Next">></li>
 					<li>Abril 2018<br></li>
 				</ul>
 			</div>
 
-			<div id="Weekdays">
+			<div class="Weekdays">
 				<ul>
 					<li>Dom</li>
 					<li>Seg</li>
@@ -41,7 +42,7 @@
 				</ul>
 			</div>
 
-			<div id="Days">
+			<div class="Days">
 				<ul>
 					<li>01</li>
 					<li>02</li>
@@ -75,6 +76,27 @@
 					<li>30</li>
 				</ul>
 			</div>
+
+			<form id="Time">
+				Horários:
+				<input id="date" type="date" name="date" min="2018-04-01"><br>
+				<input type="button" name="submit" value="search"><br>
+			</form>
+
+			<div class="Schedule">
+				<ul>
+					<li>8:00</li>
+					<li>9:00</li>
+					<li class="Busy">10:00 Ocupado</li>
+					<li>11:00</li>
+					<li>12:00</li>
+					<li>13:00</li>
+					<li class="Busy">14:00 Ocupado</li>
+					<li>15:00</li>
+					<li>16:00</li>
+				</ul>
+			</div>
+
 		</div>
 	</div>
 
