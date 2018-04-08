@@ -57,7 +57,6 @@ Esse form tava no home e no login só
 }
 
 #MainContent form{
-	float: center;
 	text-align: left;
 	white-space: pre;
 	font-family: "Arial";
@@ -190,35 +189,94 @@ Esses eram do usuario_compras
 	color: black;
 }
 
-#Calendar{
-	float: center;
+.Calendar{
 	width: 80%;
 	height: 60%;
 	margin: 0 auto;
 }
 
-#Calendar ul{
+.Calendar ul{
 	list-style-type: none;
 }
 
-#Month{
+.Month{
+	margin-top: 30px;
+	padding: 20px;
 	font-size: 24px;
 	color: white;
 	background-color: #240D6D;
     text-align: center;
 }
 
-#Prev{
+#Time{
+	margin-top: 5%;
+	margin-left: 40%;
+	font-weight: bold;
+}
+
+#Time input[type="button"]{
+	margin-left: 10%;
+	margin-top: 10px;
+	border-radius: 4px;
+	font-size: 20px;
+	background-color: white;
+	color: black;
+}
+
+.Prev{
 	float: left;
 }
 
-#Next{
+.Next{
 	float: right;
 }
 
-#Weekdays li{
+.Weekdays{
+	margin: 0;
+	padding: 10px 0;
+	background-color: #240D90;
+}
+
+.Weekdays li{
 	text-align: center;
+	width: 13%;
+	color: white;
 	display: inline-block;
+}
+
+.Days{
+	margin: 0;
+	padding: 10px 0;
+	background-color: #240DB0;
+}
+
+.Days li{
+	list-style-type: none;
+	display: inline-block;
+	width: 13%;
+	padding-top: 20px;
+	text-align: center;
+	font-size: 15px;
+	color: white;
+}
+
+.Schedule{
+	width: 80%;
+	height: 60%;
+	margin: 0 auto;
+}
+
+.Schedule li{
+	border-radius: 4px;
+	background-color: #240D6D;
+	padding: 10px;
+	margin: 10px;
+	color: white;
+	font-size: 20px;
+}
+
+.Schedule .Busy{
+	background-color: #8B0000;
 }
 
 @media (max-width: 600px) {
@@ -248,5 +306,9 @@ Esses eram do usuario_compras
 		width: 95%;
 		margin-left: 0;
 		margin-top: 3%;
+	}
+
+	.Weekdays li, .Days li{
+		width: 12%;
 	}
 }
