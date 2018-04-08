@@ -312,3 +312,10 @@ Esses eram do usuario_compras
 		width: 12%;
 	}
 }
+
+.Lucro{
+	text-align: left;
+	resize: none;
+	width: 1000px;
+    height: 400px;
+}
