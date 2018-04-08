@@ -1,7 +1,7 @@
-Membros:
+﻿Membros:
 Eduardo Santos Carlos de Souza		9293481
 Bernardo Bacellos de Castro Cunha	9293380
-Fabrício Guedes Faria				9293522
+Fabrício Guedes Faria			9293522
 
 
 
@@ -42,6 +42,9 @@ admin_cadastro_admin:
 admin_cadastro_cliente:
 	Página com todos os campos necessários para adicionar um novo cliente, e um botão para finalizar o cadastro.
 
+admin_lucros:
+	Página que lista os lucros adquiridos com cada produto vendido e serviço feito no último mês.
+
 admin_produtos:
 	Página simplesmente contem 3 opções: adicionar, remover e editar produtos.
 
@@ -53,3 +56,25 @@ admin_produtos_remover:
 
 admin_produtos_editar:
 	Página com todos os produtos cadastrados. O administrador clica em editar, o que leva para uma página com as informações do produto.
+
+admin_produtos_editar_produto:
+	Página para modificar os dados de um produto específico.
+
+admin_servicos:
+	Página simplesmente contem 3 opções: adicionar, remover e editar servicos.
+
+admin_servicos_adicionar:
+	Página com todos os campos para o cadastro de um serviço. O administrador preenche os campos e clica em cadastrar.
+
+admin_servicos_remover:
+	Página com todos os serviços cadastrados. O adminstrador clica no botão remover para remover o produto.
+
+admin_servicos_editar:
+	Página com todos os serviços cadastrados. O administrador clica em editar, o que leva para uma página com as informações do serviço.
+
+admin_servicos_editar_servico:
+	Página para modificar os dados de um produto específico.
+
+carrinho:
+	Página que mostra quais produtos o cliente colocou no seu carrinho para poder comprar. Ele pode retirar cada item ou cancelar o carrinho.
+
