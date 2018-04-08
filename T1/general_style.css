@@ -288,6 +288,43 @@ Esses eram do usuario_compras
 	background-color: #8B0000;
 }
 
+#Carrinho{
+	margin: 20px;
+	font-family: "Arial";
+	border-collapse: collapse;
+	width: 80%;
+}
+#Carrinho td, #Carrinho th{
+	border: 2px solid black;
+	font-size: 20px;
+	text-align: center;
+	font-weight: bold;
+}
+
+.carrinho_imagem_item{
+	height: 100%;
+}
+
+#Carrinho input{
+	background-color: gray;
+	color: white;
+	border-radius: 12px;
+	text-align: center;
+	text-decoration: none;
+	font-size: 20px;
+}
+
+.carrinho_botao{
+	background-color: gray;
+	color: white;
+	border-radius: 12px;
+	text-align: center;
+	text-decoration: none;
+	font-size: 20px;
+	margin-left: 20%;
+	margin-top: 5%;
+}
+
 @media (max-width: 600px) {
 	#Menu{
 		flex-direction: column;
