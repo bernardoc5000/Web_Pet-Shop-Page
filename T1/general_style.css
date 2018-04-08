@@ -198,25 +198,6 @@ Esses eram do usuario_compras
 	text-decoration: none;
 }
 
-.Calendar{
-	width: 80%;
-	height: 60%;
-	margin: 0 auto;
-}
-
-.Calendar ul{
-	list-style-type: none;
-}
-
-.Month{
-	margin-top: 30px;
-	padding: 20px;
-	font-size: 24px;
-	color: white;
-	background-color: #240D6D;
-    text-align: center;
-}
-
 #Time{
 	margin-top: 5%;
 	margin-left: 40%;
@@ -230,43 +211,6 @@ Esses eram do usuario_compras
 	font-size: 20px;
 	background-color: white;
 	color: black;
-}
-
-.Prev{
-	float: left;
-}
-
-.Next{
-	float: right;
-}
-
-.Weekdays{
-	margin: 0;
-	padding: 10px 0;
-	background-color: #240D90;
-}
-
-.Weekdays li{
-	text-align: center;
-	width: 13%;
-	color: white;
-	display: inline-block;
-}
-
-.Days{
-	margin: 0;
-	padding: 10px 0;
-	background-color: #240DB0;
-}
-
-.Days li{
-	list-style-type: none;
-	display: inline-block;
-	width: 13%;
-	padding-top: 20px;
-	text-align: center;
-	font-size: 15px;
-	color: white;
 }
 
 .Schedule{
