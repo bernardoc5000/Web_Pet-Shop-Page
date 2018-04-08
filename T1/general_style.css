@@ -65,7 +65,17 @@ Esse form tava no home e no login só
 	font-size: 20px;
 }
 
-#MainContent form input[type="text"], textarea{
+.Lucro{
+	margin-top: 10px;
+	margin-left: 30px;
+	width: 900px;
+	height: 200px;
+	resize: none;
+	background-color: #f2f2f2;
+	font-size: 18px;
+}
+
+#MainContent form input[type="text"], form textarea{
 	margin-top: 10px;
 	margin-left: 30px;
 	width: 500px;
