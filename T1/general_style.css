@@ -329,3 +329,13 @@ Esses eram do usuario_compras
 	width: 1000px;
     height: 400px;
 }
+
+.LinkButton{
+	font-size: 20px;
+	padding: 5px 5px;
+	background-color: gray;
+	color: white;
+	border-radius: 12px;
+	text-align: center;
+	text-decoration: none;
+}
