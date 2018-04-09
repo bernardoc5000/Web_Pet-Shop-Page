@@ -5,6 +5,12 @@ Fabrício Guedes Faria			9293522
 
 
 
+Observacoes importantes:
+	-Todas as páginas estão linkadas entre si temporariamente para essa parte do projeto
+	-Para essa parte do projeto, o usuario "user" e senha "user" levam para pagina de usuário, e "admin" "admin" para a de administrador.
+
+
+
 Arquivos:
 general_style.css:
 	Arquivo css que contêm as informações de estilo para todas as páginas do site.
