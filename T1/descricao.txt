@@ -13,14 +13,14 @@ Observacoes importantes:
 
 
 Arquivos:
-general_style.css:
+general_style:
 	Arquivo css que contêm as informações de estilo para todas as páginas do site.
 
-home.html:
-	Página de login para todos os usuários. Para essa parte do projeto, o usuario "user" e senha "user" levam para pagina de usuário, e "admin" "admin" para a de administrador.
+home:
+	Página de login para todos os usuários.
 
 usuario_compras:
-	Página para o usuário fazer compras. Nessa página estão todos os produtos disponíveis na petshop. O usuário seleciona quantidades deles e adiciona ao carrinho. A partir dessa página pode ir para o carrinho, a de agendar servicos, gerenciar cadastro, gerenciar animais e o carrinho.
+	Página para o usuário fazer compras. Nessa página estão todos os produtos disponíveis na petshop. O usuário seleciona quantidades deles e clica em adicionar ao carrinho.
 
 usuario_servicos:
 	A página tem o calendário, uma lista dropdown de horários, uma lista dropdown de serviços, uma textbox com o nome do animal, uma textbox com o número do cartão de crédito, e um botão de pagar. Quando o usuário seleciona um dia e um horário ocupado o botao de pagar fica vermelho e já há um nome de animal na textbox de nome de animal. Deixar o botão vermelho só será feito na próxima etapa
@@ -50,7 +50,7 @@ admin_cadastro_cliente:
 	Página com todos os campos necessários para adicionar um novo cliente, e um botão para finalizar o cadastro.
 
 admin_lucros:
-	Página que lista os lucros adquiridos com cada produto vendido e serviço feito no último mês.
+	Página que lista os lucros adquiridos com cada produto vendido e serviço feito no últimos 30 dias.
 
 admin_produtos:
 	Página simplesmente contem 3 opções: adicionar, remover e editar produtos.
@@ -65,7 +65,7 @@ admin_produtos_editar:
 	Página com todos os produtos cadastrados. O administrador clica em editar, o que leva para uma página com as informações do produto.
 
 admin_produtos_editar_produto:
-	Página para modificar os dados de um produto específico.
+	Página para modificar os dados de um produto específico, similar a editar animais.
 
 admin_servicos:
 	Página simplesmente contem 3 opções: adicionar, remover e editar servicos.
@@ -80,8 +80,7 @@ admin_servicos_editar:
 	Página com todos os serviços cadastrados. O administrador clica em editar, o que leva para uma página com as informações do serviço.
 
 admin_servicos_editar_servico:
-	Página para modificar os dados de um produto específico.
+	Página para modificar os dados de um produto específico, similar a editar animais.
 
 carrinho:
-	Página que mostra quais produtos o cliente colocou no seu carrinho para poder comprar. Ele pode retirar cada item ou cancelar o carrinho.
-
+	Página que mostra quais produtos o cliente colocou no seu carrinho e suas quantidades para poder comprar. Ele pode retirar cada item, cancelar o carrinho ou finalizar a compra.
