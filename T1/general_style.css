@@ -57,6 +57,21 @@ Esse form tava no home e no login só
 	width: 90%;
 }
 
+#MainContent h1{
+	text-align: center;
+	color: #240D6D;
+	font-size: 50px;
+}
+
+#MainContent ul{
+	font-weight: bold;
+}
+
+#MainContent p, #MainContent ul{
+	font-size: 24px;
+	color: #240D6D;
+}
+
 #MainContent form{
 	text-align: left;
 	white-space: pre;
