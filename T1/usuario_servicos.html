@@ -23,22 +23,40 @@
 	<div id="Content">
 		<form id="Time">
 			Selecione o dia:
-			<input id="date" type="date" name="date" min="2018-04-01"><br>
+			<input id="date" type="date" name="date" min="2018-04-01" value="2018-04-01"><br>
 			<input type="button" name="submit" value="Buscar Horários"><br>
 		</form>
 
 		<div class="Schedule">
-			<ul>
-				<li>8:00</li>
-				<li>9:00</li>
-				<li class="Busy">10:00 Ocupado</li>
-				<li>11:00</li>
-				<li>12:00</li>
-				<li>13:00</li>
-				<li class="Busy">14:00 Ocupado</li>
-				<li>15:00</li>
-				<li>16:00</li>
-			</ul>
+			<form>
+				<input type="radio" name="time_schedule" value="8:00"> 8:00<br>
+				<input type="radio" name="time_schedule" value="9:00"> 9:00<br>
+				<input type="radio" name="time_schedule" value="10:00" class="Busy" disabled="true"> 10:00 Ocupado<br>
+				<input type="radio" name="time_schedule" value="8:00"> 11:00<br>
+				<input type="radio" name="time_schedule" value="8:00"> 12:00<br>
+				<input type="radio" name="time_schedule" value="8:00"> 13:00<br>
+				<input type="radio" name="time_schedule" value="8:00" class="Busy" disabled="true"> 14:00 Ocupado<br>
+				<input type="radio" name="time_schedule" value="8:00"> 15:00<br>
+				<input type="radio" name="time_schedule" value="8:00"> 16:00<br>
+
+				<br><br>
+
+				<select>
+					<option value="Banho">Banho</option>
+					<option value="Tosa">Tosa</option>
+					<option value="Banho e Tosa">Banho e Tosa</option>
+				</select>
+
+				<select>
+					<option value="Totó">Totó</option>
+					<option value="Nina">Nina</option>
+					<option value="Rex">Rex</option>
+					<option value="Susi">Susi</option>
+					<option value="Demolidor">Demolidor</option>
+				</select>
+
+				<input type="" name="">
+			</form>
 		</div>
 	</div>
 

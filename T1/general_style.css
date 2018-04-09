@@ -219,9 +219,7 @@ Esses eram do usuario_compras
 	margin: 0 auto;
 }
 
-.Schedule li{
-	border-radius: 4px;
-	background-color: #240D6D;
+.Schedule input[type="radio"]{
 	padding: 10px;
 	margin: 10px;
 	color: white;
