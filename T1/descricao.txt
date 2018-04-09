@@ -8,6 +8,7 @@ Fabrício Guedes Faria			9293522
 Observacoes importantes:
 	-Todas as páginas estão linkadas entre si temporariamente para essa parte do projeto
 	-Para essa parte do projeto, o usuario "user" e senha "user" levam para pagina de usuário, e "admin" "admin" para a de administrador.
+	-Todos as partes do projeto que necessitam de dados de um banco de dados estão utilizando dados temporários.
 
 
 
