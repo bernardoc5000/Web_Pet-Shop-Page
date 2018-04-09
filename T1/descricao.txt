@@ -1,7 +1,7 @@
 ﻿Membros:
 Eduardo Santos Carlos de Souza		9293481
 Bernardo Bacellos de Castro Cunha	9293380
-Fabrício Guedes Faria			9293522
+Fabrício Guedes Faria				9293522
 
 
 
@@ -9,6 +9,7 @@ Observacoes importantes:
 	-Todas as páginas estão linkadas entre si temporariamente para essa parte do projeto
 	-Para essa parte do projeto, o usuario "user" e senha "user" levam para pagina de usuário, e "admin" "admin" para a de administrador.
 	-Todos as partes do projeto que necessitam de dados de um banco de dados estão utilizando dados temporários.
+	-Na paǵina de agendar servicos, o estado de ocupado ou não para os slots se dara dinâmicamente conformo o usuário altera a data.
 
 
 
@@ -23,7 +24,7 @@ usuario_compras:
 	Página para o usuário fazer compras. Nessa página estão todos os produtos disponíveis na petshop. O usuário seleciona quantidades deles e clica em adicionar ao carrinho.
 
 usuario_servicos:
-	A página tem o calendário, uma lista dropdown de horários, uma lista dropdown de serviços, uma textbox com o nome do animal, uma textbox com o número do cartão de crédito, e um botão de pagar. Quando o usuário seleciona um dia e um horário ocupado o botao de pagar fica vermelho e já há um nome de animal na textbox de nome de animal. Deixar o botão vermelho só será feito na próxima etapa
+	A página tem o calendário, uma input-radio de horários(slots), uma lista dropdown de serviços, uma lista dropdown com o nome do animal, uma textbox com o número do cartão de crédito, e um botão para pagar.
 
 usuario_cadastro:
 	Página com todos os campos do cadatro do usuário. O usuário altera os dados dele simplesmente alterando as informações dessa página e clicando em salvar.
