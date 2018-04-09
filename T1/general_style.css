@@ -54,6 +54,7 @@ Esse form tava no home e no login só
 #MainContent{
 	float: left;
 	margin: 20px;
+	width: 90%;
 }
 
 #MainContent form{
