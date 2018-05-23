@@ -19,7 +19,7 @@ Esse form tava no home e no login só
 
 #Top{
 	height: 13%;
-	background-image: url("res/top_background.png");
+	background-image: url("../res/top_background.png");
     background-size: 100% 100%;
     text-align: right;
 }
