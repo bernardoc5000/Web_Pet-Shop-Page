@@ -4,6 +4,9 @@ body{
 	border: 0px;
 	padding: 0px;
 	margin: 0px;
+
+	color: #240D6D;
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
 /*
@@ -31,11 +34,11 @@ Esse form tava no home e no login só
 	background-color: #240D6D;
 	display: flex;
 	color: white;
+	text-shadow: 0px 0 white, 0 0px white, 0px 0 white, 0 0px white;
 }
 
 #Content{
 	height: 89%;
-	background-image: url("content_background.png");
     background-size: 100% 100%;
 }
 
@@ -59,7 +62,6 @@ Esse form tava no home e no login só
 
 #MainContent h1{
 	text-align: center;
-	color: #240D6D;
 	font-size: 50px;
 }
 
@@ -69,7 +71,6 @@ Esse form tava no home e no login só
 
 #MainContent p, #MainContent ul{
 	font-size: 24px;
-	color: #240D6D;
 }
 
 #MainContent form{
@@ -77,7 +78,6 @@ Esse form tava no home e no login só
 	white-space: pre;
 	font-family: "Arial";
 	font-weight: bold;
-	color: #240D6D;
 	font-size: 20px;
 }
 
@@ -207,11 +207,12 @@ Esses eram do usuario_compras
 .Logout{
 	font-size: 25px;
 	padding: 10px 10px;
-	background-color: gray;
+	background-color: #240D6D;
 	color: white;
 	border-radius: 12px;
 	text-align: center;
 	text-decoration: none;
+	text-shadow: 0px 0 white, 0 0px white, 0px 0 white, 0 0px white;
 }
 
 #Time{
