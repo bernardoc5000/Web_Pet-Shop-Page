@@ -1,13 +1,13 @@
 <div id="Top">
-	<a href="carrinho.html"><img src="res/carrinho.png"></a>
-	<a href="home.html" class="Logout">Logout</a>
+	<input type="button" name="LogoutButton" value="Logout" class="LoginButton" onclick="login_out(1);"></input>
 </div>
 
 <div id="Menu">
-	<a href="usuario_compras.html" class="MenuItem">Comprar Produtos</a>
-	<a href="usuario_servicos.html" class="MenuItem">Agendar Servicos</a>
-	<a href="usuario_cadastro.html" class="MenuItem">Gerenciar Cadastro</a>
-	<a href="usuario_animais.html" class="MenuItem">Gerenciar Animais</a>
+	<span class="MenuItem" onclick="changeUserPage(0);">Comprar Produtos</span>
+	<span class="MenuItem" onclick="changeUserPage(1);">Agendar Servicos</span>
+	<span class="MenuItem" onclick="changeUserPage(2);">Gerenciar Cadastro</span>
+	<span class="MenuItem" onclick="changeUserPage(3);">Gerenciar Animais</span>
+	<span class="MenuItem" onclick="changeUserPage(4);">Carrinho</span>
 </div>
 
 <div id="Content">

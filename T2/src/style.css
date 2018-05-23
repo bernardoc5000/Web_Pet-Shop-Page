@@ -140,6 +140,7 @@ Esse form tava no home e no login só
 
 .MenuItem:hover{
 	background-color: gray;
+	cursor: pointer;
 }
 
 .SidebarItem:hover{
@@ -204,9 +205,8 @@ Esses eram do usuario_compras
 	font-size: 20px;
 }
 
-.Logout{
+.LoginButton{
 	font-size: 25px;
-	padding: 10px 10px;
 	background-color: #240D6D;
 	color: white;
 	border-radius: 12px;
