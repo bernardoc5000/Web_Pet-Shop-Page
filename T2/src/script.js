@@ -20,9 +20,18 @@ function login_out(in_out) {
 
 function changeUserPage(page){
 	if (page == 0){
-
+		$("#Content").load("src/usuario_compras.html");
 	}
 	else if (page == 1){
-
+		$("#Content").load("src/usuario_servicos.html");
+	}
+	else if (page == 2){
+		$("#Content").load("src/usuario_cadastro.html");
+	}
+	else if (page == 3){
+		$("#Content").load("src/usuario_animais_lista.html");
+	}
+	else if (page == 4){
+		$("#Content").load("src/usuario_carrinho.html");
 	}
 }
