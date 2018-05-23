@@ -196,16 +196,17 @@ Esses eram do usuario_compras
 	font-weight: bold;
 }
 
-.Produto .Button input{
-	background-color: gray;
+.ProductButton{
+	font-size: 20px;
+	background-color: #240D6D;
 	color: white;
 	border-radius: 12px;
 	text-align: center;
 	text-decoration: none;
-	font-size: 20px;
+	text-shadow: 0px 0 white, 0 0px white, 0px 0 white, 0 0px white;
 }
 
-.LoginButton{
+.Button{
 	font-size: 25px;
 	background-color: #240D6D;
 	color: white;
@@ -221,15 +222,6 @@ Esses eram do usuario_compras
 	font-weight: bold;
 }
 
-#Time input[type="button"]{
-	margin-left: 10%;
-	margin-top: 3%;
-	border-radius: 4px;
-	font-size: 20px;
-	background-color: white;
-	color: black;
-}
-
 .Schedule{
 	width: 80%;
 	height: 60%;
@@ -243,13 +235,6 @@ Esses eram do usuario_compras
 	margin: 10px;
 	color: white;
 	font-size: 20px;
-}
-
-.Schedule input[type="button"]{
-	border-radius: 4px;
-	font-size: 20px;
-	background-color: white;
-	color: black;
 }
 
 .Schedule .Busy{
