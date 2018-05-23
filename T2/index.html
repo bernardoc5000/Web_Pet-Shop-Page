@@ -1,19 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 	<meta charset="utf-8">
 	<title> Pet-Shop </title>
-	<link rel="stylesheet" type="text/css" href="general_style.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
 	<div id="Top">
 		<form>
 			Username:
-			<input id="Usr" type="text" name="Username"><br>
+			<input id="User" type="text" name="Username"><br>
 			Password:
-			<input id="Psw" type="password" name="Password"><br>
+			<input id="Password" type="password" name="Password"><br>
 			<input type="button" name="EnterButton" value="Enter" onclick="login();">
 		</form>
 	</div>
@@ -44,17 +48,7 @@
 		</div>
 	</div>
 
-	<script type="text/javascript">
-
-		function login() {
-			var user = document.getElementById("Usr").value;
-			var psw = document.getElementById("Psw").value;
-
-			if(user.localeCompare("user") == 0 && psw.localeCompare("user") == 0) location.href = "usuario_compras.html";
-			else if(user.localeCompare("admin") == 0 && psw.localeCompare("admin") == 0) location.href = "admin_cadastro.html";
-		}
-	</script>
-
+	<script src="script.js"></script>
 </body>
 
 </html>
