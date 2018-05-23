@@ -4,16 +4,17 @@ function login_out(in_out) {
 		let psw = $("#Password").val();
 
 		if (user.localeCompare("user") == 0 && psw.localeCompare("user") == 0){
-			$("body").load("src/usuario_general.html")
-			$("#Content").load("src/usuario_compras.html")
+			$("body").load("src/usuario_general.html");
+			$("#Content").load("src/usuario_compras.html");
 		}
 		else{
-			$("body").load("src/usuario_general.html")
-			$("#Content").load("src/usuario_compras.html")
+			$("#Top").load("src/usuario_top.html");
+			$("#Menu").load("src/usuario_menu.html");
+			$("#Content").load("src/usuario_compras.html");
 		}
 	}
 	else{
-		$("body").load("index.html")
+		$("body").load("index.html");
 	}
 }
 
