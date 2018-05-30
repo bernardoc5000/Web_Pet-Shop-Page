@@ -5,7 +5,7 @@ function login_out(in_out) {
 
 		if (user.localeCompare("user") == 0 && psw.localeCompare("user") == 0){
 			$("#Top").load("src/logged_top.html");
-			$("body").load("src/usuario_general.html");
+			$("#Menu").load("src/usuario_menu.html");
 			$("#Content").load("src/usuario_compras.html");
 		}
 		else if (user.localeCompare("admin") == 0 && psw.localeCompare("admin") == 0){
