@@ -57,7 +57,10 @@ function changeAdminPage(page){
 		jQuery.ajaxSetup({async:true});
 	}
 	else if (page == 2){
-		$("#Content").load("src/admin_servicos_adicionar.html");
+		jQuery.ajaxSetup({async:false});
+		$("#Content").load("src/admin_servicos.html");
+		$("#MainContent").load("src/admin_servicos_adicionar.html");
+		jQuery.ajaxSetup({async:true});
 	}
 	else if (page == 3){
 		$("#Content").load("src/admin_lucros.html");
@@ -91,5 +94,17 @@ function adminProdutosSidebar(page){
 	}
 	else{
 		$("#MainContent").load("src/admin_produtos_editar.html");
+	}
+}
+
+function adminServicosSidebar(page){
+	if (page == 0){
+		$("#MainContent").load("src/admin_servicos_adicionar.html");
+	}
+	else if (page == 1){
+		$("#MainContent").load("src/admin_servicos_remover.html");
+	}
+	else{
+		$("#MainContent").load("src/admin_servicos_editar.html");
 	}
 }
