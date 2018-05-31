@@ -9,14 +9,6 @@ body{
     text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
-/*
-Esse form tava no home e no login só
-*/
-#Top form{
-	padding: 5px 5px;
-	font-weight: bold;
-}
-
 #Top{
 	height: 13%;
 	background-image: url("../res/top_background.png");
@@ -234,41 +226,19 @@ Esses eram do usuario_compras
 }
 
 #Carrinho{
-	margin: 20px;
-	background-color: #240D6D;
+	margin: 10px;
+	color: #240D6D;
+	background-color: white;
 	font-family: "Arial";
 	border-collapse: collapse;
-	width: 80%;
+	width: 90%;
+	float: center;
 }
+
 #Carrinho td, #Carrinho th{
-	border: 2px solid black;
+	border: 2px solid #240D6D;
 	font-size: 20px;
 	text-align: center;
-	font-weight: bold;
-}
-
-.carrinho_imagem_item{
-	height: 100%;
-}
-
-#Carrinho input{
-	background-color: gray;
-	color: white;
-	border-radius: 12px;
-	text-align: center;
-	text-decoration: none;
-	font-size: 20px;
-}
-
-.carrinho_botao{
-	background-color: gray;
-	color: white;
-	border-radius: 12px;
-	text-align: center;
-	text-decoration: none;
-	font-size: 20px;
-	margin-left: 20%;
-	margin-top: 5%;
 }
 
 @media (max-width: 600px) {
@@ -311,14 +281,4 @@ Esses eram do usuario_compras
 	margin-bottom: 50px;
 	width: 1000px;
     height: 400px;
-}
-
-.LinkButton{
-	font-size: 20px;
-	padding: 5px 5px;
-	background-color: gray;
-	color: white;
-	border-radius: 12px;
-	text-align: center;
-	text-decoration: none;
 }

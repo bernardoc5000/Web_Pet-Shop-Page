@@ -1,28 +1,26 @@
 <table id="Carrinho">
-		<tr>
-			<th>Photo</th>
-			<th>Produto</th>
-			<th>Quantidade</th>
-			<th>Remover</th>
-		</tr>
-		<tr>
-			<td width="100px"><img src="res/areia_gato.png" class="carrinho_imagem_item"></td>
-			<td>4 Kg de Areia de Gato</td>
-			<td>2</td>
-			<td><input type="button" name="Remover" value="Remover"></td>
-			
-		</tr>
-		<tr>
-			<td width="100px"><img src="res/petiscos_caninos.png" class="carrinho_imagem_item"></td>
-			<td>300 g de Petiscos Caninos</td>
-			<td>1</td>
-			<td><input type="button" name="Remover" value="Remover"></td>
-		</tr>
+	<tr>
+		<th>Photo</th>
+		<th>Produto</th>
+		<th>Quantidade</th>
+		<th>Remover</th>
+	</tr>
+	<tr>
+		<td width="100px"><img src="res/areia_gato.png"></td>
+		<td>4 Kg de Areia de Gato</td>
+		<td>2</td>
+		<td><input type="button" name="Remover" value="Remover" class="ProductButton"></td>
+	</tr>
+	<tr>
+		<td width="100px"><img src="res/petiscos_caninos.png"></td>
+		<td>300 g de Petiscos Caninos</td>
+		<td>1</td>
+		<td><input type="button" name="Remover" value="Remover" class="ProductButton"></td>
+	</tr>
 </table>
 
 <label for="cartao" style="margin-left: 2%;">Número do Cartão: </label>
 <input type="text" name="cartao" id="cartao" placeholder="1234-5678-1234-5678" maxlength="16" pattern="[0-9]{16}" title="Credit Card Number">
 <br>
 
-<input type="button" name="Confirmar" value="Confirmar Compra" class="carrinho_botao">
-<input type="button" name="Esvaziar" value="Esvaziar Carrinho" class="carrinho_botao">
+<input type="button" style="margin-right: 3%; margin-left: 1%;" name="Confirmar" value="Confirmar Compra" class="Button"><input type="button" name="Esvaziar" value="Esvaziar Carrinho" class="Button">
