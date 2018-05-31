@@ -4,3 +4,4 @@ Bernardo Barcellos de Castro Cunha	9293380
 Fabrício Guedes Faria				9293522
 
 Observações:
+O cadastro inicial de usuário já possúi animal pois definimos que todo usuário precisa ter no mínimo 1 animal.

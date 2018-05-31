@@ -71,17 +71,28 @@ Esse form tava no home e no login só
 	font-size: 24px;
 }
 
-#MainContent form{
+.CadastroForm{
 	margin: 0 auto;
 	width: 800px;
 	font-size: 20px;
 }
 
-#MainContent form label{
+.CadastroForm label{
 	margin-top: 30px;
 	display: inline-block;
 	width: 200px;
 	text-align: right;
+}
+
+.CadastroForm input, #CadastroForm textarea{
+	margin-top: 30px;
+	font: 1em sans-serif;
+	width: 500px;
+	resize:  none;
+}
+
+.CadastroForm input[type="button"] {
+	margin-left: 200px;
 }
 
 .Lucro{
@@ -93,26 +104,6 @@ Esse form tava no home e no login só
 	background-color: #f2f2f2;
 	font-size: 18px;
 }
-
-#MainContent form input, #MainContent form textarea{
-	margin-top: 30px;
-	font: 1em sans-serif;
-	width: 500px;
-	resize:  none;
-}
-
-#MainContent form input[type="button"] {
-	font-size: 22px;
-	font-family: "Arial";
-	margin-left: 200px;
-	background-color: #240D6D;
-	color: white;
-	border-radius: 6px;
-	border: 2px solid black;
-	opacity: 0.6;
-}
-
-#MainContent form input[type="button"]:hover { opacity: 1.0; }
 
 #animal_obs, #produto_desc, #servico_desc{
 	height: 200px;
@@ -203,6 +194,7 @@ Esses eram do usuario_compras
 	text-align: center;
 	text-decoration: none;
 	text-shadow: 0px 0 white, 0 0px white, 0px 0 white, 0 0px white;
+	font-family: "Arial";
 }
 
 .Button{
@@ -213,6 +205,7 @@ Esses eram do usuario_compras
 	text-align: center;
 	text-decoration: none;
 	text-shadow: 0px 0 white, 0 0px white, 0px 0 white, 0 0px white;
+	font-family: "Arial";
 }
 
 #Time{

@@ -1,11 +1,17 @@
-<form>
-	Nome animal:						<input id="animal_nome" type="text" name="Animal Nome" placeholder="Nome animal"><br>
-	ID animal:							<input id="animal_id" type="text" name="Animal ID" placeholder="00001"><br>
-	Caminho para foto:					<input id="animal_foto" type="text" name="Animal Foto" placeholder="C:\Fotos\foto.png"><br>
-	Espécie animal:						<input id="animal_especie" type="text" name="Animal Espécie" placeholder="Espécie1"><br>
-	Raça animal:							<input id="animal_raca" type="text" name="Animal Raça" placeholder="Raça1"><br>
-	Idade animal:							<input id="animal_idade" type="text" name="Animal Idade" placeholder="X anos"><br>
-	Descrição:							<textarea id="animal_desc" type="text" name="Animal Descrição" placeholder="Descrição do animal"></textarea><br>
-	Observações animal:					<textarea id="animal_obs" type="text" name="Animal Observações" placeholder="Observações do animal"></textarea><br>
-	<input type="button" name="SubmitButton" value="Cadastrar">				<input type="button" name="CancelButton" value="Cancelar">
+<form class=CadastroForm>
+	<label for="animal_nome">Nome animal:</label>
+	<input id="animal_nome" type="text" name="Animal Nome" placeholder="Nome animal"><br>
+	<label for="animal_foto">Foto:</label>
+	<input id="animla_foto" type="file" name="Animal Foto" placeholder="C:\Fotos\foto.png"><br>
+	<label for="animal_especie">Espécie animal:</label>
+	<input id="animal_especie" type="text" name="Animal Espécie" placeholder="Espécie1"><br>
+	<label for="animal_raca">Raça animal:</label>
+	<input id="animal_raca" type="text" name="Animal Raça" placeholder="Raça1"><br>
+	<label for="animal_idade">Idade animal:</label>
+	<input id="animal_idade" type="number" name="Animal Idade" placeholder="0"><br>
+	<label for="animal_desc">Descrição:</label>
+	<textarea id="animal_desc" type="text" name="Animal Descrição" placeholder="Descrição do animal"></textarea><br>
+	<label for="animal_obs">Observações animal:</label>
+	<textarea id="animal_obs" type="text" name="Animal Observações" placeholder="Observações do animal"></textarea><br>
+	<input type="button" name="SubmitButton" value="Cadastrar" class="Button">				<input type="button" name="CancelButton" value="Cancelar" class="Button">
 </form>
