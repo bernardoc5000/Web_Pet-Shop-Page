@@ -4,11 +4,16 @@
 </div>
 <div id="MainContent">
 	<form>
-		Nome:						<input id="admin_nome" type="text" name="Admin Nome" placeholder="Seu Nome"><br>
-		ID:							<input id="admin_id" type="text" name="Admin ID" placeholder="123456789-0"><br>
-		Caminho para foto:			<input id="admin_foto" type="text" name="Admin Foto" placeholder="C:\Fotos\foto.png"><br>
-		Telefone:					<input id="admin_tel" type="text" name="Admin Telefone" placeholder="(00) 0000-0000"><br>
-		E-mail:						<input id="admin_email" type="text" name="Usuário E-mail" placeholder="email@email.com"><br>
+		<label for="admin_nome">Nome:</label>
+		<input id="admin_nome" type="text" name="Admin Nome" placeholder="Seu Nome"><br>
+		<label for="admin_id">ID:</label>
+		<input id="admin_id" type="text" name="Admin ID" placeholder="123456789-0"><br>
+		<label for="admin_foto">Caminho para foto:</label>
+		<input id="admin_foto" type="file" name="Admin Foto" placeholder="C:\Fotos\foto.png"><br>
+		<label for="admin_tel">Telefone:</label>
+		<input id="admin_tel" type="tel" name="Admin Telefone" placeholder="(00) 0000-0000"><br>
+		<label for="admin_email">E-mail:</label>
+		<input id="admin_email" type="email" name="Usuário E-mail" placeholder="email@email.com"><br>
 		<input type="button" name="SubmitButton" value="Cadastrar">				<input type="button" name="CancelButton" value="Cancelar">
 	</form>
 </div>

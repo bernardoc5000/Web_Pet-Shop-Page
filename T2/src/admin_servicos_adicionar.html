@@ -6,11 +6,16 @@
 </div>
 <div id="MainContent">
 	<form>
-		Nome serviço:					<input id="servico_nome" type="text" name="Servico Nome" placeholder="Nome serviço"><br>
-		ID:								<input id="servico_id" type="text" name="Servico ID" placeholder="00001"><br>
-		Caminho para foto:				<input id="servico_foto" type="text" name="Serviço Foto" placeholder="C:\Fotos\foto.png"><br>
-		Preço:							<input id="servico_preco" type="text" name="Servico Preço" placeholder="R$ XX,XX"><br>
-		Descrição:						<textarea id="servico_desc" type="text" name="Serviço Descrição" placeholder="Descrição do serviço"></textarea><br>
+		<label for="servico_nome">Nome serviço:</label>
+		<input id="servico_nome" type="text" name="Servico Nome" placeholder="Nome serviço"><br>
+		<label for="servico_id">ID:</label>
+		<input id="servico_id" type="text" name="Servico ID" placeholder="00001"><br>
+		<label for="servico_foto">Foto:</label>
+		<input id="servico_foto" type="file" name="Serviço Foto" placeholder="C:\Fotos\foto.png"><br>
+		<label for="servico_preco">Preço:</label>
+		<input id="servico_preco" type="text" name="Servico Preço" placeholder="R$ XX,XX"><br>
+		<label for="servico_desc">Descrição:</label>
+		<textarea id="servico_desc" type="text" name="Serviço Descrição" placeholder="Descrição do serviço"></textarea><br>
 		<input type="button" name="SubmitButton" value="Cadastrar">				<input type="button" name="CancelButton" value="Cancelar">
 	</form>
 </div>

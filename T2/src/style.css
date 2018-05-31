@@ -74,11 +74,16 @@ Esse form tava no home e no login só
 }
 
 #MainContent form{
-	text-align: left;
-	white-space: pre;
-	font-family: "Arial";
-	font-weight: bold;
+	margin: 0 auto;
+	width: 800px;
 	font-size: 20px;
+}
+
+#MainContent form label{
+	margin-top: 30px;
+	display: inline-block;
+	width: 200px;
+	text-align: right;
 }
 
 .Lucro{
@@ -91,21 +96,17 @@ Esse form tava no home e no login só
 	font-size: 18px;
 }
 
-#MainContent form input[type="text"], form textarea{
-	margin-top: 10px;
-	margin-left: 30px;
+#MainContent form input, #MainContent form textarea{
+	margin-top: 30px;
+	font: 1em sans-serif;
 	width: 500px;
-	height: 25px;
-	resize: none;
-	background-color: #f2f2f2;
-	font-size: 18px;
+	resize:  none;
 }
 
 #MainContent form input[type="button"] {
 	font-size: 22px;
 	font-family: "Arial";
-	margin-top: 5%;
-	margin-left: 14%;
+	margin-left: 200px;
 	background-color: #240D6D;
 	color: white;
 	border-radius: 6px;
