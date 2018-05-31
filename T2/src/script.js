@@ -13,11 +13,6 @@ function login_out(in_out) {
 			$("#Menu").load("src/admin_menu.html");
 			$("#Content").load("src/admin_lucros.html");
 		}
-		else{
-			$("#Top").load("src/logged_top.html");
-			$("#Menu").load("src/usuario_menu.html");
-			$("#Content").load("src/usuario_compras.html");
-		}
 	}
 	else{
 		$("body").load("index.html");
@@ -35,7 +30,10 @@ function changeUserPage(page){
 		$("#Content").load("src/usuario_cadastro.html");
 	}
 	else if (page == 3){
-		$("#Content").load("src/usuario_animais_lista.html");
+		jQuery.ajaxSetup({async:false});
+		$("#Content").load("src/usuario_animais.html");
+		$("#MainContent").load("src/usuario_animais_lista.html");
+		jQuery.ajaxSetup({async:true});
 	}
 	else if (page == 4){
 		$("#Content").load("src/usuario_carrinho.html");
@@ -54,5 +52,14 @@ function changeAdminPage(page){
 	}
 	else if (page == 3){
 		$("#Content").load("src/admin_lucros.html");
+	}
+}
+
+function animaisSidebar(page){
+	if (page == 0){
+		$("#MainContent").load("src/usuario_animais_lista.html");
+	}
+	else{
+		$("#MainContent").load("src/usuario_animais_cadastro.html");
 	}
 }
