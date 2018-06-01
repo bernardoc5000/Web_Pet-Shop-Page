@@ -71,7 +71,7 @@ body{
 	text-align: right;
 }
 
-.CadastroForm input, #CadastroForm textarea{
+.CadastroForm input, .CadastroForm textarea{
 	margin-top: 30px;
 	font: 1em sans-serif;
 	width: 500px;
