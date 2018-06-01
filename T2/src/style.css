@@ -23,6 +23,19 @@ body{
 	display: flex;
 }
 
+.MenuItem{
+	font-size: 25px;
+	padding: 15px 20px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0px 0 white, 0 0px white, 0px 0 white, 0 0px white;
+}
+
+.MenuItem:hover{
+	background-color: gray;
+	cursor: pointer;
+}
+
 #Content{
 	height: 89%;
 }
@@ -40,22 +53,24 @@ body{
 	float: left;
 }
 
+.SidebarItem{
+	font-size: 18px;
+	text-align: left;
+    text-decoration: none;
+    padding: 5px 5px 5px 5px;
+	margin: 5px;
+	display: block;
+	text-shadow: 0px 0 white, 0 0px white, 0px 0 white, 0 0px white;
+}
+
+.SidebarItem:hover{
+	background-color: gray;
+	cursor: pointer;
+}
+
 #MainContent{
 	float: right;
 	width: 84%;
-}
-
-#MainContent h1{
-	text-align: center;
-	font-size: 50px;
-}
-
-#MainContent ul{
-	font-weight: bold;
-}
-
-#MainContent p, #MainContent ul{
-	font-size: 24px;
 }
 
 .CadastroForm{
@@ -82,52 +97,11 @@ body{
 	margin-left: 200px;
 }
 
-.Lucro{
-	margin-top: 10px;
-	margin-left: 30px;
-	width: 900px;
-	height: 200px;
-	resize: none;
-	background-color: #f2f2f2;
-	font-size: 18px;
-}
-
 #animal_obs, #produto_desc, #servico_desc, #animal_desc{
 	height: 200px;
 	vertical-align: top;
 }
 
-.MenuItem{
-	font-size: 25px;
-	padding: 15px 20px;
-    text-align: center;
-    text-decoration: none;
-    text-shadow: 0px 0 white, 0 0px white, 0px 0 white, 0 0px white;
-}
-
-.SidebarItem{
-	font-size: 18px;
-	text-align: left;
-    text-decoration: none;
-    padding: 5px 5px 5px 5px;
-	margin: 5px;
-	display: block;
-	text-shadow: 0px 0 white, 0 0px white, 0px 0 white, 0 0px white;
-}
-
-.MenuItem:hover{
-	background-color: gray;
-	cursor: pointer;
-}
-
-.SidebarItem:hover{
-	background-color: gray;
-	cursor: pointer;
-}
-
-/*
-Esses eram do usuario_compras
-*/
 .Itens{
 	float: left;
 	width: 20%;
@@ -166,6 +140,7 @@ Esses eram do usuario_compras
 	text-align: center;
 	text-decoration: none;
 	font-size: 17px;
+	font-weight: bold;
 }
 
 .Produto .Value{
@@ -268,6 +243,16 @@ Esses eram do usuario_compras
 	.Weekdays li, .Days li{
 		width: 12%;
 	}
+}
+
+.Lucro{
+	margin-top: 10px;
+	margin-left: 30px;
+	width: 900px;
+	height: 200px;
+	resize: none;
+	background-color: #f2f2f2;
+	font-size: 18px;
 }
 
 .LucroHeader{
