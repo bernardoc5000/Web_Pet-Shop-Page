@@ -60,18 +60,19 @@ async function addProduto(opt){
 	}
 }
 
-async function loadProduto(div, id){
-	let product = await db.products.get(id);
-
-	$(div).append("<div class=\"Item\">");
-	$(div).append("<ul class=\"Product\">");
-	$(div).append(("<li class=\"ProductImage\"><img src=\"").concat(product['image']).concat("\" alt=\"res/areia_gato.png\"></img></li>"));
-	$(div).append(("<li class=\"ProductDescription\">").concat(product['description']).concat("</li>"));
-	$(div).append(("<li class=\"ProductValue\">R$ ").concat(product['price']).concat("</li>"));
-	$(div).append(("<li class=\"ProductValue\">Quantidade: <input id=\"quantidade_\"").concat(id.toString()).concat("\" type=\"number\" name=\"Quantidade\" value=\"Quantidade\"></input></li>"));
-	$(div).append(("<li><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(").concat(id.toString()).concat(")\"></input></li>"));
-	$(div).append("</ul>");
-	$(div).append("</div>");
+async function loadProdutos(div){
+	let products = await db.products.toArray();
+	for (product in products){
+		$(div).append("<div class=\"Item\">");
+		$(div).append("<ul class=\"Product\">");
+		$(div).append(("<li class=\"ProductImage\"><img src=\"").concat(product['image']).concat("\" alt=\"res/areia_gato.png\"></img></li>"));
+		$(div).append(("<li class=\"ProductDescription\">").concat(product['description']).concat("</li>"));
+		$(div).append(("<li class=\"ProductValue\">R$ ").concat(product['price']).concat("</li>"));
+		$(div).append(("<li class=\"ProductValue\">Quantidade: <input id=\"quantidade_\"").concat(product['id'].toString()).concat("\" type=\"number\" name=\"Quantidade\" value=\"Quantidade\"></input></li>"));
+		$(div).append(("<li><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(").concat(product['id'].toString()).concat(")\"></input></li>"));
+		$(div).append("</ul>");
+		$(div).append("</div>");
+	}
 }
 
 
@@ -96,7 +97,7 @@ async function login_out(in_out){
 				$("#Content").load("src/admin_cadastro.html");
 				$("#MainContent").load("src/admin_cadastro_cliente.html");
 				jQuery.ajaxSetup({async:true});
-				loadProduto("#Content", 0);
+				loadProdutos("#Content");
 			}
 			else alert("Usuário ou Senha inválidos");
 		}
