@@ -270,10 +270,17 @@ Esses eram do usuario_compras
 	}
 }
 
+.LucroHeader{
+	margin: 10px;
+	text-align: center;
+}
+
 .Lucro{
-	text-align: left;
-	resize: none;
-	margin-bottom: 50px;
-	width: 1000px;
-    height: 400px;
+	width: 40%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 5%;
+    height: 30%;
+    font-family: monospace;
 }
