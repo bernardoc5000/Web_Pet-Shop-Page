@@ -1,4 +1,4 @@
-Dexie.delete("petshop_database");
+//Dexie.delete("petshop_database");
 var db = new Dexie("petshop_database");
 db.version(1).stores({
 	admins: "id, name, image, tel, email, username, password",
@@ -7,17 +7,74 @@ db.version(1).stores({
 	products: "id, name, image, description, price, inStock, sold",
 	services: "id, name, image, description, price"
 });
+db.open();
+insertInitialAdmin();
 
-var file = document.createElement("input");
-file.setAttribute("type", "file");
-file.setAttribute("value", "res/manager.png");
-var tel = document.createElement("input");
-tel.setAttribute("type", "tel");
-tel.setAttribute("value", "5550000");
-var email = document.createElement("input");
-email.setAttribute("type", "email");
-email.setAttribute("value", "email@server.com");
-db.admins.put({id: 0, name: "Joao", image: file.value, tel: tel.value, email: email.value, username: "admin", password: "admin"});
+
+
+async function insertInitialAdmin(){
+	if ((await db.admins.get(0)) === undefined){
+		let file = document.createElement("input");
+		file.setAttribute("type", "file");
+		file.setAttribute("value", "res/manager.png");
+		let tel = document.createElement("input");
+		tel.setAttribute("type", "tel");
+		tel.setAttribute("value", "5550000");
+		let email = document.createElement("input");
+		email.setAttribute("type", "email");
+		email.setAttribute("value", "email@server.com");
+		
+		db.admins.put({
+			id: 0,
+			name: "Joao",
+			image: file.value,
+			tel: tel.value,
+			email: email.value,
+			username: "admin",
+			password: "admin"
+		});
+	}
+}
+
+async function addProduto(opt){
+	if (opt === 0){
+		let id = parseInt(2147483648*Math.random());
+		while ((await db.products.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+
+		db.products.put({
+			id: id,
+			name: $("#produto_nome").val(),
+			image: $("#produto_foto").val(),
+			description: $("#produto_desc").val(),
+			price: $("#produto_preco").val(),
+			inStock: $("#produto_estoque").val(),
+			sold: 0
+		});
+	}
+	else{
+		$("#produto_nome").val('');
+		$("#produto_foto").val('');
+		$("#produto_desc").val('');
+		$("#produto_preco").val('');
+		$("#produto_estoque").val('');
+	}
+}
+
+async function loadProduto(div, id){
+	let product = await db.products.get(id);
+
+	$(div).append("<div class=\"Item\">");
+	$(div).append("<ul class=\"Product\">");
+	$(div).append(("<li class=\"ProductImage\"><img src=\"").concat(product['image']).concat("\" alt=\"res/areia_gato.png\"></img></li>"));
+	$(div).append(("<li class=\"ProductDescription\">").concat(product['description']).concat("</li>"));
+	$(div).append(("<li class=\"ProductValue\">R$ ").concat(product['price']).concat("</li>"));
+	$(div).append(("<li class=\"ProductValue\">Quantidade: <input id=\"quantidade_\"").concat(id.toString()).concat("\" type=\"number\" name=\"Quantidade\" value=\"Quantidade\"></input></li>"));
+	$(div).append(("<li><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(").concat(id.toString()).concat(")\"></input></li>"));
+	$(div).append("</ul>");
+	$(div).append("</div>");
+}
+
+
 
 async function login_out(in_out){
 	if (in_out === 0){
@@ -39,15 +96,12 @@ async function login_out(in_out){
 				$("#Content").load("src/admin_cadastro.html");
 				$("#MainContent").load("src/admin_cadastro_cliente.html");
 				jQuery.ajaxSetup({async:true});
+				loadProduto("#Content", 0);
 			}
 			else alert("Usuário ou Senha inválidos");
 		}
 	}
 	else $("body").load("index.html");
-}
-
-function loadProduto(div, id){
-
 }
 
 function changeUserPage(page){

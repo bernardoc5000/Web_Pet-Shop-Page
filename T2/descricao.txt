@@ -7,3 +7,4 @@ Observações:
 Utilizamos IndexedDB com o wrapper Dexie.js
 Não utilizamos o Bootstrap pois o código do trabalho anterior bastava
 Utilizamos JQuery para fazer a SPA
+Os ids sao gerados aleatoriamente na insercao. Eles sao inteiros entre 0 e (2^31)-1
