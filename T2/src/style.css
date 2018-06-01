@@ -86,7 +86,7 @@ body{
 	text-align: right;
 }
 
-.CadastroForm input, .CadastroForm textarea{
+.CadastroForm input{
 	margin-top: 30px;
 	font: 1em sans-serif;
 	width: 500px;
@@ -97,7 +97,11 @@ body{
 	margin-left: 200px;
 }
 
-#animal_obs, #produto_desc, #servico_desc, #animal_desc{
+.CadastroForm textarea{
+	margin-top: 30px;
+	font: 1em sans-serif;
+	width: 500px;
+	resize:  none;
 	height: 200px;
 	vertical-align: top;
 }
