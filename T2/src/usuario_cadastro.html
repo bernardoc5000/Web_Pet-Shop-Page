@@ -9,5 +9,9 @@
 	<input id="usuario_tel" type="tel" name="Usuário Telefone" placeholder="(00) 0000-0000"><br>
 	<label for="usuario_email">E-mail:</label>
 	<input id="usuario_email" type="email" name="Usuário E-mail" placeholder="email@email.com"><br>
-	<input type="button" name="SubmitButton" value="Salvar" class="Button">				<input type="button" name="CancelButton" value="Cancelar" class="Button">
+	<label for="usuario_user">Usuário:</label>
+	<input id="usuario_user" type="text" name="Usuário User" placeholder="Usuário" readonly><br>
+	<label for="usuario_password">Senha:</label>
+	<input id="usuario_password" type="password" name="Usuário Senha" placeholder="Senha"><br>
+	<input type="button" name="SubmitButton" value="Salvar" class="Button" onclick="saveData();">				<input type="button" name="CancelButton" value="Cancelar" onclick="loadUserData('#Content');" class="Button">
 </form>
