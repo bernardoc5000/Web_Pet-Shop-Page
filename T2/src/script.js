@@ -85,7 +85,7 @@ function adminCadastroSidebar(page){
 	}
 }
 
-function adminProdutosSidebar(page){
+function adminProductsSidebar(page){
 	if (page == 0){
 		$("#MainContent").load("src/admin_produtos_adicionar.html");
 	}
