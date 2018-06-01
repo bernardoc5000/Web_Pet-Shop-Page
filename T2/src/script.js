@@ -10,13 +10,12 @@ async function login_out(in_out){
 	if (in_out === 0){
 		let user = await db.users.get($("#User").val());
 		if (user !== undefined && user['password'] === $("#Password").val()){
+			$("#Top").load("src/logged_top.html");
 			if (user['type'] === 0){
-				$("#Top").load("src/logged_top.html");
 				$("#Menu").load("src/usuario_menu.html");
 				$("#Content").load("src/usuario_compras.html");
 			}
 			else{
-				$("#Top").load("src/logged_top.html");
 				$("#Menu").load("src/admin_menu.html");
 				jQuery.ajaxSetup({async:false});
 				$("#Content").load("src/admin_cadastro.html");
