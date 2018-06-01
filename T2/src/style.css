@@ -262,3 +262,12 @@ body{
     height: 30%;
     font-family: monospace;
 }
+
+.FrontPage p, .FrontPage ul{
+	margin-left: 15%;
+	font-size: 20px;
+}
+
+.FrontPage h1{
+	text-align: center;
+}

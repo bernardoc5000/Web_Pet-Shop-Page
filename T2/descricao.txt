@@ -4,3 +4,6 @@ Bernardo Barcellos de Castro Cunha	9293380
 Fabrício Guedes Faria				9293522
 
 Observações:
+Utilizamos IndexedDB com o wrapper Dexie.js
+Não utilizamos o Bootstrap pois o código do trabalho anterior bastava
+Utilizamos JQuery para fazer a SPA
