@@ -92,7 +92,7 @@ body{
 	font-size: 18px;
 }
 
-#animal_obs, #produto_desc, #servico_desc{
+#animal_obs, #produto_desc, #servico_desc, #animal_desc{
 	height: 200px;
 	vertical-align: top;
 }
