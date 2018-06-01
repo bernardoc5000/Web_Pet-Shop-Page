@@ -1,31 +1,53 @@
-//Dexie.delete("petshop_database");
+Dexie.delete("petshop_database");
 var db = new Dexie("petshop_database");
 db.version(1).stores({
-	users: 'username, password, type'
+	admins: "id, name, image, tel, email, username, password",
+	clients: "id, name, addr, image, tel, email, username, password",
+	pets: "id, name, image, breed, age, ownerId",
+	products: "id, name, image, description, price, inStock, sold",
+	services: "id, name, image, description, price"
 });
-db.users.put({username: "user", password: "user", type: 0});
-db.users.put({username: "admin", password: "admin", type: 1});
+
+var file = document.createElement("input");
+file.setAttribute("type", "file");
+file.setAttribute("value", "res/manager.png");
+var tel = document.createElement("input");
+tel.setAttribute("type", "tel");
+tel.setAttribute("value", "5550000");
+var email = document.createElement("input");
+email.setAttribute("type", "email");
+email.setAttribute("value", "email@server.com");
+db.admins.put({id: 0, name: "Joao", image: file.value, tel: tel.value, email: email.value, username: "admin", password: "admin"});
 
 async function login_out(in_out){
 	if (in_out === 0){
-		let user = await db.users.get($("#User").val());
-		if (user !== undefined && user['password'] === $("#Password").val()){
+		let username = $("#User").val();
+		let password = $("#Password").val()
+
+		let user = await db.clients.get({username: username});
+		if (user !== undefined && user['password'] === password){
 			$("#Top").load("src/logged_top.html");
-			if (user['type'] === 0){
-				$("#Menu").load("src/usuario_menu.html");
-				$("#Content").load("src/usuario_compras.html");
-			}
-			else{
+			$("#Menu").load("src/usuario_menu.html");
+			$("#Content").load("src/usuario_compras.html");
+		}
+		else{
+			user = await db.admins.get({username: username});
+			if (user !== undefined && user['password'] === password){
+				$("#Top").load("src/logged_top.html");
 				$("#Menu").load("src/admin_menu.html");
 				jQuery.ajaxSetup({async:false});
 				$("#Content").load("src/admin_cadastro.html");
 				$("#MainContent").load("src/admin_cadastro_cliente.html");
 				jQuery.ajaxSetup({async:true});
 			}
+			else alert("Usuário ou Senha inválidos");
 		}
-		else alert("Usuário ou Senha inválidos");
 	}
 	else $("body").load("index.html");
+}
+
+function loadProduto(div, id){
+
 }
 
 function changeUserPage(page){
