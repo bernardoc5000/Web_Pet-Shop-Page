@@ -117,20 +117,20 @@ async function login_out(in_out){
 		if (user !== undefined && user['password'] === password){
 			$("#Top").load("src/logged_top.html");
 			$("#Menu").load("src/usuario_menu.html");
+			sessionUser = user;
 			$("#Content").empty();
 			loadProdutos("#Content");
-			sessionUser = user;
 		}
 		else{
 			user = await db.admins.get({username: username});
 			if (user !== undefined && user['password'] === password){
 				$("#Top").load("src/logged_top.html");
 				$("#Menu").load("src/admin_menu.html");
+				sessionUser = user;
 				jQuery.ajaxSetup({async:false});
 				$("#Content").load("src/admin_cadastro.html");
 				$("#MainContent").load("src/admin_cadastro_cliente.html");
 				jQuery.ajaxSetup({async:true});
-				sessionUser = user;
 			}
 			else alert("Usuário ou Senha inválidos");
 		}
@@ -138,7 +138,7 @@ async function login_out(in_out){
 	else $("body").load("index.html");
 }
 
-async function loadUserData(div){
+function loadUserData(div){
 	if (sessionUser !== undefined){
 		$(div + " #usuario_nome").val(sessionUser['name']);
 		$(div + " #usuario_endereco").val(sessionUser['addr']);
