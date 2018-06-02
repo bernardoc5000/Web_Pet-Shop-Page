@@ -1,18 +1,17 @@
 //Dexie.delete("petshop_database");
-var sessionUser;
-var sessionPass;
 var db = new Dexie("petshop_database");
 db.version(1).stores({
 	admins: "id, name, image, tel, email, username, password",
 	clients: "id, name, addr, image, tel, email, username, password",
 	pets: "id, name, image, breed, age, ownerId",
 	products: "id, name, image, description, price, inStock, sold",
-	services: "id, name, image, description, price,",
+	services: "id, name, image, description, price",
 	appointments: "id, serviceId, userId, day, time"
 });
 db.open();
 insertInitialAdmin();
 insertInitialUser();
+var sessionUser = undefined;
 
 
 
@@ -114,15 +113,13 @@ async function login_out(in_out){
 		let username = $("#User").val();
 		let password = $("#Password").val();
 
-		sessionUser = username;
-		sessionPass = password;
-
 		let user = await db.clients.get({username: username});
 		if (user !== undefined && user['password'] === password){
 			$("#Top").load("src/logged_top.html");
 			$("#Menu").load("src/usuario_menu.html");
 			$("#Content").empty();
 			loadProdutos("#Content");
+			sessionUser = user;
 		}
 		else{
 			user = await db.admins.get({username: username});
@@ -133,6 +130,7 @@ async function login_out(in_out){
 				$("#Content").load("src/admin_cadastro.html");
 				$("#MainContent").load("src/admin_cadastro_cliente.html");
 				jQuery.ajaxSetup({async:true});
+				sessionUser = user;
 			}
 			else alert("Usuário ou Senha inválidos");
 		}
@@ -141,13 +139,12 @@ async function login_out(in_out){
 }
 
 async function loadUserData(div){
-	let user = await db.clients.get({username: sessionUser});
-	if (user !== undefined && user['password'] === sessionPass){
-		$(div + " #usuario_nome").val(user['name']);
-		$(div + " #usuario_endereco").val(user['addr']);
-		$(div + " #usuario_tel").val(user['tel']);
-		$(div + " #usuario_email").val(user['email']);
-		$(div + " #usuario_user").val(user['username']);
+	if (sessionUser !== undefined){
+		$(div + " #usuario_nome").val(sessionUser['name']);
+		$(div + " #usuario_endereco").val(sessionUser['addr']);
+		$(div + " #usuario_tel").val(sessionUser['tel']);
+		$(div + " #usuario_email").val(sessionUser['email']);
+		$(div + " #usuario_user").val(sessionUser['username']);
 	}
 }
 
