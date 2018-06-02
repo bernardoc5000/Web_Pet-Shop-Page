@@ -7,7 +7,8 @@ db.version(1).stores({
 	clients: "id, name, addr, image, tel, email, username, password",
 	pets: "id, name, image, breed, age, ownerId",
 	products: "id, name, image, description, price, inStock, sold",
-	services: "id, name, image, description, price"
+	services: "id, name, image, description, price,",
+	appointments: "id, serviceId, userId, day, time"
 });
 db.open();
 insertInitialAdmin();
@@ -38,7 +39,6 @@ async function insertInitialAdmin(){
 		});
 	}
 }
-
 
 async function insertInitialUser(){
 	if ((await db.clients.get(0)) === undefined){
@@ -91,16 +91,19 @@ async function addProduto(opt){
 
 async function loadProdutos(div){
 	let products = await db.products.toArray();
-	for (product in products){
-		$(div).append("<div class=\"Item\">");
-		$(div).append("<ul class=\"Product\">");
-		$(div).append(("<li class=\"ProductImage\"><img src=\"").concat(product['image']).concat("\" alt=\"res/areia_gato.png\"></img></li>"));
-		$(div).append(("<li class=\"ProductDescription\">").concat(product['description']).concat("</li>"));
-		$(div).append(("<li class=\"ProductValue\">R$ ").concat(product['price']).concat("</li>"));
-		$(div).append(("<li class=\"ProductValue\">Quantidade: <input id=\"quantidade_\"").concat(product['id'].toString()).concat("\" type=\"number\" name=\"Quantidade\" value=\"Quantidade\"></input></li>"));
-		$(div).append(("<li><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(").concat(product['id'].toString()).concat(")\"></input></li>"));
-		$(div).append("</ul>");
-		$(div).append("</div>");
+	for (let i=0; i<products.length; i++){
+		product = products[i];
+		let line = "<div class=\"Item\">";
+		line += "<ul class=\"Product\">";
+		line += "<li class=\"ProductImage\"><img src=\"" + product['image'] + "\" alt=\"res/areia_gato.png\"></img></li>";
+		line += "<li class=\"ProductDescription\">" + product['name'] + "</li>";
+		line += "<li class=\"ProductDescription\">" + product['description'] + "</li>";
+		line += "<li class=\"ProductValue\">R$ " + product['price'] + "</li>";
+		line += "<li class=\"ProductValue\">Quantidade: <input id=\"quantidade_\"" + product['id'].toString() + "\" type=\"number\" name=\"Quantidade\" value=\"Quantidade\"></input></li>";
+		line += "<li><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(" + product['id'].toString() + ")\"></input></li>";
+		line += "</ul>";
+		line += "</div>";
+		$(div).append(line);
 	}
 }
 
@@ -118,7 +121,8 @@ async function login_out(in_out){
 		if (user !== undefined && user['password'] === password){
 			$("#Top").load("src/logged_top.html");
 			$("#Menu").load("src/usuario_menu.html");
-			$("#Content").load("src/usuario_compras.html");
+			$("#Content").empty();
+			loadProdutos("#Content");
 		}
 		else{
 			user = await db.admins.get({username: username});
@@ -129,7 +133,6 @@ async function login_out(in_out){
 				$("#Content").load("src/admin_cadastro.html");
 				$("#MainContent").load("src/admin_cadastro_cliente.html");
 				jQuery.ajaxSetup({async:true});
-				loadProdutos("#Content");
 			}
 			else alert("Usuário ou Senha inválidos");
 		}
@@ -177,7 +180,8 @@ async function saveData(){
 
 function changeUserPage(page){
 	if (page === 0){
-		$("#Content").load("src/usuario_compras.html");
+		$("#Content").empty();
+		loadProdutos("#Content");
 	}
 	else if (page === 1){
 		$("#Content").load("src/usuario_servicos.html");
