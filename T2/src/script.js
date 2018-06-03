@@ -1,4 +1,8 @@
-Dexie.delete("petshop_database");
+/*
+Inicializacao e abertura do
+banco de dados
+*/
+//Dexie.delete("petshop_database");
 var db = new Dexie("petshop_database");
 db.version(1).stores({
 	admins: "id, name, image, tel, email, username, password",
@@ -15,6 +19,10 @@ var sessionUser = undefined;
 
 
 
+/*
+Funcoes temporarias para
+inicializar o banco de dados
+*/
 async function insertInitialAdmin(){
 	if ((await db.admins.get(0)) === undefined){
 		let file = document.createElement("input");
@@ -64,6 +72,12 @@ async function insertInitialUser(){
 	}
 }
 
+
+
+/*
+Funcoes que manipulam a pagina
+a partir do banco de dados
+*/
 async function loadProdutos(div){
 	let products = await db.products.toArray();
 	for (let i=0; i<products.length; i++){
@@ -79,6 +93,16 @@ async function loadProdutos(div){
 		line += "</ul>";
 		line += "</div>";
 		$(div).append(line);
+	}
+}
+
+function loadUserData(div){
+	if (sessionUser !== undefined){
+		$(div + " #usuario_nome").val(sessionUser['name']);
+		$(div + " #usuario_endereco").val(sessionUser['addr']);
+		$(div + " #usuario_tel").val(sessionUser['tel']);
+		$(div + " #usuario_email").val(sessionUser['email']);
+		$(div + " #usuario_user").val(sessionUser['username']);
 	}
 }
 
@@ -98,62 +122,6 @@ async function updateHorarios(){
 
 	//console.log($("#date").val());
 	//let occupied = db.appointments.get()
-}
-
-async function makeAppointment(){
-	if (sessionUser !== undefined){
-		let id = parseInt(2147483648*Math.random());
-		while ((await db.appointments.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
-
-		db.appointments.put({
-			id: id,
-			serviceId: parseInt($("#select_servico").val()),
-			userId: sessionUser['id'],
-			petId: parseInt($("#select_animal").val()),
-			day: $("#date").val(),
-			time: $("#Horarios input[name=time_schedule]:checked").val()
-		});
-	}
-}
-
-async function login_out(in_out){
-	if (in_out === 0){
-		let username = $("#User").val();
-		let password = $("#Password").val();
-
-		let user = await db.clients.get({username: username});
-		if (user !== undefined && user['password'] === password){
-			$("#Top").load("src/logged_top.html");
-			$("#Menu").load("src/usuario_menu.html");
-			sessionUser = user;
-			$("#Content").empty();
-			loadProdutos("#Content");
-		}
-		else{
-			user = await db.admins.get({username: username});
-			if (user !== undefined && user['password'] === password){
-				$("#Top").load("src/logged_top.html");
-				$("#Menu").load("src/admin_menu.html");
-				sessionUser = user;
-				jQuery.ajaxSetup({async:false});
-				$("#Content").load("src/admin_cadastro.html");
-				$("#MainContent").load("src/admin_cadastro_cliente.html");
-				jQuery.ajaxSetup({async:true});
-			}
-			else alert("Usuário ou Senha inválidos");
-		}
-	}
-	else $("body").load("index.html");
-}
-
-function loadUserData(div){
-	if (sessionUser !== undefined){
-		$(div + " #usuario_nome").val(sessionUser['name']);
-		$(div + " #usuario_endereco").val(sessionUser['addr']);
-		$(div + " #usuario_tel").val(sessionUser['tel']);
-		$(div + " #usuario_email").val(sessionUser['email']);
-		$(div + " #usuario_user").val(sessionUser['username']);
-	}
 }
 
 async function saveData(){
@@ -341,6 +309,58 @@ async function addServico(opt){
 		$("#servico_desc").val('');
 		$("#servico_preco").val('');
 	}
+}
+
+async function addAppointment(){
+	if (sessionUser !== undefined){
+		let id = parseInt(2147483648*Math.random());
+		while ((await db.appointments.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+
+		db.appointments.put({
+			id: id,
+			serviceId: parseInt($("#select_servico").val()),
+			userId: sessionUser['id'],
+			petId: parseInt($("#select_animal").val()),
+			day: $("#date").val(),
+			time: $("#Horarios input[name=time_schedule]:checked").val()
+		});
+	}
+}
+
+
+
+/*
+Funcoes para a mudanca
+de paginas na SPA
+*/
+async function login_out(in_out){
+	if (in_out === 0){
+		let username = $("#User").val();
+		let password = $("#Password").val();
+
+		let user = await db.clients.get({username: username});
+		if (user !== undefined && user['password'] === password){
+			$("#Top").load("src/logged_top.html");
+			$("#Menu").load("src/usuario_menu.html");
+			sessionUser = user;
+			$("#Content").empty();
+			loadProdutos("#Content");
+		}
+		else{
+			user = await db.admins.get({username: username});
+			if (user !== undefined && user['password'] === password){
+				$("#Top").load("src/logged_top.html");
+				$("#Menu").load("src/admin_menu.html");
+				sessionUser = user;
+				jQuery.ajaxSetup({async:false});
+				$("#Content").load("src/admin_cadastro.html");
+				$("#MainContent").load("src/admin_cadastro_cliente.html");
+				jQuery.ajaxSetup({async:true});
+			}
+			else alert("Usuário ou Senha inválidos");
+		}
+	}
+	else $("body").load("index.html");
 }
 
 function changeUserPage(page){

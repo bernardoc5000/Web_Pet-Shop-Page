@@ -193,10 +193,6 @@ body{
 	font-size: 20px;
 }
 
-.Busy{
-	background-color: gray;
-}
-
 .Carrinho{
 	width: 90%;
 	margin-left: auto;
@@ -270,4 +266,8 @@ body{
 
 .FrontPage h1{
 	text-align: center;
+}
+
+.TimeLabel{
+	font-size: 22px;
 }

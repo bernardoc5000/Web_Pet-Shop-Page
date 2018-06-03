@@ -1,10 +1,10 @@
 <form class="Time">
-	Selecione o dia:
-	<input id="date" type="date" name="date" min="2018-04-01" value="2018-04-01"><br>
-	<input type="button" name="Submit" value="Buscar Horários" class="Button" onclick="updateHorarios()"><br>
+	<label for="date" class="TimeLabel">Selecione o dia:</label><br>
+	<input id="date" type="date" name="date" value="2018-04-01" onchange="updateHorarios()">
 </form>
 
 <div class="Schedule">
+	<label for="Hoarios" class="TimeLabel">Selecione o horário:</label><br>
 	<form id="Horarios">
 		<input id="hr_8" type="radio" name="time_schedule" value="8">
 		<label id="lb_hr_8" for="hr_8">8:00</label><br>
@@ -24,8 +24,6 @@
 		<label id="lb_hr_15" for="hr_15">15:00</label><br>
 		<input id="hr_16" type="radio" name="time_schedule" value="16">
 		<label id="lb_hr_16" for="hr_16">16:00</label><br>
-
-		<br><br>
 
 		<label for="select_servico">Serviço: </label>
 		<select id="select_servico">
