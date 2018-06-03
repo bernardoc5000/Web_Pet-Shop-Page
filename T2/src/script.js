@@ -78,6 +78,14 @@ async function addProduto(opt){
 			inStock: $("#produto_estoque").val(),
 			sold: 0
 		});
+
+		alert("Produto adicionado com sucesso.");
+
+		$("#produto_nome").val('');
+		$("#produto_foto").val('');
+		$("#produto_desc").val('');
+		$("#produto_preco").val('');
+		$("#produto_estoque").val('');
 	}
 	else{
 		$("#produto_nome").val('');
@@ -240,7 +248,101 @@ async function addAnimal(opt){
 	}
 }
 
+async function addAdmin(opt){
+	if(opt === 0){
+		let id = parseInt(2147483648*Math.random());
+		while ((await db.admins.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+		db.admins.put({
+			id: id,
+			name: $("#admin_nome").val(),
+			image: $("#admin_foto").val(),
+			tel: $("#admin_tel").val(),
+			email: $("#admin_email").val(),
+			username: $("#admin_user").val(),
+			password: $("#admin_password").val()
+		});
 
+		alert("Usuário administrador criado com sucesso.");
+		$("#admin_nome").val('');
+		$("#admin_foto").val('');
+		$("#admin_tel").val('');
+		$("#admin_email").val('');
+		$("#admin_user").val('');
+		$("#admin_password").val('');
+	}
+
+	else{
+		$("#admin_nome").val('');
+		$("#admin_foto").val('');
+		$("#admin_tel").val('');
+		$("#admin_email").val('');
+		$("#admin_user").val('');
+		$("#admin_password").val('');
+	}
+}
+
+async function addUser(opt){
+	if(opt === 0){
+		let id = parseInt(2147483648*Math.random());
+		while ((await db.clients.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+		db.clients.put({
+			id: id,
+			name: $("#usuario_nome").val(),
+			addr: $("#usuario_endereco").val(),
+			image: $("#usuario_foto").val(),
+			tel: $("#usuario_tel").val(),
+			email: $("#usuario_email").val(),
+			username: $("#usuario_user").val(),
+			password: $("#usuario_password").val()
+		});
+
+		alert("Usuário criado com sucesso.");
+		$("#usuario_nome").val('');
+		$("#usuario_foto").val('');
+		$("#usuario_endereco").val('');
+		$("#usuario_tel").val('');
+		$("#usuario_email").val('');
+		$("#usuario_user").val('');
+		$("#usuario_password").val('');
+	}
+
+	else{
+		$("#usuario_nome").val('');
+		$("#usuario_foto").val('');
+		$("#usuario_endereco").val('');
+		$("#usuario_tel").val('');
+		$("#usuario_email").val('');
+		$("#usuario_user").val('');
+		$("#usuario_password").val('');
+	}
+}
+
+async function addServico(opt){
+	if(opt === 0){
+		let id = parseInt(2147483648*Math.random());
+		while ((await db.services.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+		db.services.put({
+			id: id,
+			name: $("#servico_nome").val(),
+			image: $("#servico_foto").val(),
+			description: $("#servico_desc").val(),
+			price: $("#servico_preco").val()
+		});
+
+		alert("Serviço adicionado com sucesso.");
+		$("#servico_nome").val('');
+		$("#servico_foto").val('');
+		$("#servico_desc").val('');
+		$("#servico_preco").val('');
+	}
+
+	else{
+		$("#servico_nome").val('');
+		$("#servico_foto").val('');
+		$("#servico_desc").val('');
+		$("#servico_preco").val('');
+	}
+}
 
 function changeUserPage(page){
 	if (page === 0){
@@ -311,11 +413,8 @@ function adminProdutosSidebar(page){
 	if (page === 0){
 		$("#MainContent").load("src/admin_produtos_adicionar.html");
 	}
-	else if (page === 1){
-		$("#MainContent").load("src/admin_produtos_remover.html");
-	}
 	else{
-		$("#MainContent").load("src/admin_produtos_editar.html");
+		$("#MainContent").load("src/admin_produtos_editar_remover.html");
 	}
 }
 
@@ -323,10 +422,7 @@ function adminServicosSidebar(page){
 	if (page === 0){
 		$("#MainContent").load("src/admin_servicos_adicionar.html");
 	}
-	else if (page === 1){
-		$("#MainContent").load("src/admin_servicos_remover.html");
-	}
 	else{
-		$("#MainContent").load("src/admin_servicos_editar.html");
+		$("#MainContent").load("src/admin_servicos_editar_remover.html");
 	}
 }

@@ -6,6 +6,10 @@
 	<label for="admin_tel">Telefone:</label>
 	<input id="admin_tel" type="tel" name="Admin Telefone" placeholder="(00) 0000-0000"><br>
 	<label for="admin_email">E-mail:</label>
-	<input id="admin_email" type="email" name="Usuário E-mail" placeholder="email@email.com"><br>
-	<input type="button" name="SubmitButton" value="Cadastrar" class="Button">				<input type="button" name="CancelButton" value="Cancelar" class="Button">
+	<input id="admin_email" type="email" name="Admin E-mail" placeholder="email@email.com"><br>
+	<label for="admin_user">Usuário:</label>
+	<input id="admin_user" type="text" name="Admin Usuario" placeholder="user_admin"><br>
+	<label for="admin_password">Senha:</label>
+	<input id="admin_password" type="password" name="Admin Senha" placeholder="password"><br>
+	<input type="button" name="SubmitButton" value="Cadastrar" class="Button" onclick="addAdmin(0);">				<input type="button" name="CancelButton" value="Cancelar" class="Button" onclick="addAdmin(1);">
 </form>
