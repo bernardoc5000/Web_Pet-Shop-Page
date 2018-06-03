@@ -1,7 +1,4 @@
 Dexie.delete("petshop_database");
-var sessionUser;
-var sessionPass;
-
 var db = new Dexie("petshop_database");
 db.version(1).stores({
 	admins: "id, name, image, tel, email, username, password",
