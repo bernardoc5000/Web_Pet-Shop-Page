@@ -2,7 +2,7 @@
 Inicializacao e abertura do
 banco de dados
 */
-//Dexie.delete("petshop_database");
+Dexie.delete("petshop_database");
 var db = new Dexie("petshop_database");
 db.version(1).stores({
 	admins: "id, name, image, tel, email, username, password",
@@ -179,6 +179,8 @@ async function loadAnimais(){
 		line += "<li><input type=\"button\" name=\"Ver Informações\" value=\"Ver Informações\" class=\"ProductButton\" onclick=\"showPet(" + pet['id'].toString() + ")\"></li>";
 		line += "</ul>";
 		line += "</div>";
+	}
+}
 
 async function editUserData(){
 	db.clients.put({
@@ -266,7 +268,7 @@ async function addUser(){
 	alert("Usuário criado com sucesso.");
 }
 
-async function addServico(opt){
+async function addServico(){
 	let id = parseInt(2147483648*Math.random());
 	while ((await db.services.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
 	
