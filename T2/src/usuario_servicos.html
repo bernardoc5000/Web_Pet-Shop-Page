@@ -1,6 +1,6 @@
 <form class="Time">
 	<label for="date" class="TimeLabel">Selecione o dia:</label><br>
-	<input id="date" type="date" name="date" value="2018-04-01" onchange="updateHorarios()">
+	<input id="date" type="date" name="date" value="2018-04-01" onchange="loadServicosHorarios()">
 </form>
 
 <div class="Schedule">
@@ -24,32 +24,22 @@
 		<label id="lb_hr_15" for="hr_15">15:00</label><br>
 		<input id="hr_16" type="radio" name="time_schedule" value="16">
 		<label id="lb_hr_16" for="hr_16">16:00</label><br>
+		<br>
 
 		<label for="select_servico">Serviço: </label>
 		<select id="select_servico">
-			<option value="Banho">Banho</option>
-			<option value="Tosa">Tosa</option>
-			<option value="Banho e Tosa">Banho e Tosa</option>
 		</select>
-
 		<br>
 
 		<label for="select_animal">Animal: </label>
 		<select id="select_animal">
-			<option value="0">Totó</option>
-			<option value="Nina">Nina</option>
-			<option value="Rex">Rex</option>
-			<option value="Susi">Susi</option>
-			<option value="Demolidor">Demolidor</option>
 		</select>
-
 		<br><br>
 
 		<label for="cartao">Número do Cartão: </label>
 		<input type="text" name="cartao" id="cartao" placeholder="1234-5678-1234-5678" maxlength="16" pattern="[0-9]{16}" title="Credit Card Number">
+		<br><br>
 
-		<br><br><br>
-
-		<input type="button" name="Confirmar" value="Confirmar" class="Button" onclick="makeAppointment()">
+		<input type="button" name="Confirmar" value="Confirmar" class="Button" onclick="addAppointment()">
 	</form>
 </div>

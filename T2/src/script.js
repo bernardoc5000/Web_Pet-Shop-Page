@@ -106,7 +106,25 @@ function loadUserData(div){
 	}
 }
 
-async function updateHorarios(){
+async function loadServicosOptions(){
+	let services = await db.services.toArray();
+	let line = "";
+	for (let i=0; i<services.length; i++){
+		service = services[i];
+		line += "<option value=\"" + service['id'].toString() + "\">" + service['name'] + "</option>";
+	}
+	$("#select_servico").html(line);
+
+	let pets = await db.pets.where("ownerId").equals(sessionUser['id']);
+	line = ""
+	for (let i=0; i<pets.length; i++){
+		pet = pets[i];
+		line += "<option value=\"" + pet['id'].toString() + "\">" + pet['name'] + "</option>";
+	}
+	$("#select_animal").html(line);
+}
+
+async function loadServicosHorarios(){
 	for (let horario=8; horario<=16; horario++){
 		$("#hr_"+horario.toString()).attr('disabled', false);
 		$("#lb_hr_"+horario.toString()).html(horario.toString() + ":00");
@@ -118,10 +136,6 @@ async function updateHorarios(){
 		$("#hr_"+horario).attr('disabled', true);
 		$("#lb_hr_"+horario).html(horario + ":00 - Ocupado");
 	}
-
-
-	//console.log($("#date").val());
-	//let occupied = db.appointments.get()
 }
 
 async function saveData(){
@@ -370,6 +384,8 @@ function changeUserPage(page){
 	}
 	else if (page === 1){
 		$("#Content").load("src/usuario_servicos.html");
+		loadServicosOptions();
+		loadServicosHorarios();
 	}
 	else if (page === 2){
 		$("#Content").load("src/usuario_cadastro.html");
