@@ -1,11 +1,11 @@
-//Dexie.delete("petshop_database");
+Dexie.delete("petshop_database");
 var sessionUser;
 var sessionPass;
 var db = new Dexie("petshop_database");
 db.version(1).stores({
 	admins: "id, name, image, tel, email, username, password",
 	clients: "id, name, addr, image, tel, email, username, password",
-	pets: "id, name, image, breed, age, ownerId",
+	pets: "id, name, image, species, breed, age, description, notes, ownerId",
 	products: "id, name, image, description, price, inStock, sold",
 	services: "id, name, image, description, price"
 });
@@ -98,7 +98,7 @@ async function loadProdutos(div){
 		$(div).append(("<li class=\"ProductDescription\">").concat(product['description']).concat("</li>"));
 		$(div).append(("<li class=\"ProductValue\">R$ ").concat(product['price']).concat("</li>"));
 		$(div).append(("<li class=\"ProductValue\">Quantidade: <input id=\"quantidade_\"").concat(product['id'].toString()).concat("\" type=\"number\" name=\"Quantidade\" value=\"Quantidade\"></input></li>"));
-		$(div).append(("<li><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(").concat(product['id'].toString()).concat(")\"></input></li>"));
+		$(div).append(("<li><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(").concat(product['id'].toString()).concat(");\"></input></li>"));
 		$(div).append("</ul>");
 		$(div).append("</div>");
 	}
@@ -171,8 +171,52 @@ async function saveData(){
 			username: "user",
 			password: "user"
 		});
+
+		alert("Cadastro alterado com sucesso.");
 	}
 	else alert("Senha Incorreta.");
+}
+
+async function addAnimal(opt){
+	if(opt === 0){
+		let user = await db.clients.get({username: sessionUser});
+		let id = parseInt(2147483648*Math.random());
+		while ((await db.pets.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+		if (user !== undefined){
+			let file = document.createElement("input");
+			file.setAttribute("type", "file");
+			file.setAttribute("value", $("#animal_foto").val());
+			db.pets.put({
+				id: id,
+				name: $("#animal_nome").val(),
+				image: file.value,
+				species: $("#animal_especie").val(),
+				breed: $("#animal_raca").val(),
+				age: $("#animal_idade").val(),
+				description: $("#animal_desc").val(),
+				notes: $("#animal_obs").val(),
+				ownerId: user['id']
+			});
+		}
+		alert("Animal adicionado com sucesso à sua lista de animais.");
+		$("#animal_nome").val('');
+		$("#animal_foto").val('');
+		$("#animal_especie").val('');
+		$("#animal_raca").val('');
+		$("#animal_idade").val('');
+		$("#animal_desc").val('');
+		$("#animal_obs").val('');
+	}
+
+	else{
+		$("#animal_nome").val('');
+		$("#animal_foto").val('');
+		$("#animal_especie").val('');
+		$("#animal_raca").val('');
+		$("#animal_idade").val('');
+		$("#animal_desc").val('');
+		$("#animal_obs").val('');
+	}
 }
 
 function changeUserPage(page){
