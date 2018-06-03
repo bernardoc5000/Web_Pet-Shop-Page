@@ -64,38 +64,6 @@ async function insertInitialUser(){
 	}
 }
 
-async function addProduto(opt){
-	if (opt === 0){
-		let id = parseInt(2147483648*Math.random());
-		while ((await db.products.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
-
-		db.products.put({
-			id: id,
-			name: $("#produto_nome").val(),
-			image: $("#produto_foto").val(),
-			description: $("#produto_desc").val(),
-			price: $("#produto_preco").val(),
-			inStock: $("#produto_estoque").val(),
-			sold: 0
-		});
-
-		alert("Produto adicionado com sucesso.");
-
-		$("#produto_nome").val('');
-		$("#produto_foto").val('');
-		$("#produto_desc").val('');
-		$("#produto_preco").val('');
-		$("#produto_estoque").val('');
-	}
-	else{
-		$("#produto_nome").val('');
-		$("#produto_foto").val('');
-		$("#produto_desc").val('');
-		$("#produto_preco").val('');
-		$("#produto_estoque").val('');
-	}
-}
-
 async function loadProdutos(div){
 	let products = await db.products.toArray();
 	for (let i=0; i<products.length; i++){
@@ -147,7 +115,6 @@ async function makeAppointment(){
 		});
 	}
 }
-
 
 async function login_out(in_out){
 	if (in_out === 0){
@@ -203,6 +170,38 @@ async function saveData(){
 		});
 
 		alert("Cadastro alterado com sucesso.");
+	}
+}
+
+async function addProduto(opt){
+	if (opt === 0){
+		let id = parseInt(2147483648*Math.random());
+		while ((await db.products.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+
+		db.products.put({
+			id: id,
+			name: $("#produto_nome").val(),
+			image: $("#produto_foto").val(),
+			description: $("#produto_desc").val(),
+			price: $("#produto_preco").val(),
+			inStock: $("#produto_estoque").val(),
+			sold: 0
+		});
+
+		alert("Produto adicionado com sucesso.");
+
+		$("#produto_nome").val('');
+		$("#produto_foto").val('');
+		$("#produto_desc").val('');
+		$("#produto_preco").val('');
+		$("#produto_estoque").val('');
+	}
+	else{
+		$("#produto_nome").val('');
+		$("#produto_foto").val('');
+		$("#produto_desc").val('');
+		$("#produto_preco").val('');
+		$("#produto_estoque").val('');
 	}
 }
 
