@@ -149,32 +149,23 @@ function loadUserData(div){
 }
 
 async function saveData(){
-	let user = await db.clients.get({username: $("#usuario_user").val()});
-	if (user !== undefined && user['password'] === $("#usuario_password").val()){
-		let file = document.createElement("input");
-		file.setAttribute("type", "file");
-		file.setAttribute("value", "res/manager.png");
-		let tel = document.createElement("input");
-		tel.setAttribute("type", "tel");
-		tel.setAttribute("value", $("#usuario_tel").val());
-		let email = document.createElement("input");
-		email.setAttribute("type", "email");
-		email.setAttribute("value", $("#usuario_email").val());
-		
+	if (user !== undefined){
+		let id = parseInt(2147483648*Math.random());
+		while ((await db.clients.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+
 		db.clients.put({
-			id: 0,
+			id: id,
 			name: $("#usuario_nome").val(),
 			addr: $("#usuario_endereco").val(),
-			image: file.value,
-			tel: tel.value,
-			email: email.value,
-			username: "user",
-			password: "user"
+			image: $("#usuario_foto").val(),
+			tel: $("#usuario_tel").val(),
+			email: $("#usuario_email").val(),
+			username: $("#usuario_user").val(),
+			password: $("#usuario_password").val()
 		});
 
 		alert("Cadastro alterado com sucesso.");
 	}
-	else alert("Senha Incorreta.");
 }
 
 async function addAnimal(opt){
@@ -218,6 +209,8 @@ async function addAnimal(opt){
 		$("#animal_obs").val('');
 	}
 }
+
+
 
 function changeUserPage(page){
 	if (page === 0){
