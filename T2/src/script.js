@@ -78,43 +78,35 @@ async function insertInitialUser(){
 Funcoes que manipulam a pagina
 a partir do banco de dados
 */
-async function loadProdutos(div){
+
+async function loadProdutos(page){
 	let products = await db.products.toArray();
+	let line = "";
 	for (let i=0; i<products.length; i++){
 		product = products[i];
-		let line = "<div class=\"Item\">";
+		line += "<div class=\"Item\">";
 		line += "<ul class=\"Product\">";
 		line += "<li class=\"ProductImage\"><img src=\"" + product['image'] + "\" alt=\"res/areia_gato.png\"></img></li>";
 		line += "<li class=\"ProductDescription\">" + product['name'] + "</li>";
 		line += "<li class=\"ProductDescription\">" + product['description'] + "</li>";
 		line += "<li class=\"ProductValue\">R$ " + product['price'] + "</li>";
-		line += "<li class=\"ProductValue\">Quantidade: <input id=\"quantidade_\"" + product['id'].toString() + "\" type=\"number\" name=\"Quantidade\" value=\"Quantidade\"></input></li>";
-		line += "<li><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(" + product['id'].toString() + ")\"></input></li>";
+		if (page === 0){
+			line += "<li class=\"ProductValue\">Quantidade: <input id=\"quantidade_\"" + product['id'].toString() + "\" type=\"number\" name=\"Quantidade\" value=\"Quantidade\"></input></li>";
+			line += "<li><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(" + product['id'].toString() + ")\"></input></li>";
+		}
+		else{
+			line += "<li><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"editProduto(" + product['id'].toString() + ")\"></input></li>";
+			line += "<li><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeProduto(" + product['id'].toString() + ")\"></input></li>";
+		}
 		line += "</ul>";
 		line += "</div>";
-		$(div).append(line);
 	}
+
+	if (page==0) $("#Content").html(line);
+	else $("#MainContent").html(line);
 }
 
-async function loadProdutosAdmin(div){
-	let products = await db.products.toArray();
-	for (let i=0; i<products.length; i++){
-		product = products[i];
-		let line = "<div class=\"Item\">";
-		line += "<ul class=\"Product\">";
-		line += "<li class=\"ProductImage\"><img src=\"" + product['image'] + "\" alt=\"res/areia_gato.png\"></img></li>";
-		line += "<li class=\"ProductDescription\">" + product['name'] + "</li>";
-		line += "<li class=\"ProductDescription\">" + product['description'] + "</li>";
-		line += "<li class=\"ProductValue\">R$ " + product['price'] + "</li>";
-		line += "<li><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"editProduto(" + product['id'].toString() + ")\"></input></li>";
-		line += "<li><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeProduto(" + product['id'].toString() + ")\"></input></li>";
-		line += "</ul>";
-		line += "</div>";
-		$(div).append(line);
-	}
-}
-
-function loadUserData(div){
+function loadUserData(){
 	if (sessionUser !== undefined){
 		$(div + " #usuario_nome").val(sessionUser['name']);
 		$(div + " #usuario_endereco").val(sessionUser['addr']);
@@ -376,7 +368,7 @@ async function login_out(in_out){
 			$("#Menu").load("src/usuario_menu.html");
 			sessionUser = user;
 			$("#Content").empty();
-			loadProdutos("#Content");
+			loadProdutos(0);
 		}
 		else{
 			user = await db.admins.get({username: username});
@@ -398,7 +390,7 @@ async function login_out(in_out){
 function changeUserPage(page){
 	if (page === 0){
 		$("#Content").empty();
-		loadProdutos("#Content");
+		loadProdutos(0);
 	}
 	else if (page === 1){
 		$("#Content").load("src/usuario_servicos.html");
@@ -468,7 +460,7 @@ function adminProdutosSidebar(page){
 	}
 	else{
 		$("#MainContent").empty();
-		loadProdutosAdmin("#MainContent");
+		loadProdutos(1);
 	}
 }
 
