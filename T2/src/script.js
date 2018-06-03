@@ -299,6 +299,15 @@ async function addAppointment(){
 	alert("Serviço agendado com sucesso.");
 }
 
+async function removeProduto(id){
+	db.products.delete(id);
+	loadProdutos(1);
+}
+
+async function removeServico(id){
+	db.services.delete(id);
+	loadServicos(1);
+}
 
 
 /*
