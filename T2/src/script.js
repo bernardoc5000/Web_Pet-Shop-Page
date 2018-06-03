@@ -195,174 +195,90 @@ async function editUserData(){
 	alert("Cadastro alterado com sucesso.");
 }
 
-async function addProduto(opt){
-	if (opt === 0){
-		let id = parseInt(2147483648*Math.random());
-		while ((await db.products.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+async function addProduto(){
+	let id = parseInt(2147483648*Math.random());
+	while ((await db.products.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
 
-		db.products.put({
-			id: id,
-			name: $("#produto_nome").val(),
-			image: $("#produto_foto").val(),
-			description: $("#produto_desc").val(),
-			price: $("#produto_preco").val(),
-			inStock: $("#produto_estoque").val(),
-			sold: 0
-		});
+	db.products.put({
+		id: id,
+		name: $("#produto_nome").val(),
+		image: $("#produto_foto").val(),
+		description: $("#produto_desc").val(),
+		price: $("#produto_preco").val(),
+		inStock: $("#produto_estoque").val(),
+		sold: 0
+	});
 
-		alert("Produto adicionado com sucesso.");
-
-		$("#produto_nome").val('');
-		$("#produto_foto").val('');
-		$("#produto_desc").val('');
-		$("#produto_preco").val('');
-		$("#produto_estoque").val('');
-	}
-	else{
-		$("#produto_nome").val('');
-		$("#produto_foto").val('');
-		$("#produto_desc").val('');
-		$("#produto_preco").val('');
-		$("#produto_estoque").val('');
-	}
+	alert("Produto adicionado com sucesso.");
 }
 
-async function addAnimal(opt){
-	if(opt === 0){
-		let user = await db.clients.get({username: sessionUser});
-		let id = parseInt(2147483648*Math.random());
-		while ((await db.pets.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
-		if (user !== undefined){
-			let file = document.createElement("input");
-			file.setAttribute("type", "file");
-			file.setAttribute("value", $("#animal_foto").val());
-			db.pets.put({
-				id: id,
-				name: $("#animal_nome").val(),
-				image: file.value,
-				species: $("#animal_especie").val(),
-				breed: $("#animal_raca").val(),
-				age: $("#animal_idade").val(),
-				description: $("#animal_desc").val(),
-				notes: $("#animal_obs").val(),
-				ownerId: user['id']
-			});
-		}
-		alert("Animal adicionado com sucesso à sua lista de animais.");
-		$("#animal_nome").val('');
-		$("#animal_foto").val('');
-		$("#animal_especie").val('');
-		$("#animal_raca").val('');
-		$("#animal_idade").val('');
-		$("#animal_desc").val('');
-		$("#animal_obs").val('');
-	}
+async function addAnimal(){
+	let id = parseInt(2147483648*Math.random());
+	while ((await db.pets.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
 
-	else{
-		$("#animal_nome").val('');
-		$("#animal_foto").val('');
-		$("#animal_especie").val('');
-		$("#animal_raca").val('');
-		$("#animal_idade").val('');
-		$("#animal_desc").val('');
-		$("#animal_obs").val('');
-	}
+	db.pets.put({
+		id: id,
+		name: $("#animal_nome").val(),
+		image: $("#animal_foto").val(),
+		species: $("#animal_especie").val(),
+		breed: $("#animal_raca").val(),
+		age: $("#animal_idade").val(),
+		description: $("#animal_desc").val(),
+		notes: $("#animal_obs").val(),
+		ownerId: sessionUser['id']
+	});
+
+	alert("Animal adicionado com sucesso à sua lista de animais.");
 }
 
-async function addAdmin(opt){
-	if(opt === 0){
-		let id = parseInt(2147483648*Math.random());
-		while ((await db.admins.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
-		db.admins.put({
-			id: id,
-			name: $("#admin_nome").val(),
-			image: $("#admin_foto").val(),
-			tel: $("#admin_tel").val(),
-			email: $("#admin_email").val(),
-			username: $("#admin_user").val(),
-			password: $("#admin_password").val()
-		});
+async function addAdmin(){
+	let id = parseInt(2147483648*Math.random());
+	while ((await db.admins.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+	
+	db.admins.put({
+		id: id,
+		name: $("#admin_nome").val(),
+		image: $("#admin_foto").val(),
+		tel: $("#admin_tel").val(),
+		email: $("#admin_email").val(),
+		username: $("#admin_user").val(),
+		password: $("#admin_password").val()
+	});
 
-		alert("Usuário administrador criado com sucesso.");
-		$("#admin_nome").val('');
-		$("#admin_foto").val('');
-		$("#admin_tel").val('');
-		$("#admin_email").val('');
-		$("#admin_user").val('');
-		$("#admin_password").val('');
-	}
-
-	else{
-		$("#admin_nome").val('');
-		$("#admin_foto").val('');
-		$("#admin_tel").val('');
-		$("#admin_email").val('');
-		$("#admin_user").val('');
-		$("#admin_password").val('');
-	}
+	alert("Usuário administrador criado com sucesso.");
 }
 
-async function addUser(opt){
-	if(opt === 0){
-		let id = parseInt(2147483648*Math.random());
-		while ((await db.clients.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
-		db.clients.put({
-			id: id,
-			name: $("#usuario_nome").val(),
-			addr: $("#usuario_endereco").val(),
-			image: $("#usuario_foto").val(),
-			tel: $("#usuario_tel").val(),
-			email: $("#usuario_email").val(),
-			username: $("#usuario_user").val(),
-			password: $("#usuario_password").val()
-		});
+async function addUser(){
+	let id = parseInt(2147483648*Math.random());
+	while ((await db.clients.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+	
+	db.clients.put({
+		id: id,
+		name: $("#usuario_nome").val(),
+		addr: $("#usuario_endereco").val(),
+		image: $("#usuario_foto").val(),
+		tel: $("#usuario_tel").val(),
+		email: $("#usuario_email").val(),
+		username: $("#usuario_user").val(),
+		password: $("#usuario_password").val()
+	});
 
-		alert("Usuário criado com sucesso.");
-		$("#usuario_nome").val('');
-		$("#usuario_foto").val('');
-		$("#usuario_endereco").val('');
-		$("#usuario_tel").val('');
-		$("#usuario_email").val('');
-		$("#usuario_user").val('');
-		$("#usuario_password").val('');
-	}
-
-	else{
-		$("#usuario_nome").val('');
-		$("#usuario_foto").val('');
-		$("#usuario_endereco").val('');
-		$("#usuario_tel").val('');
-		$("#usuario_email").val('');
-		$("#usuario_user").val('');
-		$("#usuario_password").val('');
-	}
+	alert("Usuário criado com sucesso.");
 }
 
 async function addServico(opt){
-	if(opt === 0){
-		let id = parseInt(2147483648*Math.random());
-		while ((await db.services.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
-		db.services.put({
-			id: id,
-			name: $("#servico_nome").val(),
-			image: $("#servico_foto").val(),
-			description: $("#servico_desc").val(),
-			price: $("#servico_preco").val()
-		});
+	let id = parseInt(2147483648*Math.random());
+	while ((await db.services.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+	
+	db.services.put({
+		id: id,
+		name: $("#servico_nome").val(),
+		image: $("#servico_foto").val(),
+		description: $("#servico_desc").val(),
+		price: $("#servico_preco").val()
+	});
 
-		alert("Serviço adicionado com sucesso.");
-		$("#servico_nome").val('');
-		$("#servico_foto").val('');
-		$("#servico_desc").val('');
-		$("#servico_preco").val('');
-	}
-
-	else{
-		$("#servico_nome").val('');
-		$("#servico_foto").val('');
-		$("#servico_desc").val('');
-		$("#servico_preco").val('');
-	}
+	alert("Serviço adicionado com sucesso.");
 }
 
 async function addAppointment(){
@@ -377,6 +293,8 @@ async function addAppointment(){
 		day: $("#date").val(),
 		time: $("#Horarios input[name=time_schedule]:checked").val()
 	});
+
+	alert("Serviço agendado com sucesso.");
 }
 
 
