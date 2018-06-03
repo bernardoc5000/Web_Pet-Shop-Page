@@ -96,6 +96,24 @@ async function loadProdutos(div){
 	}
 }
 
+async function loadProdutosAdmin(div){
+	let products = await db.products.toArray();
+	for (let i=0; i<products.length; i++){
+		product = products[i];
+		let line = "<div class=\"Item\">";
+		line += "<ul class=\"Product\">";
+		line += "<li class=\"ProductImage\"><img src=\"" + product['image'] + "\" alt=\"res/areia_gato.png\"></img></li>";
+		line += "<li class=\"ProductDescription\">" + product['name'] + "</li>";
+		line += "<li class=\"ProductDescription\">" + product['description'] + "</li>";
+		line += "<li class=\"ProductValue\">R$ " + product['price'] + "</li>";
+		line += "<li><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"editProduto(" + product['id'].toString() + ")\"></input></li>";
+		line += "<li><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeProduto(" + product['id'].toString() + ")\"></input></li>";
+		line += "</ul>";
+		line += "</div>";
+		$(div).append(line);
+	}
+}
+
 function loadUserData(div){
 	if (sessionUser !== undefined){
 		$(div + " #usuario_nome").val(sessionUser['name']);
@@ -433,7 +451,8 @@ function adminProdutosSidebar(page){
 		$("#MainContent").load("src/admin_produtos_adicionar.html");
 	}
 	else{
-		$("#MainContent").load("src/admin_produtos_editar_remover.html");
+		$("#MainContent").empty();
+		loadProdutosAdmin("#MainContent");
 	}
 }
 
