@@ -106,6 +106,26 @@ async function loadProdutos(page){
 	else $("#MainContent").html(line);
 }
 
+async function loadServicos(page){
+	let services = await db.services.toArray();
+	let line = "";
+	for (let i=0; i<services.length; i++){
+		service = services[i];
+		line += "<div class=\"Item\">";
+		line += "<ul class=\"Product\">";
+		line += "<li class=\"ProductImage\"><img src=\"" + service['image'] + "\" alt=\"res/areia_gato.png\"></img></li>";
+		line += "<li class=\"ProductDescription\">" + service['name'] + "</li>";
+		line += "<li class=\"ProductDescription\">" + service['description'] + "</li>";
+		line += "<li class=\"ProductValue\">R$ " + service['price'] + "</li>";
+		line += "<li><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"editServico(" + service['id'].toString() + ")\"></input></li>";
+		line += "<li><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeServico(" + service['id'].toString() + ")\"></input></li>";
+		line += "</ul>";
+		line += "</div>";
+	}
+
+	$("#MainContent").html(line);
+}
+
 function loadUserData(){
 	$("#usuario_nome").val(sessionUser['name']);
 	$("#usuario_endereco").val(sessionUser['addr']);
@@ -146,6 +166,7 @@ async function loadServicosHorarios(){
 	}
 }
 
+<<<<<<< HEAD
 async function loadAnimais(){
 	let pets = await db.pets.where("ownerId").equals(sessionUser['id']);
 	line = ""
@@ -159,6 +180,22 @@ async function loadAnimais(){
 		line += "<li><input type=\"button\" name=\"Ver Informações\" value=\"Ver Informações\" class=\"ProductButton\" onclick=\"showPet(" + pet['id'].toString() + ")\"></li>";
 		line += "</ul>";
 		line += "</div>";
+=======
+async function saveData(){
+	if (sessionUser !== undefined){
+		db.clients.put({
+			id: user['id'],
+			name: $("#usuario_nome").val(),
+			addr: $("#usuario_endereco").val(),
+			image: $("#usuario_foto").val(),
+			tel: $("#usuario_tel").val(),
+			email: $("#usuario_email").val(),
+			username: $("#usuario_user").val(),
+			password: $("#usuario_password").val()
+		});
+
+		alert("Cadastro alterado com sucesso.");
+>>>>>>> 1f30e5f6cf30be89a8f51336864391020543baf0
 	}
 	$("#MainContent").html(line);
 }
@@ -481,6 +518,7 @@ function adminServicosSidebar(page){
 		$("#MainContent").load("src/admin_servicos_adicionar.html");
 	}
 	else{
-		$("#MainContent").load("src/admin_servicos_editar_remover.html");
+		$("#MainContent").empty();
+		loadServicos(1);
 	}
 }
