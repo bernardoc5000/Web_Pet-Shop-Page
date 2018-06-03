@@ -1,17 +1,20 @@
 Dexie.delete("petshop_database");
 var sessionUser;
 var sessionPass;
+
 var db = new Dexie("petshop_database");
 db.version(1).stores({
 	admins: "id, name, image, tel, email, username, password",
 	clients: "id, name, addr, image, tel, email, username, password",
 	pets: "id, name, image, species, breed, age, description, notes, ownerId",
 	products: "id, name, image, description, price, inStock, sold",
-	services: "id, name, image, description, price"
+	services: "id, name, image, description, price",
+	appointments: "id, serviceId, userId, day, time"
 });
 db.open();
 insertInitialAdmin();
 insertInitialUser();
+var sessionUser = undefined;
 
 
 
@@ -38,7 +41,6 @@ async function insertInitialAdmin(){
 		});
 	}
 }
-
 
 async function insertInitialUser(){
 	if ((await db.clients.get(0)) === undefined){
@@ -91,16 +93,19 @@ async function addProduto(opt){
 
 async function loadProdutos(div){
 	let products = await db.products.toArray();
-	for (product in products){
-		$(div).append("<div class=\"Item\">");
-		$(div).append("<ul class=\"Product\">");
-		$(div).append(("<li class=\"ProductImage\"><img src=\"").concat(product['image']).concat("\" alt=\"res/areia_gato.png\"></img></li>"));
-		$(div).append(("<li class=\"ProductDescription\">").concat(product['description']).concat("</li>"));
-		$(div).append(("<li class=\"ProductValue\">R$ ").concat(product['price']).concat("</li>"));
-		$(div).append(("<li class=\"ProductValue\">Quantidade: <input id=\"quantidade_\"").concat(product['id'].toString()).concat("\" type=\"number\" name=\"Quantidade\" value=\"Quantidade\"></input></li>"));
-		$(div).append(("<li><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(").concat(product['id'].toString()).concat(");\"></input></li>"));
-		$(div).append("</ul>");
-		$(div).append("</div>");
+	for (let i=0; i<products.length; i++){
+		product = products[i];
+		let line = "<div class=\"Item\">";
+		line += "<ul class=\"Product\">";
+		line += "<li class=\"ProductImage\"><img src=\"" + product['image'] + "\" alt=\"res/areia_gato.png\"></img></li>";
+		line += "<li class=\"ProductDescription\">" + product['name'] + "</li>";
+		line += "<li class=\"ProductDescription\">" + product['description'] + "</li>";
+		line += "<li class=\"ProductValue\">R$ " + product['price'] + "</li>";
+		line += "<li class=\"ProductValue\">Quantidade: <input id=\"quantidade_\"" + product['id'].toString() + "\" type=\"number\" name=\"Quantidade\" value=\"Quantidade\"></input></li>";
+		line += "<li><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(" + product['id'].toString() + ")\"></input></li>";
+		line += "</ul>";
+		line += "</div>";
+		$(div).append(line);
 	}
 }
 
@@ -111,25 +116,24 @@ async function login_out(in_out){
 		let username = $("#User").val();
 		let password = $("#Password").val();
 
-		sessionUser = username;
-		sessionPass = password;
-
 		let user = await db.clients.get({username: username});
 		if (user !== undefined && user['password'] === password){
 			$("#Top").load("src/logged_top.html");
 			$("#Menu").load("src/usuario_menu.html");
-			$("#Content").load("src/usuario_compras.html");
+			sessionUser = user;
+			$("#Content").empty();
+			loadProdutos("#Content");
 		}
 		else{
 			user = await db.admins.get({username: username});
 			if (user !== undefined && user['password'] === password){
 				$("#Top").load("src/logged_top.html");
 				$("#Menu").load("src/admin_menu.html");
+				sessionUser = user;
 				jQuery.ajaxSetup({async:false});
 				$("#Content").load("src/admin_cadastro.html");
 				$("#MainContent").load("src/admin_cadastro_cliente.html");
 				jQuery.ajaxSetup({async:true});
-				loadProdutos("#Content");
 			}
 			else alert("Usuário ou Senha inválidos");
 		}
@@ -137,14 +141,13 @@ async function login_out(in_out){
 	else $("body").load("index.html");
 }
 
-async function loadUserData(div){
-	let user = await db.clients.get({username: sessionUser});
-	if (user !== undefined && user['password'] === sessionPass){
-		$(div + " #usuario_nome").val(user['name']);
-		$(div + " #usuario_endereco").val(user['addr']);
-		$(div + " #usuario_tel").val(user['tel']);
-		$(div + " #usuario_email").val(user['email']);
-		$(div + " #usuario_user").val(user['username']);
+function loadUserData(div){
+	if (sessionUser !== undefined){
+		$(div + " #usuario_nome").val(sessionUser['name']);
+		$(div + " #usuario_endereco").val(sessionUser['addr']);
+		$(div + " #usuario_tel").val(sessionUser['tel']);
+		$(div + " #usuario_email").val(sessionUser['email']);
+		$(div + " #usuario_user").val(sessionUser['username']);
 	}
 }
 
@@ -221,7 +224,8 @@ async function addAnimal(opt){
 
 function changeUserPage(page){
 	if (page === 0){
-		$("#Content").load("src/usuario_compras.html");
+		$("#Content").empty();
+		loadProdutos("#Content");
 	}
 	else if (page === 1){
 		$("#Content").load("src/usuario_servicos.html");
