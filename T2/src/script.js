@@ -166,7 +166,6 @@ async function loadServicosHorarios(){
 	}
 }
 
-<<<<<<< HEAD
 async function loadAnimais(){
 	let pets = await db.pets.where("ownerId").equals(sessionUser['id']);
 	line = ""
@@ -180,25 +179,6 @@ async function loadAnimais(){
 		line += "<li><input type=\"button\" name=\"Ver Informações\" value=\"Ver Informações\" class=\"ProductButton\" onclick=\"showPet(" + pet['id'].toString() + ")\"></li>";
 		line += "</ul>";
 		line += "</div>";
-=======
-async function saveData(){
-	if (sessionUser !== undefined){
-		db.clients.put({
-			id: user['id'],
-			name: $("#usuario_nome").val(),
-			addr: $("#usuario_endereco").val(),
-			image: $("#usuario_foto").val(),
-			tel: $("#usuario_tel").val(),
-			email: $("#usuario_email").val(),
-			username: $("#usuario_user").val(),
-			password: $("#usuario_password").val()
-		});
-
-		alert("Cadastro alterado com sucesso.");
->>>>>>> 1f30e5f6cf30be89a8f51336864391020543baf0
-	}
-	$("#MainContent").html(line);
-}
 
 async function editUserData(){
 	db.clients.put({
