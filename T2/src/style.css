@@ -271,3 +271,21 @@ body{
 .TimeLabel{
 	font-size: 22px;
 }
+
+.InfoForm{
+	margin-left: 20%;
+	margin-right: 20%;
+	font-size: 24px;
+}
+
+.InfoForm label{
+	margin-left: 0%;
+	margin-right: 0%;
+	float: left;
+}
+
+.InfoForm h3{
+	margin-left: 0%;
+	margin-right: 0%;
+	float: right;
+}

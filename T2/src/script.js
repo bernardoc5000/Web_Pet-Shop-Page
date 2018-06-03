@@ -106,7 +106,7 @@ async function loadProdutos(page){
 	else $("#MainContent").html(line);
 }
 
-async function loadServicos(page){
+async function loadServicos(){
 	let services = await db.services.toArray();
 	let line = "";
 	for (let i=0; i<services.length; i++){
@@ -176,7 +176,7 @@ async function loadAnimais(){
 		line += "<li class=\"ProductImage\"><img src=\"" + pet['image'] + "\" alt=\"res/cachorro1.png\"></li>";
 		line += "<li class=\"ProductDescription\">" + pet['name'] + "</li>";
 		line += "<li class=\"ProductDescription\">" + pet['description'] + "</li>";
-		line += "<li><input type=\"button\" name=\"Ver Informações\" value=\"Ver Informações\" class=\"ProductButton\" onclick=\"showPet(" + pet['id'].toString() + ")\"></li>";
+		line += "<li><input type=\"button\" name=\"Ver Informações\" value=\"Ver Informações\" class=\"ProductButton\" onclick=\"showAnimal(" + pet['id'].toString() + ")\"></li>";
 		line += "</ul>";
 		line += "</div>";
 	}
@@ -310,6 +310,21 @@ async function removeProduto(id){
 async function removeServico(id){
 	db.services.delete(id);
 	loadServicos(1);
+}
+
+async function showAnimal(id){
+	$("#MainContent").empty();
+	let pet = await db.pets.get(parseInt(id));
+	let line = "<form class=\"InfoForm\">";
+	line += "<img src=\"" + pet['image'] + "\" alt=\"res/cachorro1.png\"><br>";
+	line += "<label for=\"info_name\">Nome animal:</label><h3 id=\"info_name\">" + pet['name'] + "</h3><br>";
+	line += "<label for=\"info_esp\">Espécie animal:</label><h3 id=\"info_esp\">" + pet['species'] + "</h3><br>";
+	line += "<label for=\"info_raca\">Raça animal:</label><h3 id=\"info_raca\">" + pet['breed'] + "</h3><br>";
+	line += "<label for=\"info_ida\">Idade animal: </label><h3 id=\"info_ida\">" + pet['age'] + "</h3><br>";
+	line += "<label for=\"info_desc\">Descrição animal: </label><h3 id=\"info_desc\">" + pet['description'] + "</h3><br>";
+	line += "<label for=\"info_obs\">Observações animal: </label><h3 id=\"info_obs\">" + pet['notes'] + "</h3><br>";
+	line += "</form>";
+	$("#MainContent").html(line);
 }
 
 
