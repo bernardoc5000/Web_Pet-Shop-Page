@@ -2,7 +2,7 @@
 Inicializacao e abertura do
 banco de dados
 */
-Dexie.delete("petshop_database");
+//Dexie.delete("petshop_database");
 var db = new Dexie("petshop_database");
 db.version(1).stores({
 	admins: "id, name, image, tel, email, username, password",
@@ -143,7 +143,7 @@ async function loadServicosOptions(){
 	}
 	$("#select_servico").html(line);
 
-	let pets = await db.pets.where("ownerId").equals(sessionUser['id']);
+	let pets = await db.pets.where("ownerId").equals(sessionUser['id']).toArray();
 	line = ""
 	for (let i=0; i<pets.length; i++){
 		pet = pets[i];
@@ -167,7 +167,7 @@ async function loadServicosHorarios(){
 }
 
 async function loadAnimais(){
-	let pets = await db.pets.where("ownerId").equals(sessionUser['id']);
+	let pets = await db.pets.where("ownerId").equals(sessionUser['id']).toArray();
 	line = ""
 	for (let i=0; i<pets.length; i++){
 		pet = pets[i];
@@ -180,6 +180,8 @@ async function loadAnimais(){
 		line += "</ul>";
 		line += "</div>";
 	}
+
+	$("#MainContent").html(line);
 }
 
 async function editUserData(){
@@ -297,6 +299,7 @@ async function addAppointment(){
 	});
 
 	alert("Serviço agendado com sucesso.");
+	loadServicosHorarios();
 }
 
 
@@ -387,7 +390,8 @@ function changeAdminPage(page){
 
 function animaisSidebar(page){
 	if (page === 0){
-		$("#MainContent").load("src/usuario_animais_lista.html");
+		$("#MainContent").empty();
+		loadAnimais();
 	}
 	else{
 		$("#MainContent").load("src/usuario_animais_cadastro.html");
