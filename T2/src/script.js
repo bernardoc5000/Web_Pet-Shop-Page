@@ -107,13 +107,11 @@ async function loadProdutos(page){
 }
 
 function loadUserData(){
-	if (sessionUser !== undefined){
-		$(div + " #usuario_nome").val(sessionUser['name']);
-		$(div + " #usuario_endereco").val(sessionUser['addr']);
-		$(div + " #usuario_tel").val(sessionUser['tel']);
-		$(div + " #usuario_email").val(sessionUser['email']);
-		$(div + " #usuario_user").val(sessionUser['username']);
-	}
+	$("#usuario_nome").val(sessionUser['name']);
+	$("#usuario_endereco").val(sessionUser['addr']);
+	$("#usuario_tel").val(sessionUser['tel']);
+	$("#usuario_email").val(sessionUser['email']);
+	$("#usuario_user").val(sessionUser['username']);
 }
 
 async function loadServicosOptions(){
@@ -148,21 +146,36 @@ async function loadServicosHorarios(){
 	}
 }
 
-async function saveData(){
-	if (user !== undefined){
-		db.clients.put({
-			id: user['id'],
-			name: $("#usuario_nome").val(),
-			addr: $("#usuario_endereco").val(),
-			image: $("#usuario_foto").val(),
-			tel: $("#usuario_tel").val(),
-			email: $("#usuario_email").val(),
-			username: $("#usuario_user").val(),
-			password: $("#usuario_password").val()
-		});
-
-		alert("Cadastro alterado com sucesso.");
+async function loadAnimais(){
+	let pets = await db.pets.where("ownerId").equals(sessionUser['id']);
+	line = ""
+	for (let i=0; i<pets.length; i++){
+		pet = pets[i];
+		line += "<div class=\"Item\">";
+		line += "<ul class=\"Product\">";
+		line += "<li class=\"ProductImage\"><img src=\"" + pet['image'] + "\" alt=\"res/cachorro1.png\"></li>";
+		line += "<li class=\"ProductDescription\">" + pet['name'] + "</li>";
+		line += "<li class=\"ProductDescription\">" + pet['description'] + "</li>";
+		line += "<li><input type=\"button\" name=\"Ver Informações\" value=\"Ver Informações\" class=\"ProductButton\" onclick=\"showPet(" + pet['id'].toString() + ")\"></li>";
+		line += "</ul>";
+		line += "</div>";
 	}
+	$("#MainContent").html(line);
+}
+
+async function editUserData(){
+	db.clients.put({
+		id: sessionUser['id'],
+		name: $("#usuario_nome").val(),
+		addr: $("#usuario_endereco").val(),
+		image: $("#usuario_foto").val(),
+		tel: $("#usuario_tel").val(),
+		email: $("#usuario_email").val(),
+		username: $("#usuario_user").val(),
+		password: $("#usuario_password").val()
+	});
+
+	alert("Cadastro alterado com sucesso.");
 }
 
 async function addProduto(opt){
@@ -336,19 +349,17 @@ async function addServico(opt){
 }
 
 async function addAppointment(){
-	if (sessionUser !== undefined){
-		let id = parseInt(2147483648*Math.random());
-		while ((await db.appointments.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+	let id = parseInt(2147483648*Math.random());
+	while ((await db.appointments.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
 
-		db.appointments.put({
-			id: id,
-			serviceId: parseInt($("#select_servico").val()),
-			userId: sessionUser['id'],
-			petId: parseInt($("#select_animal").val()),
-			day: $("#date").val(),
-			time: $("#Horarios input[name=time_schedule]:checked").val()
-		});
-	}
+	db.appointments.put({
+		id: id,
+		serviceId: parseInt($("#select_servico").val()),
+		userId: sessionUser['id'],
+		petId: parseInt($("#select_animal").val()),
+		day: $("#date").val(),
+		time: $("#Horarios input[name=time_schedule]:checked").val()
+	});
 }
 
 
@@ -399,13 +410,14 @@ function changeUserPage(page){
 	}
 	else if (page === 2){
 		$("#Content").load("src/usuario_cadastro.html");
-		loadUserData("#Content");
+		loadUserData();
 	}
 	else if (page === 3){
 		jQuery.ajaxSetup({async:false});
 		$("#Content").load("src/usuario_animais.html");
-		$("#MainContent").load("src/usuario_animais_lista.html");
+		$("#MainContent").empty();
 		jQuery.ajaxSetup({async:true});
+		loadAnimais();
 	}
 	else if (page === 4){
 		$("#Content").load("src/usuario_carrinho.html");
