@@ -6,7 +6,7 @@ db.version(1).stores({
 	pets: "id, name, image, species, breed, age, description, notes, ownerId",
 	products: "id, name, image, description, price, inStock, sold",
 	services: "id, name, image, description, price",
-	appointments: "id, serviceId, userId, day, time"
+	appointments: "id, serviceId, userId, petId, day, time"
 });
 db.open();
 insertInitialAdmin();
@@ -106,6 +106,39 @@ async function loadProdutos(div){
 	}
 }
 
+async function updateHorarios(){
+	for (let horario=8; horario<=16; horario++){
+		$("#hr_"+horario.toString()).attr('disabled', false);
+		$("#lb_hr_"+horario.toString()).html(horario.toString() + ":00");
+	}
+
+	let occupied = await db.appointments.where("day").equals($("#date").val()).toArray();
+	for (let i=0; i<occupied.length; i++){
+		let horario = occupied[i]['time'];
+		$("#hr_"+horario).attr('disabled', true);
+		$("#lb_hr_"+horario).html(horario + ":00 - Ocupado");
+	}
+
+
+	//console.log($("#date").val());
+	//let occupied = db.appointments.get()
+}
+
+async function makeAppointment(){
+	if (sessionUser !== undefined){
+		let id = parseInt(2147483648*Math.random());
+		while ((await db.appointments.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+
+		db.appointments.put({
+			id: id,
+			serviceId: parseInt($("#select_servico").val()),
+			userId: sessionUser['id'],
+			petId: parseInt($("#select_animal").val()),
+			day: $("#date").val(),
+			time: $("#Horarios input[name=time_schedule]:checked").val()
+		});
+	}
+}
 
 
 async function login_out(in_out){
@@ -150,11 +183,8 @@ function loadUserData(div){
 
 async function saveData(){
 	if (user !== undefined){
-		let id = parseInt(2147483648*Math.random());
-		while ((await db.clients.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
-
 		db.clients.put({
-			id: id,
+			id: user['id'],
 			name: $("#usuario_nome").val(),
 			addr: $("#usuario_endereco").val(),
 			image: $("#usuario_foto").val(),
