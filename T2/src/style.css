@@ -74,13 +74,13 @@ body{
 	width: 84%;
 }
 
-.CadastroForm, .InfoForm{
+.CadastroForm{
 	margin: 0 auto;
 	width: 800px;
 	font-size: 20px;
 }
 
-.CadastroForm label, .edit-content label, .InfoForm label{
+.CadastroForm label, .edit-content label{
 	margin-top: 30px;
 	display: inline-block;
 	width: 200px;
@@ -271,23 +271,25 @@ body{
 .TimeLabel{
 	font-size: 22px;
 }
-/*
+
 .InfoForm{
+	width: 1000px;
 	margin-left: 20%;
 	margin-right: 20%;
 	font-size: 24px;
 }
 
 .InfoForm label{
-	margin-left: 0%;
-	margin-right: 0%;
-	float: left;
-}*/
+	display: inline-block;
+	width: 200px;
+	text-align: right;
+}
 
 .InfoForm h3{
 	margin-top: 30px;
 	font: 1em sans-serif;
-	width: 250px;
+	width: 500px;
+	resize:  none;
 }
 
 .container{
