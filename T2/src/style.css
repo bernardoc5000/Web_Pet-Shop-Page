@@ -273,23 +273,19 @@ body{
 }
 
 .InfoForm{
-	width: 1000px;
+	margin-top: 5%;
 	margin-left: 20%;
 	margin-right: 20%;
 	font-size: 24px;
 }
 
 .InfoForm label{
-	display: inline-block;
-	width: 200px;
-	text-align: right;
+	text-align: left;
 }
 
-.InfoForm h3{
-	margin-top: 30px;
-	font: 1em sans-serif;
-	width: 500px;
-	resize:  none;
+.InfoForm span{
+	text-align: right;
+	float: right;
 }
 
 .container{

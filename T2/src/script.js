@@ -377,18 +377,16 @@ async function removeServico(id){
 }
 
 async function showAnimal(id){
-	$("#MainContent").empty();
 	let pet = await db.pets.get(parseInt(id));
-	let line = "<form class=\"InfoForm\">";
-	line += "<img src=\"" + pet['image'] + "\" alt=\"res/cachorro1.png\"><br>";
-	line += "<label for=\"info_name\">Nome animal:</label><h3 id=\"info_name\">" + pet['name'] + "</h3><br>";
-	line += "<label for=\"info_esp\">Espécie animal:</label><h3 id=\"info_esp\">" + pet['species'] + "</h3><br>";
-	line += "<label for=\"info_raca\">Raça animal:</label><h3 id=\"info_raca\">" + pet['breed'] + "</h3><br>";
-	line += "<label for=\"info_ida\">Idade animal: </label><h3 id=\"info_ida\">" + pet['age'] + "</h3><br>";
-	line += "<label for=\"info_desc\">Descrição animal: </label><h3 id=\"info_desc\">" + pet['description'] + "</h3><br>";
-	line += "<label for=\"info_obs\">Observações animal: </label><h3 id=\"info_obs\">" + pet['notes'] + "</h3><br>";
-	line += "</form>";
-	$("#MainContent").html(line);
+	$("#MainContent").load("src/usuario_animais_info.html", function(responseTxt, statusTxt, xhr){
+		$("#info_img").attr('src', pet['image']);
+		$("#info_name").html(pet['name']);
+		$("#info_esp").html(pet['species']);
+		$("#info_raca").html(pet['breed']);
+		$("#info_ida").html(pet['age']);
+		$("#info_desc").html(pet['description']);
+		$("#info_obs").html(pet['notes']);
+	});
 }
 
 
@@ -432,20 +430,21 @@ function changeUserPage(page){
 		loadProdutos(0);
 	}
 	else if (page === 1){
-		$("#Content").load("src/usuario_servicos.html");
+		$("#Content").load("src/usuario_servicos.html", function(responseTxt, statusTxt, xhr){
 		loadServicosOptions();
 		loadServicosHorarios();
+		});
 	}
 	else if (page === 2){
-		$("#Content").load("src/usuario_cadastro.html");
+		$("#Content").load("src/usuario_cadastro.html", function(responseTxt, statusTxt, xhr){
 		loadUserData();
+		});
 	}
 	else if (page === 3){
-		jQuery.ajaxSetup({async:false});
-		$("#Content").load("src/usuario_animais.html");
+		$("#Content").load("src/usuario_animais.html", function(responseTxt, statusTxt, xhr){
 		$("#MainContent").empty();
-		jQuery.ajaxSetup({async:true});
 		loadAnimais();
+		});
 	}
 	else if (page === 4){
 		$("#Content").load("src/usuario_carrinho.html");
