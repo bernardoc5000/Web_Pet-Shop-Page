@@ -20,7 +20,6 @@ var carrinho = new Map();
 
 
 
-
 /*
 Funcoes temporarias para
 inicializar o banco de dados
@@ -81,14 +80,14 @@ Funcoes que manipulam a pagina
 a partir do banco de dados
 */
 
-async function loadProdutos(page){
-	let products = await db.products.toArray();
+function loadProdutos(page){
+	db.products.toArray(function(products){
 	let line = "";
 	for (let i=0; i<products.length; i++){
-		product = products[i];
+		let product = products[i];
 		line += "<div class=\"Item\">";
 		line += "<ul class=\"Product\">";
-		line += "<li class=\"ProductImage\"><img src=\"" + product['image'] + "\" alt=\"res/areia_gato.png\"></img></li>";
+		line += "<li class=\"ProductImage\"><img src=\"" + product['image'] + "\" alt=\"res/blank.png\"></img></li>";
 		line += "<li class=\"ProductDescription\">" + product['name'] + "</li>";
 		line += "<li class=\"ProductDescription\">" + product['description'] + "</li>";
 		line += "<li class=\"ProductDescription\">R$ " + product['price'] + "</li>";
@@ -97,8 +96,8 @@ async function loadProdutos(page){
 			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(" + product['id'].toString() + ")\"></input></li>";
 		}
 		else{
-			line += "<li><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"editProduto(" + product['id'].toString() + ")\"></input></li>";
-			line += "<li><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeProduto(" + product['id'].toString() + ")\"></input></li>";
+			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"editProduto(" + product['id'].toString() + ")\"></input></li>";
+			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeProduto(" + product['id'].toString() + ")\"></input></li>";
 		}
 		line += "</ul>";
 		line += "</div>";
@@ -106,26 +105,28 @@ async function loadProdutos(page){
 
 	if (page==0) $("#Content").html(line);
 	else $("#MainContent").html(line);
+	});
 }
 
-async function loadServicos(){
-	let services = await db.services.toArray();
+function loadServicos(){
+	db.services.toArray(function(services){
 	let line = "";
 	for (let i=0; i<services.length; i++){
 		service = services[i];
 		line += "<div class=\"Item\">";
 		line += "<ul class=\"Product\">";
-		line += "<li class=\"ProductImage\"><img src=\"" + service['image'] + "\" alt=\"res/areia_gato.png\"></img></li>";
+		line += "<li class=\"ProductImage\"><img src=\"" + service['image'] + "\" alt=\"res/blank.png\"></img></li>";
 		line += "<li class=\"ProductDescription\">" + service['name'] + "</li>";
 		line += "<li class=\"ProductDescription\">" + service['description'] + "</li>";
-		line += "<li class=\"ProductValue\">R$ " + service['price'] + "</li>";
-		line += "<li><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"editServico(" + service['id'].toString() + ")\"></input></li>";
-		line += "<li><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeServico(" + service['id'].toString() + ")\"></input></li>";
+		line += "<li class=\"ProductDescription\">R$ " + service['price'] + "</li>";
+		line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"showEditServico(" + service['id'].toString() + ")\"></input></li>";
+		line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeServico(" + service['id'].toString() + ")\"></input></li>";
 		line += "</ul>";
 		line += "</div>";
 	}
 
 	$("#MainContent").html(line);
+	});
 }
 
 function loadUserData(){
@@ -176,14 +177,7 @@ async function loadServiceData(id){
 }
 
 function editServico(id){
-	$("#MainContent").load("src/admin_servicos_editar.html");
-	$("#submit_button").attr('onclick', "editServiceData(" + id.toString() + ")");
-	loadServiceData(id);
-	document.getElementById('edit').style.display='block';
-}
-
-async function editServiceData(id){
-	let service = await db.services.get(parseInt(id));
+	db.services.get(id, function(service){
 	db.services.put({
 		id: service['id'],
 		name: $("#servico_nome").val(),
@@ -193,9 +187,9 @@ async function editServiceData(id){
 	});
 
 	alert("Serviço alterado com sucesso.");
-	editableID = undefined;
 	$("#MainContent").empty();
-	loadServicos(1);
+	loadServicos();
+	});
 }
 
 async function loadServicosOptions(){
@@ -423,11 +417,11 @@ async function removeProduto(id){
 
 async function removeServico(id){
 	db.services.delete(id);
-	loadServicos(1);
+	loadServicos();
 }
 
-async function showAnimal(id){
-	let pet = await db.pets.get(parseInt(id));
+function showAnimal(id){
+	db.pets.get(parseInt(id), function(pet){
 	$("#MainContent").load("src/usuario_animais_info.html", function(responseTxt, statusTxt, xhr){
 		$("#info_img").attr('src', pet['image']);
 		$("#info_name").html(pet['name']);
@@ -436,6 +430,15 @@ async function showAnimal(id){
 		$("#info_ida").html(pet['age']);
 		$("#info_desc").html(pet['description']);
 		$("#info_obs").html(pet['notes']);
+	});
+	});
+}
+
+function showEditServico(id){
+	$("#MainContent").load("src/admin_servicos_editar.html", function(responseTxt, statusTxt, xhr){
+	$("#submit_button").attr('onclick', "editServico(" + id.toString() + ")");
+	loadServiceData(id);
+	document.getElementById('edit').style.display='block';
 	});
 }
 
@@ -561,6 +564,6 @@ function adminServicosSidebar(page){
 	}
 	else{
 		$("#MainContent").empty();
-		loadServicos(1);
+		loadServicos();
 	}
 }
