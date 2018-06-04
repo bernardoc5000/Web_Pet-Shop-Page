@@ -273,7 +273,7 @@ function editServico(id){
 }
 
 function editUser(){
-	if(document.getElementById("usuario_cadastro").checkValidity() === false) alert("Dados Invalidos");
+	if($("#usuario_cadastro")[0].checkValidity() === false) alert("Dados Invalidos.");
 	else{
 		if($("#usuario_foto").prop("files")[0] === undefined){
 			db.clients.put({
@@ -368,7 +368,7 @@ async function addServico(){
 }
 
 async function addUser(){
-	if(document.getElementById("usuario_cadastro").checkValidity() === false) alert("Dados Invalidos");
+	if($("#usuario_cadastro")[0].checkValidity() === false) alert("Dados Invalidos.");
 	else{
 		let id = parseInt(2147483648*Math.random());
 		while ((await db.clients.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
@@ -393,26 +393,29 @@ async function addUser(){
 }
 
 async function addAnimal(){
-	let id = parseInt(2147483648*Math.random());
-	while ((await db.pets.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+	if($("#animal_form")[0].checkValidity() === false || $("#animal_foto").prop("files")[0] === undefined) alert("Dados Invalidos.");
+	else{
+		let id = parseInt(2147483648*Math.random());
+		while ((await db.pets.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
 
-	reader.onloadend = function(){
-		db.pets.put({
-			id: id,
-			name: $("#animal_nome").val(),
-			image: reader.result,
-			species: $("#animal_especie").val(),
-			breed: $("#animal_raca").val(),
-			age: parseInt($("#animal_idade").val()),
-			description: $("#animal_desc").val(),
-			notes: $("#animal_obs").val(),
-			ownerId: sessionUser['id']
-		}).then(function(){
+		reader.onloadend = function(){
+			db.pets.put({
+				id: id,
+				name: $("#animal_nome").val(),
+				image: reader.result,
+				species: $("#animal_especie").val(),
+				breed: $("#animal_raca").val(),
+				age: parseInt($("#animal_idade").val()),
+				description: $("#animal_desc").val(),
+				notes: $("#animal_obs").val(),
+				ownerId: sessionUser['id']
+			}).then(function(){
 
-			alert("Animal adicionado com sucesso à sua lista de animais.");
-		});
+				alert("Animal adicionado com sucesso à sua lista de animais.");
+			});
+		}
+		reader.readAsDataURL($("#animal_foto").prop("files")[0]);
 	}
-	reader.readAsDataURL($("#animal_foto").prop("files")[0]);
 }
 
 async function addAdmin(){
@@ -437,7 +440,7 @@ async function addAdmin(){
 }
 
 async function addAppointment(){
-	if(document.getElementById("Horarios").checkValidity() === false || document.getElementById("time_form").checkValidity() === false) alert("Dados Invalidos");
+	if($("#Horarios")[0].checkValidity() === false || $("#time_form")[0].checkValidity() === false) alert("Dados Invalidos.");
 	else{
 		let id = parseInt(2147483648*Math.random());
 		while ((await db.appointments.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
@@ -512,9 +515,12 @@ function showEditProduto(id){
 }
 
 function confirmSale(){
-	for (let id of carrinho.keys()) carrinho.delete(id);
-	loadCarrinho();
-	alert("Compra finalizada com sucesso.");
+	if($("#cartao")[0].checkValidity() === false) alert("Dados Invalidos.");
+	else{
+		for (let id of carrinho.keys()) carrinho.delete(id);
+		loadCarrinho();
+		alert("Compra finalizada com sucesso.");
+	}
 }
 
 function cancelSale(){
@@ -577,8 +583,7 @@ function changeUserPage(page){
 	}
 	else if (page === 3){
 		$("#Content").load("src/usuario_animais.html", function(responseTxt, statusTxt, xhr){
-			$("#MainContent").empty();
-			loadAnimais();
+			animaisSidebar(0);
 		});
 	}
 	else if (page === 4){
@@ -610,11 +615,11 @@ function changeAdminPage(page){
 }
 
 function animaisSidebar(page){
-	if (page === 0){
+	if (page === 0)$("#MainContent").load("src/usuario_animais_cadastro.html");
+	else{
 		$("#MainContent").empty();
 		loadAnimais();
 	}
-	else $("#MainContent").load("src/usuario_animais_cadastro.html");
 }
 
 function adminCadastroSidebar(page){
