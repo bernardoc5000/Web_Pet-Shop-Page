@@ -17,6 +17,7 @@ insertInitialAdmin();
 insertInitialUser();
 var sessionUser = undefined;
 var carrinho = new Map();
+var reader = new FileReader();
 
 
 
@@ -110,83 +111,86 @@ function loadProdutos(page){
 
 function loadServicos(){
 	db.services.toArray(function(services){
-	let line = "";
-	for (let i=0; i<services.length; i++){
-		service = services[i];
-		line += "<div class=\"Item\">";
-		line += "<ul class=\"Product\">";
-		line += "<li class=\"ProductImage\"><img src=\"" + service['image'] + "\" alt=\"res/blank.png\"></img></li>";
-		line += "<li class=\"ProductDescription\">" + service['name'] + "</li>";
-		line += "<li class=\"ProductDescription\">" + service['description'] + "</li>";
-		line += "<li class=\"ProductDescription\">R$ " + service['price'] + "</li>";
-		line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"showEditServico(" + service['id'].toString() + ")\"></input></li>";
-		line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeServico(" + service['id'].toString() + ")\"></input></li>";
-		line += "</ul>";
-		line += "</div>";
-	}
+		let line = "";
+		for (let i=0; i<services.length; i++){
+			service = services[i];
+			line += "<div class=\"Item\">";
+			line += "<ul class=\"Product\">";
+			line += "<li class=\"ProductImage\"><img src=\"" + service['image'] + "\" alt=\"res/blank.png\"></img></li>";
+			line += "<li class=\"ProductDescription\">" + service['name'] + "</li>";
+			line += "<li class=\"ProductDescription\">" + service['description'] + "</li>";
+			line += "<li class=\"ProductDescription\">R$ " + service['price'] + "</li>";
+			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"showEditServico(" + service['id'].toString() + ")\"></input></li>";
+			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeServico(" + service['id'].toString() + ")\"></input></li>";
+			line += "</ul>";
+			line += "</div>";
+		}
 
-	$("#MainContent").html(line);
+		$("#MainContent").html(line);
 	});
 }
 
-async function loadServicosOptions(){
-	let services = await db.services.toArray();
-	let line = "";
-	for (let i=0; i<services.length; i++){
-		service = services[i];
-		line += "<option value=\"" + service['id'].toString() + "\">" + service['name'] + "</option>";
-	}
-	$("#select_servico").html(line);
+function loadServicosOptions(){
+	db.services.toArray(function(services){
+		let line = "";
+		for (let i=0; i<services.length; i++){
+			service = services[i];
+			line += "<option value=\"" + service['id'].toString() + "\">" + service['name'] + "</option>";
+		}
+		$("#select_servico").html(line);
+	});
 
-	let pets = await db.pets.where("ownerId").equals(sessionUser['id']).toArray();
-	line = ""
-	for (let i=0; i<pets.length; i++){
-		pet = pets[i];
-		line += "<option value=\"" + pet['id'].toString() + "\">" + pet['name'] + "</option>";
-	}
-	$("#select_animal").html(line);
+	db.pets.where("ownerId").equals(sessionUser['id']).toArray(function(pets){
+		let line = ""
+		for (let i=0; i<pets.length; i++){
+			pet = pets[i];
+			line += "<option value=\"" + pet['id'].toString() + "\">" + pet['name'] + "</option>";
+		}
+		$("#select_animal").html(line);
+	});
 }
 
-async function loadServicosHorarios(){
+function loadServicosHorarios(){
 	for (let horario=8; horario<=16; horario++){
 		$("#hr_"+horario.toString()).attr('disabled', false);
 		$("#lb_hr_"+horario.toString()).html(horario.toString() + ":00");
 	}
 
-	let occupied = await db.appointments.where("day").equals($("#date").val()).toArray();
-	for (let i=0; i<occupied.length; i++){
-		let horario = occupied[i]['time'];
-		$("#hr_"+horario).attr('disabled', true);
-		$("#lb_hr_"+horario).html(horario + ":00 - Ocupado");
-	}
+	db.appointments.where("day").equals($("#date").val()).toArray(function(occupied){
+		for (let i=0; i<occupied.length; i++){
+			let horario = occupied[i]['time'];
+			$("#hr_"+horario).attr('disabled', true);
+			$("#lb_hr_"+horario).html(horario + ":00 - Ocupado");
+		}
+	});
 }
 
-async function loadAnimais(){
-	let pets = await db.pets.where("ownerId").equals(sessionUser['id']).toArray();
-	line = ""
-	for (let i=0; i<pets.length; i++){
-		pet = pets[i];
-		line += "<div class=\"Item\">";
-		line += "<ul class=\"Product\">";
-		line += "<li class=\"ProductImage\"><img src=\"" + pet['image'] + "\" alt=\"res/cachorro1.png\"></li>";
-		line += "<li class=\"ProductDescription\">" + pet['name'] + "</li>";
-		line += "<li class=\"ProductDescription\">" + pet['description'] + "</li>";
-		line += "<li><input type=\"button\" name=\"Ver Informações\" value=\"Ver Informações\" class=\"ProductButton\" onclick=\"showAnimal(" + pet['id'].toString() + ")\"></li>";
-		line += "</ul>";
-		line += "</div>";
-	}
+function loadAnimais(){
+	db.pets.where("ownerId").equals(sessionUser['id']).toArray(function(pets){
+		let line = ""
+		for (let i=0; i<pets.length; i++){
+			pet = pets[i];
+			line += "<div class=\"Item\">";
+			line += "<ul class=\"Product\">";
+			line += "<li class=\"ProductImage\"><img src=\"" + pet['image'] + "\" alt=\"res/cachorro1.png\"></li>";
+			line += "<li class=\"ProductDescription\">" + pet['name'] + "</li>";
+			line += "<li class=\"ProductDescription\">" + pet['description'] + "</li>";
+			line += "<li><input type=\"button\" name=\"Ver Informações\" value=\"Ver Informações\" class=\"ProductButton\" onclick=\"showAnimal(" + pet['id'].toString() + ")\"></li>";
+			line += "</ul>";
+			line += "</div>";
+		}
 
-	$("#MainContent").html(line);
+		$("#MainContent").html(line);
+	});
 }
 
 async function loadCarrinho(){
-	line = "<table class=\"Carrinho\">";
-	line += "<tr>";
-	line += "<th>Foto</th>";
-	line += "<th>Produto</th>";
-	line += "<th>Quantidade</th>";
-	line += "<th>Remover</th>";
-	line += "</tr>";
+	let line = 	"<tr>"
+	line += "<th>Foto</th>"
+	line += "<th>Produto</th>"
+	line += "<th>Quantidade</th>"
+	line += "<th>Remover</th>"
+	line += "</tr>"
 	for (let id of carrinho.keys()){
 		let product = await db.products.get(id);
 		line += "<tr>"
@@ -196,12 +200,7 @@ async function loadCarrinho(){
 		line += "<td><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeCarrinho(" + id.toString() +")\"></td>";
 		line += "</tr>";
 	}
-	line += "</table>";
-	line += "<label for=\"cartao\" style=\"margin-left: 2%;\">Número do Cartão: </label>";
-	line += "<input type=\"text\" name=\"cartao\" id=\"cartao\" placeholder=\"1234-5678-1234-5678\" maxlength=\"16\" pattern=\"[0-9]{16}\" title=\"Credit Card Number\">";
-	line += "<br>";
-	line += "<input type=\"button\" style=\"margin-right: 3%; margin-left: 1%;\" name=\"Confirmar\" value=\"Confirmar Compra\" class=\"Button\"><input type=\"button\" name=\"Esvaziar\" value=\"Esvaziar Carrinho\" class=\"Button\">";
-	$("#Content").html(line);
+	$("#carrinho").html(line);
 }
 
 function loadUserData(){
@@ -212,96 +211,150 @@ function loadUserData(){
 	$("#usuario_user").val(sessionUser['username']);
 }
 
-async function loadProductData(id){
-	let product = await db.products.get(id);
-	$("#produto_nome").val(product['name']);
-	$("#produto_preco").val(product['price']);
-	$("#produto_estoque").val(product['inStock']);
-	$("#produto_desc").val(product['description']);
+function loadProductData(id){
+	db.products.get(id, function(product){
+		$("#produto_nome").val(product['name']);
+		$("#produto_preco").val(product['price']);
+		$("#produto_estoque").val(product['inStock']);
+		$("#produto_desc").val(product['description']);
+	});
 }
 
-async function loadServiceData(id){
-	let service = await db.services.get(id);
-	$("#servico_nome").val(service['name']);
-	$("#servico_preco").val(service['price']);
-	$("#servico_desc").val(service['description']);
+function loadServiceData(id){
+	db.services.get(id, function(service){
+		$("#servico_nome").val(service['name']);
+		$("#servico_preco").val(service['price']);
+		$("#servico_desc").val(service['description']);
+	});
 }
 
 function editProduto(id){
 	db.products.get(id, function(product){
-		db.products.put({
-			id: product['id'],
-			name: $("#produto_nome").val(),
-			image: $("#produto_foto").val(),
-			description: $("#produto_desc").val(),
-			price: $("#produto_preco").val(),
-			inStock: $("#produto_estoque").val(),
-			sold: product['sold']
-		});
+		reader.onloadend = function(){
+			db.products.put({
+				id: product['id'],
+				name: $("#produto_nome").val(),
+				image: reader.result,
+				description: $("#produto_desc").val(),
+				price: parseFloat($("#produto_preco").val()),
+				inStock: parseInt($("#produto_estoque").val()),
+				sold: product['sold']
+			}).then(function(){
 
-		alert("Produto alterado com sucesso.");
-		$("#MainContent").empty();
-		loadProdutos(1);
+				alert("Produto alterado com sucesso.");
+				$("#MainContent").empty();
+				loadProdutos(1);
+			});
+		};
+		reader.readAsDataURL($("#produto_foto").prop("files")[0]);
 	});
 }
 
 function editServico(id){
 	db.services.get(id, function(service){
-		db.services.put({
-			id: service['id'],
-			name: $("#servico_nome").val(),
-			image: $("#servico_foto").val(),
-			description: $("#servico_desc").val(),
-			price: $("#servico_preco").val()
-		});
+		reader.onloadend = function(){
+			db.services.put({
+				id: service['id'],
+				name: $("#servico_nome").val(),
+				image: reader.result,
+				description: $("#servico_desc").val(),
+				price: parseFloat($("#servico_preco").val())
+			}).then(function(){
 
-		alert("Serviço alterado com sucesso.");
-		$("#MainContent").empty();
-		loadServicos();
+				alert("Serviço alterado com sucesso.");
+				$("#MainContent").empty();
+				loadServicos();
+			});
+		}
+		reader.readAsDataURL($("#servico_foto").prop("files")[0]);
 	});
 }
 
-async function editUserData(){
-	db.clients.put({
-		id: sessionUser['id'],
-		name: $("#usuario_nome").val(),
-		addr: $("#usuario_endereco").val(),
-		image: $("#usuario_foto").val(),
-		tel: $("#usuario_tel").val(),
-		email: $("#usuario_email").val(),
-		username: $("#usuario_user").val(),
-		password: $("#usuario_password").val()
-	});
+function editUser(){
+	reader.onloadend = function(){
+		db.clients.put({
+			id: sessionUser['id'],
+			name: $("#usuario_nome").val(),
+			addr: $("#usuario_endereco").val(),
+			image: reader.result,
+			tel: $("#usuario_tel").val(),
+			email: $("#usuario_email").val(),
+			username: $("#usuario_user").val(),
+			password: $("#usuario_password").val()
+		}).then(function(){
 
-	alert("Cadastro alterado com sucesso.");
+			alert("Cadastro alterado com sucesso.");
+		});
+	}
+	reader.readAsDataURL($("#usuario_foto").prop("files")[0]);
 }
 
 async function addProduto(){
 	let id = parseInt(2147483648*Math.random());
 	while ((await db.products.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
 
-	let reader = new FileReader();
 	reader.onloadend = function(){
 		db.products.put({
 			id: id,
 			name: $("#produto_nome").val(),
 			image: reader.result,
 			description: $("#produto_desc").val(),
-			price: $("#produto_preco").val(),
-			inStock: $("#produto_estoque").val(),
+			price: parseFloat($("#produto_preco").val()),
+			inStock: parseInt($("#produto_estoque").val()),
 			sold: 0
-		});
+		}).then(function(){
 
-		alert("Produto adicionado com sucesso.");
+			alert("Produto adicionado com sucesso.");
+		});
 	}
 	reader.readAsDataURL($("#produto_foto").prop("files")[0]);
+}
+
+async function addServico(){
+	let id = parseInt(2147483648*Math.random());
+	while ((await db.services.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+	
+	reader.onloadend = function(){
+		db.services.put({
+			id: id,
+			name: $("#servico_nome").val(),
+			image: reader.result,
+			description: $("#servico_desc").val(),
+			price: parseFloat($("#servico_preco").val())
+		}).then(function(){
+
+			alert("Serviço adicionado com sucesso.");
+		});
+	}
+	reader.readAsDataURL($("#servico_foto").prop("files")[0]);
+}
+
+async function addUser(){
+	let id = parseInt(2147483648*Math.random());
+	while ((await db.clients.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+
+	reader.onloadend = function(){
+		db.clients.put({
+			id: id,
+			name: $("#usuario_nome").val(),
+			addr: $("#usuario_endereco").val(),
+			image: reader.result,
+			tel: $("#usuario_tel").val(),
+			email: $("#usuario_email").val(),
+			username: $("#usuario_user").val(),
+			password: $("#usuario_password").val()
+		}).then(function(){
+
+			alert("Usuário criado com sucesso.");
+		});
+	}
+	reader.readAsDataURL($("#usuario_foto").prop("files")[0]);
 }
 
 async function addAnimal(){
 	let id = parseInt(2147483648*Math.random());
 	while ((await db.pets.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
 
-	let reader = new FileReader();
 	reader.onloadend = function(){
 		db.pets.put({
 			id: id,
@@ -313,9 +366,10 @@ async function addAnimal(){
 			description: $("#animal_desc").val(),
 			notes: $("#animal_obs").val(),
 			ownerId: sessionUser['id']
-		});
+		}).then(function(){
 
-		alert("Animal adicionado com sucesso à sua lista de animais.");
+			alert("Animal adicionado com sucesso à sua lista de animais.");
+		});
 	}
 	reader.readAsDataURL($("#animal_foto").prop("files")[0]);
 }
@@ -324,7 +378,6 @@ async function addAdmin(){
 	let id = parseInt(2147483648*Math.random());
 	while ((await db.admins.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
 	
-	let reader = new FileReader();
 	reader.onloadend = function(){
 		db.admins.put({
 			id: id,
@@ -334,52 +387,12 @@ async function addAdmin(){
 			email: $("#admin_email").val(),
 			username: $("#admin_user").val(),
 			password: $("#admin_password").val()
-		});
+		}).then(function(){
 
-		alert("Usuário administrador criado com sucesso.");
+			alert("Usuário administrador criado com sucesso.");
+		});
 	}
 	reader.readAsDataURL($("#admin_foto").prop("files")[0]);
-}
-
-async function addUser(){
-	let id = parseInt(2147483648*Math.random());
-	while ((await db.clients.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
-	
-	let reader = new FileReader();
-	reader.onloadend = function(){
-		db.clients.put({
-			id: id,
-			name: $("#usuario_nome").val(),
-			addr: $("#usuario_endereco").val(),
-			image: reader.result,
-			tel: $("#usuario_tel").val(),
-			email: $("#usuario_email").val(),
-			username: $("#usuario_user").val(),
-			password: $("#usuario_password").val()
-		});
-
-		alert("Usuário criado com sucesso.");
-	}
-	reader.readAsDataURL($("#usuario_foto").prop("files")[0]);
-}
-
-async function addServico(){
-	let id = parseInt(2147483648*Math.random());
-	while ((await db.services.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
-	
-	let reader = new FileReader();
-	reader.onloadend = function(){
-		db.services.put({
-			id: id,
-			name: $("#servico_nome").val(),
-			image: reader.result,
-			description: $("#servico_desc").val(),
-			price: $("#servico_preco").val()
-		});
-
-		alert("Serviço adicionado com sucesso.");
-	}
-	reader.readAsDataURL($("#servico_foto").prop("files")[0]);
 }
 
 async function addAppointment(){
@@ -393,9 +406,10 @@ async function addAppointment(){
 		petId: parseInt($("#select_animal").val()),
 		day: $("#date").val(),
 		time: $("#Horarios input[name=time_schedule]:checked").val()
-	});
+	}).then(function(){
 
-	alert("Serviço agendado com sucesso.");
+		alert("Serviço agendado com sucesso.");
+	});
 	loadServicosHorarios();
 }
 
@@ -404,14 +418,21 @@ function addCarrinho(id){
 	else carrinho.set(id, carrinho.get(id) + parseInt($("#quantidade_"+id.toString()).val()));
 }
 
-async function removeProduto(id){
-	db.products.delete(id);
-	loadProdutos(1);
+function removeProduto(id){
+	db.products.delete(id).then(function(){
+		loadProdutos(1);
+	});
 }
 
-async function removeServico(id){
-	db.services.delete(id);
-	loadServicos();
+function removeServico(id){
+	db.services.delete(id).then(function(){
+		loadServicos();
+	});
+}
+
+function removeCarrinho(id){
+	carrinho.delete(id);
+	loadCarrinho();
 }
 
 function showAnimal(id){
@@ -441,7 +462,7 @@ function showEditProduto(id){
 		$("#submit_button").attr('onclick', "editProduto(" + id.toString() + ")");
 		$("#add_produto").append("<input type=\"button\" name=\"SubmitButton\" value=\"Cancelar\" class=\"Button\" onclick=\"loadProdutos(1);\">");
 		loadProductData(id);
-	};
+	});
 }
 
 
@@ -502,8 +523,9 @@ function changeUserPage(page){
 		});
 	}
 	else if (page === 4){
-		$("#Content").empty();
-		loadCarrinho();
+		$("#Content").load("src/usuario_carrinho.html", function(responseTxt, statusTxt, xhr){
+			loadCarrinho();
+		});
 	}
 }
 
