@@ -233,34 +233,47 @@ function loadServiceData(id){
 }
 
 function editProduto(id){
-	db.products.get(id, function(product){
-		reader.onloadend = function(){
-			db.products.put({
-				id: product['id'],
+	if($("#add_produto")[0].checkValidity() === false) alert("Dados Invalidos.");
+	else{
+		if($("#produto_foto").prop("files")[0] === undefined){
+			db.products.update(id, {
 				name: $("#produto_nome").val(),
-				image: reader.result,
 				description: $("#produto_desc").val(),
 				price: parseFloat($("#produto_preco").val()),
 				inStock: parseInt($("#produto_estoque").val()),
-				sold: product['sold']
 			}).then(function(){
 
 				$("#MainContent").empty();
 				loadProdutos(1);
 				alert("Produto alterado com sucesso.");
 			});
-		};
-		reader.readAsDataURL($("#produto_foto").prop("files")[0]);
-	});
+		}
+		else{
+			reader.onloadend = function(){
+				db.products.update(id, {
+					name: $("#produto_nome").val(),
+					image: reader.result,
+					description: $("#produto_desc").val(),
+					price: parseFloat($("#produto_preco").val()),
+					inStock: parseInt($("#produto_estoque").val()),
+				}).then(function(){
+
+					$("#MainContent").empty();
+					loadProdutos(1);
+					alert("Produto alterado com sucesso.");
+				});
+			};
+			reader.readAsDataURL($("#produto_foto").prop("files")[0]);
+		}
+	}
 }
 
 function editServico(id){
-	db.services.get(id, function(service){
-		reader.onloadend = function(){
-			db.services.put({
-				id: service['id'],
+	if($("#add_servico")[0].checkValidity() === false) alert("Dados Invalidos.");
+	else{
+		if($("#servico_foto").prop("files")[0] === undefined){
+			db.services.update(id, {
 				name: $("#servico_nome").val(),
-				image: reader.result,
 				description: $("#servico_desc").val(),
 				price: parseFloat($("#servico_preco").val())
 			}).then(function(){
@@ -270,19 +283,32 @@ function editServico(id){
 				alert("Serviço alterado com sucesso.");
 			});
 		}
-		reader.readAsDataURL($("#servico_foto").prop("files")[0]);
-	});
+		else{
+			reader.onloadend = function(){
+				db.services.update(id, {
+					name: $("#servico_nome").val(),
+					image: reader.result,
+					description: $("#servico_desc").val(),
+					price: parseFloat($("#servico_preco").val())
+				}).then(function(){
+
+					$("#MainContent").empty();
+					loadServicos();
+					alert("Serviço alterado com sucesso.");
+				});
+			}
+			reader.readAsDataURL($("#servico_foto").prop("files")[0]);
+		}
+	}
 }
 
 function editUser(){
 	if($("#usuario_cadastro")[0].checkValidity() === false) alert("Dados Invalidos.");
 	else{
 		if($("#usuario_foto").prop("files")[0] === undefined){
-			db.clients.put({
-			id: sessionUser['id'],
+			db.clients.update(sessionUser['id'], {
 			name: $("#usuario_nome").val(),
 			addr: $("#usuario_endereco").val(),
-			image: sessionUser['image'],
 			tel: $("#usuario_tel").val(),
 			email: $("#usuario_email").val(),
 			username: $("#usuario_user").val(),
@@ -302,8 +328,7 @@ function editUser(){
 		}
 		else{
 			reader.onloadend = function(){
-				db.clients.put({
-					id: sessionUser['id'],
+				db.clients.update(sessionUser['id'], {
 					name: $("#usuario_nome").val(),
 					addr: $("#usuario_endereco").val(),
 					image: reader.result,
