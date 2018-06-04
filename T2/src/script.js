@@ -82,29 +82,29 @@ a partir do banco de dados
 
 function loadProdutos(page){
 	db.products.toArray(function(products){
-	let line = "";
-	for (let i=0; i<products.length; i++){
-		let product = products[i];
-		line += "<div class=\"Item\">";
-		line += "<ul class=\"Product\">";
-		line += "<li class=\"ProductImage\"><img src=\"" + product['image'] + "\" alt=\"res/blank.png\"></img></li>";
-		line += "<li class=\"ProductDescription\">" + product['name'] + "</li>";
-		line += "<li class=\"ProductDescription\">" + product['description'] + "</li>";
-		line += "<li class=\"ProductDescription\">R$ " + product['price'] + "</li>";
-		if (page === 0){
-			line += "<li class=\"ProductValue\">Quantidade: <input id=\"quantidade_" + product['id'].toString() + "\" type=\"number\" name=\"Quantidade\" value=\"Quantidade\"></input></li>";
-			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(" + product['id'].toString() + ")\"></input></li>";
+		let line = "";
+		for (let i=0; i<products.length; i++){
+			let product = products[i];
+			line += "<div class=\"Item\">";
+			line += "<ul class=\"Product\">";
+			line += "<li class=\"ProductImage\"><img src=\"" + product['image'] + "\" alt=\"res/blank.png\"></img></li>";
+			line += "<li class=\"ProductDescription\">" + product['name'] + "</li>";
+			line += "<li class=\"ProductDescription\">" + product['description'] + "</li>";
+			line += "<li class=\"ProductDescription\">R$ " + product['price'] + "</li>";
+			if (page === 0){
+				line += "<li class=\"ProductValue\">Quantidade: <input id=\"quantidade_" + product['id'].toString() + "\" type=\"number\" name=\"Quantidade\" value=\"Quantidade\"></input></li>";
+				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(" + product['id'].toString() + ")\"></input></li>";
+			}
+			else{
+				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"showEditProduto(" + product['id'].toString() + ")\"></input></li>";
+				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeProduto(" + product['id'].toString() + ")\"></input></li>";
+			}
+			line += "</ul>";
+			line += "</div>";
 		}
-		else{
-			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"editProduto(" + product['id'].toString() + ")\"></input></li>";
-			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeProduto(" + product['id'].toString() + ")\"></input></li>";
-		}
-		line += "</ul>";
-		line += "</div>";
-	}
 
-	if (page==0) $("#Content").html(line);
-	else $("#MainContent").html(line);
+		if (page==0) $("#Content").html(line);
+		else $("#MainContent").html(line);
 	});
 }
 
@@ -126,69 +126,6 @@ function loadServicos(){
 	}
 
 	$("#MainContent").html(line);
-	});
-}
-
-function loadUserData(){
-	$("#usuario_nome").val(sessionUser['name']);
-	$("#usuario_endereco").val(sessionUser['addr']);
-	$("#usuario_tel").val(sessionUser['tel']);
-	$("#usuario_email").val(sessionUser['email']);
-	$("#usuario_user").val(sessionUser['username']);
-}
-
-async function loadProductData(id){
-	let product = await db.products.get(id);
-	$("#produto_nome").val(product['name']);
-	$("#produto_preco").val(product['price']);
-	$("#produto_estoque").val(product['inStock']);
-	$("#produto_desc").val(product['description']);
-}
-
-function editProduto(id){
-	$("#MainContent").load("src/admin_produtos_editar.html");
-	$("#submit_button").attr('onclick', "editProductData(" + id.toString() + ")");
-	loadProductData(id);
-	document.getElementById('edit').style.display='block';
-}
-
-async function editProductData(id){
-	let product = await db.products.get(parseInt(id));
-	db.products.put({
-		id: product['id'],
-		name: $("#produto_nome").val(),
-		image: $("#produto_foto").val(),
-		description: $("#produto_desc").val(),
-		price: $("#produto_preco").val(),
-		inStock: $("#produto_estoque").val(),
-		sold: product['sold']
-	});
-
-	alert("Produto alterado com sucesso.");
-	$("#MainContent").empty();
-	loadProdutos(1);
-}
-
-async function loadServiceData(id){
-	let service = await db.services.get(id);
-	$("#servico_nome").val(service['name']);
-	$("#servico_preco").val(service['price']);
-	$("#servico_desc").val(service['description']);
-}
-
-function editServico(id){
-	db.services.get(id, function(service){
-	db.services.put({
-		id: service['id'],
-		name: $("#servico_nome").val(),
-		image: $("#servico_foto").val(),
-		description: $("#servico_desc").val(),
-		price: $("#servico_preco").val()
-	});
-
-	alert("Serviço alterado com sucesso.");
-	$("#MainContent").empty();
-	loadServicos();
 	});
 }
 
@@ -265,6 +202,63 @@ async function loadCarrinho(){
 	line += "<br>";
 	line += "<input type=\"button\" style=\"margin-right: 3%; margin-left: 1%;\" name=\"Confirmar\" value=\"Confirmar Compra\" class=\"Button\"><input type=\"button\" name=\"Esvaziar\" value=\"Esvaziar Carrinho\" class=\"Button\">";
 	$("#Content").html(line);
+}
+
+function loadUserData(){
+	$("#usuario_nome").val(sessionUser['name']);
+	$("#usuario_endereco").val(sessionUser['addr']);
+	$("#usuario_tel").val(sessionUser['tel']);
+	$("#usuario_email").val(sessionUser['email']);
+	$("#usuario_user").val(sessionUser['username']);
+}
+
+async function loadProductData(id){
+	let product = await db.products.get(id);
+	$("#produto_nome").val(product['name']);
+	$("#produto_preco").val(product['price']);
+	$("#produto_estoque").val(product['inStock']);
+	$("#produto_desc").val(product['description']);
+}
+
+async function loadServiceData(id){
+	let service = await db.services.get(id);
+	$("#servico_nome").val(service['name']);
+	$("#servico_preco").val(service['price']);
+	$("#servico_desc").val(service['description']);
+}
+
+function editProduto(id){
+	db.products.get(id, function(product){
+		db.products.put({
+			id: product['id'],
+			name: $("#produto_nome").val(),
+			image: $("#produto_foto").val(),
+			description: $("#produto_desc").val(),
+			price: $("#produto_preco").val(),
+			inStock: $("#produto_estoque").val(),
+			sold: product['sold']
+		});
+
+		alert("Produto alterado com sucesso.");
+		$("#MainContent").empty();
+		loadProdutos(1);
+	});
+}
+
+function editServico(id){
+	db.services.get(id, function(service){
+		db.services.put({
+			id: service['id'],
+			name: $("#servico_nome").val(),
+			image: $("#servico_foto").val(),
+			description: $("#servico_desc").val(),
+			price: $("#servico_preco").val()
+		});
+
+		alert("Serviço alterado com sucesso.");
+		$("#MainContent").empty();
+		loadServicos();
+	});
 }
 
 async function editUserData(){
@@ -436,10 +430,18 @@ function showAnimal(id){
 
 function showEditServico(id){
 	$("#MainContent").load("src/admin_servicos_adicionar.html", function(responseTxt, statusTxt, xhr){
-	$("#submit_button").attr('onclick', "editServico(" + id.toString() + ")");
-	$("#add_servico").append("<input type=\"button\" name=\"SubmitButton\" value=\"Cancelar\" class=\"Button\" onclick=\"loadServicos();\">")
-	loadServiceData(id);
+		$("#submit_button").attr('onclick', "editServico(" + id.toString() + ")");
+		$("#add_servico").append("<input type=\"button\" name=\"SubmitButton\" value=\"Cancelar\" class=\"Button\" onclick=\"loadServicos();\">");
+		loadServiceData(id);
 	});
+}
+
+function showEditProduto(id){
+	$("#MainContent").load("src/admin_produtos_adicionar.html", function(responseTxt, statusTxt, xhr){
+		$("#submit_button").attr('onclick', "editProduto(" + id.toString() + ")");
+		$("#add_produto").append("<input type=\"button\" name=\"SubmitButton\" value=\"Cancelar\" class=\"Button\" onclick=\"loadProdutos(1);\">");
+		loadProductData(id);
+	};
 }
 
 
