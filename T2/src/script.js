@@ -209,6 +209,7 @@ function loadUserData(){
 	$("#usuario_tel").val(sessionUser['tel']);
 	$("#usuario_email").val(sessionUser['email']);
 	$("#usuario_user").val(sessionUser['username']);
+	$("#usuario_password").val(sessionUser['password']);
 }
 
 function loadProductData(id){
@@ -241,9 +242,9 @@ function editProduto(id){
 				sold: product['sold']
 			}).then(function(){
 
-				alert("Produto alterado com sucesso.");
 				$("#MainContent").empty();
 				loadProdutos(1);
+				alert("Produto alterado com sucesso.");
 			});
 		};
 		reader.readAsDataURL($("#produto_foto").prop("files")[0]);
@@ -261,9 +262,9 @@ function editServico(id){
 				price: parseFloat($("#servico_preco").val())
 			}).then(function(){
 
-				alert("Serviço alterado com sucesso.");
 				$("#MainContent").empty();
 				loadServicos();
+				alert("Serviço alterado com sucesso.");
 			});
 		}
 		reader.readAsDataURL($("#servico_foto").prop("files")[0]);
@@ -271,22 +272,55 @@ function editServico(id){
 }
 
 function editUser(){
-	reader.onloadend = function(){
+	if($("#usuario_foto").prop("files")[0] === undefined){
 		db.clients.put({
-			id: sessionUser['id'],
-			name: $("#usuario_nome").val(),
-			addr: $("#usuario_endereco").val(),
-			image: reader.result,
-			tel: $("#usuario_tel").val(),
-			email: $("#usuario_email").val(),
-			username: $("#usuario_user").val(),
-			password: $("#usuario_password").val()
+		id: sessionUser['id'],
+		name: $("#usuario_nome").val(),
+		addr: $("#usuario_endereco").val(),
+		image: sessionUser['image'],
+		tel: $("#usuario_tel").val(),
+		email: $("#usuario_email").val(),
+		username: $("#usuario_user").val(),
+		password: $("#usuario_password").val()
 		}).then(function(){
 
 			alert("Cadastro alterado com sucesso.");
 		});
+
+		sessionUser['name'] = $("#usuario_nome").val();
+		sessionUser['addr'] = $("#usuario_endereco").val();
+		sessionUser['image'] = sessionUser['image'];
+		sessionUser['tel'] = $("#usuario_tel").val();
+		sessionUser['email'] = $("#usuario_email").val();
+		sessionUser['username'] = $("#usuario_user").val();
+		sessionUser['password'] = $("#usuario_password").val();
 	}
-	reader.readAsDataURL($("#usuario_foto").prop("files")[0]);
+	else{
+		reader.onloadend = function(){
+			db.clients.put({
+				id: sessionUser['id'],
+				name: $("#usuario_nome").val(),
+				addr: $("#usuario_endereco").val(),
+				image: reader.result,
+				tel: $("#usuario_tel").val(),
+				email: $("#usuario_email").val(),
+				username: $("#usuario_user").val(),
+				password: $("#usuario_password").val()
+			}).then(function(){
+				
+				alert("Cadastro alterado com sucesso.");
+			});
+
+			sessionUser['name'] = $("#usuario_nome").val();
+			sessionUser['addr'] = $("#usuario_endereco").val();
+			sessionUser['image'] = reader.result;
+			sessionUser['tel'] = $("#usuario_tel").val();
+			sessionUser['email'] = $("#usuario_email").val();
+			sessionUser['username'] = $("#usuario_user").val();
+			sessionUser['password'] = $("#usuario_password").val();
+		}
+		reader.readAsDataURL($("#usuario_foto").prop("files")[0]);
+	}
 }
 
 async function addProduto(){
@@ -416,6 +450,8 @@ async function addAppointment(){
 function addCarrinho(id){
 	if (carrinho.get(id) === undefined) carrinho.set(id, parseInt($("#quantidade_"+id.toString()).val()));
 	else carrinho.set(id, carrinho.get(id) + parseInt($("#quantidade_"+id.toString()).val()));
+
+	alert("Produtos adicionados ao carrinho com sucesso.");
 }
 
 function removeProduto(id){
@@ -463,6 +499,17 @@ function showEditProduto(id){
 		$("#add_produto").append("<input type=\"button\" name=\"SubmitButton\" value=\"Cancelar\" class=\"Button\" onclick=\"loadProdutos(1);\">");
 		loadProductData(id);
 	});
+}
+
+function confirmSale(){
+	for (let id of carrinho.keys()) carrinho.delete(id);
+	loadCarrinho();
+	alert("Compra finalizada com sucesso.");
+}
+
+function cancelSale(){
+	for (let id of carrinho.keys()) carrinho.delete(id);
+	loadCarrinho();
 }
 
 
