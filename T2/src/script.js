@@ -91,10 +91,10 @@ async function loadProdutos(page){
 		line += "<li class=\"ProductImage\"><img src=\"" + product['image'] + "\" alt=\"res/areia_gato.png\"></img></li>";
 		line += "<li class=\"ProductDescription\">" + product['name'] + "</li>";
 		line += "<li class=\"ProductDescription\">" + product['description'] + "</li>";
-		line += "<li class=\"ProductValue\">R$ " + product['price'] + "</li>";
+		line += "<li class=\"ProductDescription\">R$ " + product['price'] + "</li>";
 		if (page === 0){
 			line += "<li class=\"ProductValue\">Quantidade: <input id=\"quantidade_" + product['id'].toString() + "\" type=\"number\" name=\"Quantidade\" value=\"Quantidade\"></input></li>";
-			line += "<li><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(" + product['id'].toString() + ")\"></input></li>";
+			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(" + product['id'].toString() + ")\"></input></li>";
 		}
 		else{
 			line += "<li><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"editProduto(" + product['id'].toString() + ")\"></input></li>";
