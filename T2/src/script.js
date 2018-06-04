@@ -10,7 +10,9 @@ db.version(1).stores({
 	pets: "id, name, image, species, breed, age, description, notes, ownerId",
 	products: "id, name, image, description, price, inStock, sold",
 	services: "id, name, image, description, price",
-	appointments: "id, serviceId, userId, petId, day, time"
+	appointments: "id, serviceId, userId, petId, day, time",
+	productsSales: "id, productId, productName, productPrice, quantity, total",
+	servicesSales: "id, serviceId, serviceName, servicePrice"
 });
 db.open();
 insertInitialAdmin();
@@ -490,10 +492,41 @@ async function addAppointment(){
 			time: $("#Horarios input[name=time_schedule]:checked").val()
 		}).then(function(){
 
+			addServiceSale(parseInt($("#select_servico").val()));
 			alert("Serviço agendado com sucesso.");
 		});
 		loadServicosHorarios();
 	}
+}
+
+async function addProductSale(productId, productQuantity){
+	let id = parseInt(2147483648*Math.random());
+	while ((await db.productsSales.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+
+	db.products.get(productId, function(product){
+		db.productsSales.put({
+			id: id,
+			productId: productId,
+			productName: product['name'],
+			productPrice: product['price'],
+			quantity: productQuantity,
+			total: productQuantity *  product['price']
+		});
+	});
+}
+
+async function addServiceSale(serviceId){
+	let id = parseInt(2147483648*Math.random());
+	while ((await db.servicesSales.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+
+	db.services.get(serviceId, function(service){
+		db.servicesSales.put({
+			id: id,
+			serviceId: serviceId,
+			serviceName: service['name'],
+			servicePrice: service['price'],
+		});
+	});
 }
 
 function addCarrinho(id){
@@ -550,10 +583,41 @@ function showEditProduto(id){
 	});
 }
 
+function showLucros(){
+	db.productsSales.toArray(function(sales){
+		let line = "Produto\t\tQuantidade\t\tValor\n\n";
+		let tot = 0;
+		for (let i=0; i<sales.length; i++){
+			sale = sales[i];
+			tot +=  sale['total'];
+			line += sale['productName'] + "\t\t" + sale['quantity'].toString() + "\t\t\t" + sale['total'].toString() + "\n";
+		}
+		line += "------------------------------------------------\n";
+		line += "Total:\t\t\t\t\t" + tot.toString() + "\n";
+		$("#lucro_produtos").html(line);
+	});
+
+	db.servicesSales.toArray(function(sales){
+		let line = "Serviço\t\t\t\t\tValor\n\n";
+		let tot = 0;
+		for (let i=0; i<sales.length; i++){
+			sale = sales[i];
+			tot +=  sale['servicePrice'];
+			line += sale['serviceName'] + "\t\t\t\t\t" + sale['servicePrice'].toString() + "\n";
+		}
+		line += "------------------------------------------------\n";
+		line += "Total:\t\t\t\t\t" + tot.toString() + "\n";
+		$("#lucro_servicos").html(line);
+	});
+}
+
 function confirmSale(){
 	if($("#cartao")[0].checkValidity() === false) alert("Dados Invalidos.");
 	else{
-		for (let id of carrinho.keys()) carrinho.delete(id);
+		for (let id of carrinho.keys()){
+			addProductSale(id, carrinho.get(id));
+			carrinho.delete(id);
+		}
 		loadCarrinho();
 		alert("Compra finalizada com sucesso.");
 	}
@@ -646,7 +710,9 @@ function changeAdminPage(page){
 		});
 	}
 	else if (page === 3){
-		$("#Content").load("src/admin_lucros.html");
+		$("#Content").load("src/admin_lucros.html", function(responseTxt, statusTxt, xhr){
+			showLucros();
+		});
 	}
 }
 
