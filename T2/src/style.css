@@ -74,31 +74,31 @@ body{
 	width: 84%;
 }
 
-.CadastroForm{
+.CadastroForm, .InfoForm{
 	margin: 0 auto;
 	width: 800px;
 	font-size: 20px;
 }
 
-.CadastroForm label{
+.CadastroForm label, .edit-content label, .InfoForm label{
 	margin-top: 30px;
 	display: inline-block;
 	width: 200px;
 	text-align: right;
 }
 
-.CadastroForm input{
+.CadastroForm input, .edit-content input{
 	margin-top: 30px;
 	font: 1em sans-serif;
 	width: 500px;
 	resize:  none;
 }
 
-.CadastroForm input[type="button"] {
+.CadastroForm input[type="button"], .edit-content input[type="button"]{
 	margin-left: 200px;
 }
 
-.CadastroForm textarea{
+.CadastroForm textarea, .edit-content textarea{
 	margin-top: 30px;
 	font: 1em sans-serif;
 	width: 500px;
@@ -271,7 +271,7 @@ body{
 .TimeLabel{
 	font-size: 22px;
 }
-
+/*
 .InfoForm{
 	margin-left: 20%;
 	margin-right: 20%;
@@ -282,10 +282,50 @@ body{
 	margin-left: 0%;
 	margin-right: 0%;
 	float: left;
-}
+}*/
 
 .InfoForm h3{
-	margin-left: 0%;
-	margin-right: 0%;
-	float: right;
+	margin-top: 30px;
+	font: 1em sans-serif;
+	width: 250px;
+}
+
+.container{
+	padding: 16px;
+}
+
+.edit{
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 60%;
+	height: 60%;
+	overflow: auto;
+	background-color: rgb(0,0,0);
+	background-color: rgba(0,0,0,0.4);
+	padding-top: 60px;
+}
+
+.edit-content{
+	background-color: #fefefe;
+	margin: 5% auto 15% auto;
+	border: 1px solid #888;
+	width: 60%;
+}
+
+.animate{
+	-webkit-animation: animatezoom 0.6s;
+	animation: animatezoom 0.6s;
+}
+
+@-webkit-keyframes animatezoom{
+	from {-webkit-transform: scale(0)} 
+	to {-webkit-transform: scale(1)}
+}
+    
+@keyframes animatezoom{
+	from {transform: scale(0)} 
+	to {transform: scale(1)}
 }

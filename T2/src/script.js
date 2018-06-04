@@ -16,6 +16,7 @@ db.open();
 insertInitialAdmin();
 insertInitialUser();
 var sessionUser = undefined;
+var editableID = undefined;
 
 
 
@@ -132,6 +133,69 @@ function loadUserData(){
 	$("#usuario_tel").val(sessionUser['tel']);
 	$("#usuario_email").val(sessionUser['email']);
 	$("#usuario_user").val(sessionUser['username']);
+}
+
+async function loadProductData(id){
+	let product = await db.products.get(id);
+	$("#produto_nome").val(product['name']);
+	$("#produto_preco").val(product['price']);
+	$("#produto_estoque").val(product['inStock']);
+	$("#produto_desc").val(product['description']);
+}
+
+function editProduto(id){
+	editableID = id;
+	$("#MainContent").load("src/produtos_editar.html");
+	loadProductData(id);
+	document.getElementById('edit').style.display='block';
+}
+
+async function editProductData(){
+	let product = await db.products.get(editableID);
+	db.products.put({
+		id: product['id'],
+		name: $("#produto_nome").val(),
+		image: $("#produto_foto").val(),
+		description: $("#produto_desc").val(),
+		price: $("#produto_preco").val(),
+		inStock: $("#produto_estoque").val(),
+		sold: product['sold']
+	});
+
+	alert("Produto alterado com sucesso.");
+	editableID = undefined;
+	$("#MainContent").empty();
+	loadProdutos(1);
+}
+
+async function loadServiceData(id){
+	let service = await db.services.get(id);
+	$("#servico_nome").val(service['name']);
+	$("#servico_preco").val(service['price']);
+	$("#servico_desc").val(service['description']);
+}
+
+function editServico(id){
+	editableID = id;
+	$("#MainContent").load("src/servicos_editar.html");
+	loadServiceData(id);
+	document.getElementById('edit').style.display='block';
+}
+
+async function editServiceData(){
+	let service = await db.services.get(editableID);
+	db.services.put({
+		id: service['id'],
+		name: $("#servico_nome").val(),
+		image: $("#servico_foto").val(),
+		description: $("#servico_desc").val(),
+		price: $("#servico_preco").val()
+	});
+
+	alert("Serviço alterado com sucesso.");
+	editableID = undefined;
+	$("#MainContent").empty();
+	loadServicos(1);
 }
 
 async function loadServicosOptions(){
