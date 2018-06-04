@@ -362,7 +362,7 @@ async function addAnimal(){
 			image: reader.result,
 			species: $("#animal_especie").val(),
 			breed: $("#animal_raca").val(),
-			age: $("#animal_idade").val(),
+			age: parseInt($("#animal_idade").val()),
 			description: $("#animal_desc").val(),
 			notes: $("#animal_obs").val(),
 			ownerId: sessionUser['id']
@@ -437,15 +437,15 @@ function removeCarrinho(id){
 
 function showAnimal(id){
 	db.pets.get(parseInt(id), function(pet){
-	$("#MainContent").load("src/usuario_animais_info.html", function(responseTxt, statusTxt, xhr){
-		$("#info_img").attr('src', pet['image']);
-		$("#info_name").html(pet['name']);
-		$("#info_esp").html(pet['species']);
-		$("#info_raca").html(pet['breed']);
-		$("#info_ida").html(pet['age']);
-		$("#info_desc").html(pet['description']);
-		$("#info_obs").html(pet['notes']);
-	});
+		$("#MainContent").load("src/usuario_animais_info.html", function(responseTxt, statusTxt, xhr){
+			$("#info_img").attr('src', pet['image']);
+			$("#info_name").html(pet['name']);
+			$("#info_esp").html(pet['species']);
+			$("#info_raca").html(pet['breed']);
+			$("#info_ida").html(pet['age'].toString());
+			$("#info_desc").html(pet['description']);
+			$("#info_obs").html(pet['notes']);
+		});
 	});
 }
 
@@ -470,34 +470,38 @@ function showEditProduto(id){
 Funcoes para a mudanca
 de paginas na SPA
 */
-async function login_out(in_out){
+function login_out(in_out){
 	if (in_out === 0){
 		let username = $("#User").val();
 		let password = $("#Password").val();
 
-		let user = await db.clients.get({username: username});
-		if (user !== undefined && user['password'] === password){
-			$("#Top").load("src/logged_top.html");
-			$("#Menu").load("src/usuario_menu.html");
-			sessionUser = user;
-			$("#Content").empty();
-			loadProdutos(0);
-		}
-		else{
-			user = await db.admins.get({username: username});
+		db.clients.get({username: username}, function(user){
 			if (user !== undefined && user['password'] === password){
 				$("#Top").load("src/logged_top.html");
-				$("#Menu").load("src/admin_menu.html");
+				$("#Menu").load("src/usuario_menu.html");
+				$("#Content").empty();
+				loadProdutos(0);
 				sessionUser = user;
-				jQuery.ajaxSetup({async:false});
-				$("#Content").load("src/admin_cadastro.html");
-				$("#MainContent").load("src/admin_cadastro_cliente.html");
-				jQuery.ajaxSetup({async:true});
 			}
-			else alert("Usuário ou Senha inválidos");
-		}
+			else{
+				db.admins.get({username: username}, function(adm){
+					if (user !== undefined && user['password'] === password){
+						$("#Top").load("src/logged_top.html");
+						$("#Menu").load("src/admin_menu.html");
+						$("#Content").load("src/admin_cadastro.html", function(responseTxt, statusTxt, xhr){
+							$("#MainContent").load("src/admin_cadastro_cliente.html");
+						});
+						sessionUser = adm;
+					}
+					else alert("Usuário ou Senha inválidos");
+				});
+			}
+		});
 	}
-	else $("body").load("index.html");
+	else{
+		$("body").load("index.html");
+		sessionUser = undefined;
+	}
 }
 
 function changeUserPage(page){
@@ -507,19 +511,19 @@ function changeUserPage(page){
 	}
 	else if (page === 1){
 		$("#Content").load("src/usuario_servicos.html", function(responseTxt, statusTxt, xhr){
-		loadServicosOptions();
-		loadServicosHorarios();
+			loadServicosOptions();
+			loadServicosHorarios();
 		});
 	}
 	else if (page === 2){
 		$("#Content").load("src/usuario_cadastro.html", function(responseTxt, statusTxt, xhr){
-		loadUserData();
+			loadUserData();
 		});
 	}
 	else if (page === 3){
 		$("#Content").load("src/usuario_animais.html", function(responseTxt, statusTxt, xhr){
-		$("#MainContent").empty();
-		loadAnimais();
+			$("#MainContent").empty();
+			loadAnimais();
 		});
 	}
 	else if (page === 4){
@@ -531,22 +535,19 @@ function changeUserPage(page){
 
 function changeAdminPage(page){
 	if (page === 0){
-		jQuery.ajaxSetup({async:false});
-		$("#Content").load("src/admin_cadastro.html");
-		$("#MainContent").load("src/admin_cadastro_cliente.html");
-		jQuery.ajaxSetup({async:true});
+		$("#Content").load("src/admin_cadastro.html", function(responseTxt, statusTxt, xhr){
+			$("#MainContent").load("src/admin_cadastro_cliente.html");
+		});
 	}
 	else if (page === 1){
-		jQuery.ajaxSetup({async:false});
-		$("#Content").load("src/admin_produtos.html");
-		$("#MainContent").load("src/admin_produtos_adicionar.html");
-		jQuery.ajaxSetup({async:true});
+		$("#Content").load("src/admin_produtos.html", function(responseTxt, statusTxt, xhr){
+			$("#MainContent").load("src/admin_produtos_adicionar.html");
+		});
 	}
 	else if (page === 2){
-		jQuery.ajaxSetup({async:false});
-		$("#Content").load("src/admin_servicos.html");
-		$("#MainContent").load("src/admin_servicos_adicionar.html");
-		jQuery.ajaxSetup({async:true});
+		$("#Content").load("src/admin_servicos.html", function(responseTxt, statusTxt, xhr){
+			$("#MainContent").load("src/admin_servicos_adicionar.html");
+		});
 	}
 	else if (page === 3){
 		$("#Content").load("src/admin_lucros.html");
@@ -558,24 +559,16 @@ function animaisSidebar(page){
 		$("#MainContent").empty();
 		loadAnimais();
 	}
-	else{
-		$("#MainContent").load("src/usuario_animais_cadastro.html");
-	}
+	else $("#MainContent").load("src/usuario_animais_cadastro.html");
 }
 
 function adminCadastroSidebar(page){
-	if (page === 0){
-		$("#MainContent").load("src/admin_cadastro_cliente.html");
-	}
-	else{
-		$("#MainContent").load("src/admin_cadastro_admin.html");
-	}
+	if (page === 0) $("#MainContent").load("src/admin_cadastro_cliente.html");
+	else $("#MainContent").load("src/admin_cadastro_admin.html");
 }
 
 function adminProdutosSidebar(page){
-	if (page === 0){
-		$("#MainContent").load("src/admin_produtos_adicionar.html");
-	}
+	if (page === 0) $("#MainContent").load("src/admin_produtos_adicionar.html");
 	else{
 		$("#MainContent").empty();
 		loadProdutos(1);
@@ -583,9 +576,7 @@ function adminProdutosSidebar(page){
 }
 
 function adminServicosSidebar(page){
-	if (page === 0){
-		$("#MainContent").load("src/admin_servicos_adicionar.html");
-	}
+	if (page === 0) $("#MainContent").load("src/admin_servicos_adicionar.html");
 	else{
 		$("#MainContent").empty();
 		loadServicos();
