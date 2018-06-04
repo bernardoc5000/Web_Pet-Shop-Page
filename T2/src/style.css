@@ -39,6 +39,8 @@ body{
 
 #Content{
 	height: 89%;
+	overflow-x: hidden;
+	overflow-y: scroll;
 }
 
 #Sidebar{
@@ -134,7 +136,7 @@ body{
 
 .ProductImage img{
 	width: 100%;
-	height: 100%;
+	height: auto;
 }
 
 .ProductDescription{

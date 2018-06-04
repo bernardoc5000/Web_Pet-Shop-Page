@@ -2,7 +2,7 @@
 Inicializacao e abertura do
 banco de dados
 */
-//Dexie.delete("petshop_database");
+Dexie.delete("petshop_database");
 var db = new Dexie("petshop_database");
 db.version(1).stores({
 	admins: "id, name, image, tel, email, username, password",
@@ -267,86 +267,106 @@ async function addProduto(){
 	let id = parseInt(2147483648*Math.random());
 	while ((await db.products.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
 
-	db.products.put({
-		id: id,
-		name: $("#produto_nome").val(),
-		image: $("#produto_foto").val(),
-		description: $("#produto_desc").val(),
-		price: $("#produto_preco").val(),
-		inStock: $("#produto_estoque").val(),
-		sold: 0
-	});
+	let reader = new FileReader();
+	reader.onloadend = function(){
+		db.products.put({
+			id: id,
+			name: $("#produto_nome").val(),
+			image: reader.result,
+			description: $("#produto_desc").val(),
+			price: $("#produto_preco").val(),
+			inStock: $("#produto_estoque").val(),
+			sold: 0
+		});
 
-	alert("Produto adicionado com sucesso.");
+		alert("Produto adicionado com sucesso.");
+	}
+	reader.readAsDataURL($("#produto_foto").prop("files")[0]);
 }
 
 async function addAnimal(){
 	let id = parseInt(2147483648*Math.random());
 	while ((await db.pets.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
 
-	db.pets.put({
-		id: id,
-		name: $("#animal_nome").val(),
-		image: $("#animal_foto").val(),
-		species: $("#animal_especie").val(),
-		breed: $("#animal_raca").val(),
-		age: $("#animal_idade").val(),
-		description: $("#animal_desc").val(),
-		notes: $("#animal_obs").val(),
-		ownerId: sessionUser['id']
-	});
+	let reader = new FileReader();
+	reader.onloadend = function(){
+		db.pets.put({
+			id: id,
+			name: $("#animal_nome").val(),
+			image: reader.result,
+			species: $("#animal_especie").val(),
+			breed: $("#animal_raca").val(),
+			age: $("#animal_idade").val(),
+			description: $("#animal_desc").val(),
+			notes: $("#animal_obs").val(),
+			ownerId: sessionUser['id']
+		});
 
-	alert("Animal adicionado com sucesso à sua lista de animais.");
+		alert("Animal adicionado com sucesso à sua lista de animais.");
+	}
+	reader.readAsDataURL($("#animal_foto").prop("files")[0]);
 }
 
 async function addAdmin(){
 	let id = parseInt(2147483648*Math.random());
 	while ((await db.admins.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
 	
-	db.admins.put({
-		id: id,
-		name: $("#admin_nome").val(),
-		image: $("#admin_foto").val(),
-		tel: $("#admin_tel").val(),
-		email: $("#admin_email").val(),
-		username: $("#admin_user").val(),
-		password: $("#admin_password").val()
-	});
+	let reader = new FileReader();
+	reader.onloadend = function(){
+		db.admins.put({
+			id: id,
+			name: $("#admin_nome").val(),
+			image: reader.result,
+			tel: $("#admin_tel").val(),
+			email: $("#admin_email").val(),
+			username: $("#admin_user").val(),
+			password: $("#admin_password").val()
+		});
 
-	alert("Usuário administrador criado com sucesso.");
+		alert("Usuário administrador criado com sucesso.");
+	}
+	reader.readAsDataURL($("#admin_foto").prop("files")[0]);
 }
 
 async function addUser(){
 	let id = parseInt(2147483648*Math.random());
 	while ((await db.clients.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
 	
-	db.clients.put({
-		id: id,
-		name: $("#usuario_nome").val(),
-		addr: $("#usuario_endereco").val(),
-		image: $("#usuario_foto").val(),
-		tel: $("#usuario_tel").val(),
-		email: $("#usuario_email").val(),
-		username: $("#usuario_user").val(),
-		password: $("#usuario_password").val()
-	});
+	let reader = new FileReader();
+	reader.onloadend = function(){
+		db.clients.put({
+			id: id,
+			name: $("#usuario_nome").val(),
+			addr: $("#usuario_endereco").val(),
+			image: reader.result,
+			tel: $("#usuario_tel").val(),
+			email: $("#usuario_email").val(),
+			username: $("#usuario_user").val(),
+			password: $("#usuario_password").val()
+		});
 
-	alert("Usuário criado com sucesso.");
+		alert("Usuário criado com sucesso.");
+	}
+	reader.readAsDataURL($("#usuario_foto").prop("files")[0]);
 }
 
 async function addServico(){
 	let id = parseInt(2147483648*Math.random());
 	while ((await db.services.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
 	
-	db.services.put({
-		id: id,
-		name: $("#servico_nome").val(),
-		image: $("#servico_foto").val(),
-		description: $("#servico_desc").val(),
-		price: $("#servico_preco").val()
-	});
+	let reader = new FileReader();
+	reader.onloadend = function(){
+		db.services.put({
+			id: id,
+			name: $("#servico_nome").val(),
+			image: reader.result,
+			description: $("#servico_desc").val(),
+			price: $("#servico_preco").val()
+		});
 
-	alert("Serviço adicionado com sucesso.");
+		alert("Serviço adicionado com sucesso.");
+	}
+	reader.readAsDataURL($("#servico_foto").prop("files")[0]);
 }
 
 async function addAppointment(){
