@@ -2,7 +2,7 @@
 Inicializacao e abertura do
 banco de dados
 */
-//Dexie.delete("petshop_database");
+Dexie.delete("petshop_database");
 var db = new Dexie("petshop_database");
 db.version(1).stores({
 	admins: "id, name, image, tel, email, username, password",
@@ -272,54 +272,57 @@ function editServico(id){
 }
 
 function editUser(){
-	if($("#usuario_foto").prop("files")[0] === undefined){
-		db.clients.put({
-		id: sessionUser['id'],
-		name: $("#usuario_nome").val(),
-		addr: $("#usuario_endereco").val(),
-		image: sessionUser['image'],
-		tel: $("#usuario_tel").val(),
-		email: $("#usuario_email").val(),
-		username: $("#usuario_user").val(),
-		password: $("#usuario_password").val()
-		}).then(function(){
-
-			alert("Cadastro alterado com sucesso.");
-		});
-
-		sessionUser['name'] = $("#usuario_nome").val();
-		sessionUser['addr'] = $("#usuario_endereco").val();
-		sessionUser['image'] = sessionUser['image'];
-		sessionUser['tel'] = $("#usuario_tel").val();
-		sessionUser['email'] = $("#usuario_email").val();
-		sessionUser['username'] = $("#usuario_user").val();
-		sessionUser['password'] = $("#usuario_password").val();
-	}
+	if(document.getElementById("usuario_cadastro").checkValidity() === false) alert("Dados Invalidos");
 	else{
-		reader.onloadend = function(){
+		if($("#usuario_foto").prop("files")[0] === undefined){
 			db.clients.put({
-				id: sessionUser['id'],
-				name: $("#usuario_nome").val(),
-				addr: $("#usuario_endereco").val(),
-				image: reader.result,
-				tel: $("#usuario_tel").val(),
-				email: $("#usuario_email").val(),
-				username: $("#usuario_user").val(),
-				password: $("#usuario_password").val()
+			id: sessionUser['id'],
+			name: $("#usuario_nome").val(),
+			addr: $("#usuario_endereco").val(),
+			image: sessionUser['image'],
+			tel: $("#usuario_tel").val(),
+			email: $("#usuario_email").val(),
+			username: $("#usuario_user").val(),
+			password: $("#usuario_password").val()
 			}).then(function(){
-				
+
 				alert("Cadastro alterado com sucesso.");
 			});
 
 			sessionUser['name'] = $("#usuario_nome").val();
 			sessionUser['addr'] = $("#usuario_endereco").val();
-			sessionUser['image'] = reader.result;
+			sessionUser['image'] = sessionUser['image'];
 			sessionUser['tel'] = $("#usuario_tel").val();
 			sessionUser['email'] = $("#usuario_email").val();
 			sessionUser['username'] = $("#usuario_user").val();
 			sessionUser['password'] = $("#usuario_password").val();
 		}
-		reader.readAsDataURL($("#usuario_foto").prop("files")[0]);
+		else{
+			reader.onloadend = function(){
+				db.clients.put({
+					id: sessionUser['id'],
+					name: $("#usuario_nome").val(),
+					addr: $("#usuario_endereco").val(),
+					image: reader.result,
+					tel: $("#usuario_tel").val(),
+					email: $("#usuario_email").val(),
+					username: $("#usuario_user").val(),
+					password: $("#usuario_password").val()
+				}).then(function(){
+					
+					alert("Cadastro alterado com sucesso.");
+				});
+
+				sessionUser['name'] = $("#usuario_nome").val();
+				sessionUser['addr'] = $("#usuario_endereco").val();
+				sessionUser['image'] = reader.result;
+				sessionUser['tel'] = $("#usuario_tel").val();
+				sessionUser['email'] = $("#usuario_email").val();
+				sessionUser['username'] = $("#usuario_user").val();
+				sessionUser['password'] = $("#usuario_password").val();
+			}
+			reader.readAsDataURL($("#usuario_foto").prop("files")[0]);
+		}
 	}
 }
 
@@ -364,25 +367,28 @@ async function addServico(){
 }
 
 async function addUser(){
-	let id = parseInt(2147483648*Math.random());
-	while ((await db.clients.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+	if(document.getElementById("usuario_cadastro").checkValidity() === false) alert("Dados Invalidos");
+	else{
+		let id = parseInt(2147483648*Math.random());
+		while ((await db.clients.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
 
-	reader.onloadend = function(){
-		db.clients.put({
-			id: id,
-			name: $("#usuario_nome").val(),
-			addr: $("#usuario_endereco").val(),
-			image: reader.result,
-			tel: $("#usuario_tel").val(),
-			email: $("#usuario_email").val(),
-			username: $("#usuario_user").val(),
-			password: $("#usuario_password").val()
-		}).then(function(){
+		reader.onloadend = function(){
+			db.clients.put({
+				id: id,
+				name: $("#usuario_nome").val(),
+				addr: $("#usuario_endereco").val(),
+				image: reader.result,
+				tel: $("#usuario_tel").val(),
+				email: $("#usuario_email").val(),
+				username: $("#usuario_user").val(),
+				password: $("#usuario_password").val()
+			}).then(function(){
 
-			alert("Usuário criado com sucesso.");
-		});
+				alert("Usuário criado com sucesso.");
+			});
+		}
+		reader.readAsDataURL($("#usuario_foto").prop("files")[0]);
 	}
-	reader.readAsDataURL($("#usuario_foto").prop("files")[0]);
 }
 
 async function addAnimal(){
@@ -526,8 +532,7 @@ function login_out(in_out){
 			if (user !== undefined && user['password'] === password){
 				$("#Top").load("src/logged_top.html");
 				$("#Menu").load("src/usuario_menu.html");
-				$("#Content").empty();
-				loadProdutos(0);
+				changeUserPage(0);
 				sessionUser = user;
 			}
 			else{
@@ -535,9 +540,7 @@ function login_out(in_out){
 					if (user !== undefined && user['password'] === password){
 						$("#Top").load("src/logged_top.html");
 						$("#Menu").load("src/admin_menu.html");
-						$("#Content").load("src/admin_cadastro.html", function(responseTxt, statusTxt, xhr){
-							$("#MainContent").load("src/admin_cadastro_cliente.html");
-						});
+						changeAdminPage(0);
 						sessionUser = adm;
 					}
 					else alert("Usuário ou Senha inválidos");
@@ -564,6 +567,7 @@ function changeUserPage(page){
 	}
 	else if (page === 2){
 		$("#Content").load("src/usuario_cadastro.html", function(responseTxt, statusTxt, xhr){
+			$("#submit_button").attr('onclick', "editUser();");
 			loadUserData();
 		});
 	}
@@ -583,17 +587,17 @@ function changeUserPage(page){
 function changeAdminPage(page){
 	if (page === 0){
 		$("#Content").load("src/admin_cadastro.html", function(responseTxt, statusTxt, xhr){
-			$("#MainContent").load("src/admin_cadastro_cliente.html");
+			adminCadastroSidebar(0);
 		});
 	}
 	else if (page === 1){
 		$("#Content").load("src/admin_produtos.html", function(responseTxt, statusTxt, xhr){
-			$("#MainContent").load("src/admin_produtos_adicionar.html");
+			adminProdutosSidebar(0);
 		});
 	}
 	else if (page === 2){
 		$("#Content").load("src/admin_servicos.html", function(responseTxt, statusTxt, xhr){
-			$("#MainContent").load("src/admin_servicos_adicionar.html");
+			adminServicosSidebar(0);
 		});
 	}
 	else if (page === 3){
@@ -610,7 +614,10 @@ function animaisSidebar(page){
 }
 
 function adminCadastroSidebar(page){
-	if (page === 0) $("#MainContent").load("src/admin_cadastro_cliente.html");
+	if (page === 0){
+		$("#MainContent").load("src/usuario_cadastro.html");
+		$("#submit_button").attr('onclick', "addUser(0);");
+	}
 	else $("#MainContent").load("src/admin_cadastro_admin.html");
 }
 
