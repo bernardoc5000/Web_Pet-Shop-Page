@@ -16,7 +16,8 @@ db.open();
 insertInitialAdmin();
 insertInitialUser();
 var sessionUser = undefined;
-var editableID = undefined;
+var carrinho = new Map();
+
 
 
 
@@ -92,7 +93,7 @@ async function loadProdutos(page){
 		line += "<li class=\"ProductDescription\">" + product['description'] + "</li>";
 		line += "<li class=\"ProductValue\">R$ " + product['price'] + "</li>";
 		if (page === 0){
-			line += "<li class=\"ProductValue\">Quantidade: <input id=\"quantidade_\"" + product['id'].toString() + "\" type=\"number\" name=\"Quantidade\" value=\"Quantidade\"></input></li>";
+			line += "<li class=\"ProductValue\">Quantidade: <input id=\"quantidade_" + product['id'].toString() + "\" type=\"number\" name=\"Quantidade\" value=\"Quantidade\"></input></li>";
 			line += "<li><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(" + product['id'].toString() + ")\"></input></li>";
 		}
 		else{
@@ -144,14 +145,14 @@ async function loadProductData(id){
 }
 
 function editProduto(id){
-	editableID = id;
-	$("#MainContent").load("src/produtos_editar.html");
+	$("#MainContent").load("src/admin_produtos_editar.html");
+	$("#submit_button").attr('onclick', "editProductData(" + id.toString() + ")");
 	loadProductData(id);
 	document.getElementById('edit').style.display='block';
 }
 
-async function editProductData(){
-	let product = await db.products.get(editableID);
+async function editProductData(id){
+	let product = await db.products.get(parseInt(id));
 	db.products.put({
 		id: product['id'],
 		name: $("#produto_nome").val(),
@@ -163,7 +164,6 @@ async function editProductData(){
 	});
 
 	alert("Produto alterado com sucesso.");
-	editableID = undefined;
 	$("#MainContent").empty();
 	loadProdutos(1);
 }
@@ -176,14 +176,14 @@ async function loadServiceData(id){
 }
 
 function editServico(id){
-	editableID = id;
-	$("#MainContent").load("src/servicos_editar.html");
+	$("#MainContent").load("src/admin_servicos_editar.html");
+	$("#submit_button").attr('onclick', "editServiceData(" + id.toString() + ")");
 	loadServiceData(id);
 	document.getElementById('edit').style.display='block';
 }
 
-async function editServiceData(){
-	let service = await db.services.get(editableID);
+async function editServiceData(id){
+	let service = await db.services.get(parseInt(id));
 	db.services.put({
 		id: service['id'],
 		name: $("#servico_nome").val(),
@@ -246,6 +246,31 @@ async function loadAnimais(){
 	}
 
 	$("#MainContent").html(line);
+}
+
+async function loadCarrinho(){
+	line = "<table class=\"Carrinho\">";
+	line += "<tr>";
+	line += "<th>Foto</th>";
+	line += "<th>Produto</th>";
+	line += "<th>Quantidade</th>";
+	line += "<th>Remover</th>";
+	line += "</tr>";
+	for (let id of carrinho.keys()){
+		let product = await db.products.get(id);
+		line += "<tr>"
+		line += "<td><img src=\"" + product['image'] + "\"></td>";
+		line += "<td>" + product['description'] + "</td>";
+		line += "<td>" + carrinho.get(id) + "</td>";
+		line += "<td><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeCarrinho(" + id.toString() +")\"></td>";
+		line += "</tr>";
+	}
+	line += "</table>";
+	line += "<label for=\"cartao\" style=\"margin-left: 2%;\">Número do Cartão: </label>";
+	line += "<input type=\"text\" name=\"cartao\" id=\"cartao\" placeholder=\"1234-5678-1234-5678\" maxlength=\"16\" pattern=\"[0-9]{16}\" title=\"Credit Card Number\">";
+	line += "<br>";
+	line += "<input type=\"button\" style=\"margin-right: 3%; margin-left: 1%;\" name=\"Confirmar\" value=\"Confirmar Compra\" class=\"Button\"><input type=\"button\" name=\"Esvaziar\" value=\"Esvaziar Carrinho\" class=\"Button\">";
+	$("#Content").html(line);
 }
 
 async function editUserData(){
@@ -386,6 +411,11 @@ async function addAppointment(){
 	loadServicosHorarios();
 }
 
+function addCarrinho(id){
+	if (carrinho.get(id) === undefined) carrinho.set(id, parseInt($("#quantidade_"+id.toString()).val()));
+	else carrinho.set(id, carrinho.get(id) + parseInt($("#quantidade_"+id.toString()).val()));
+}
+
 async function removeProduto(id){
 	db.products.delete(id);
 	loadProdutos(1);
@@ -467,7 +497,8 @@ function changeUserPage(page){
 		});
 	}
 	else if (page === 4){
-		$("#Content").load("src/usuario_carrinho.html");
+		$("#Content").empty();
+		loadCarrinho();
 	}
 }
 
