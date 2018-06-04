@@ -435,10 +435,10 @@ function showAnimal(id){
 }
 
 function showEditServico(id){
-	$("#MainContent").load("src/admin_servicos_editar.html", function(responseTxt, statusTxt, xhr){
+	$("#MainContent").load("src/admin_servicos_adicionar.html", function(responseTxt, statusTxt, xhr){
 	$("#submit_button").attr('onclick', "editServico(" + id.toString() + ")");
+	$("#add_servico").append("<input type=\"button\" name=\"SubmitButton\" value=\"Cancelar\" class=\"Button\" onclick=\"loadServicos();\">")
 	loadServiceData(id);
-	document.getElementById('edit').style.display='block';
 	});
 }
 

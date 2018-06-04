@@ -1,4 +1,4 @@
-<form class="CadastroForm">
+<form id="add_servico" class="CadastroForm">
 	<label for="servico_nome">Nome do Serviço:</label>
 	<input id="servico_nome" type="text" name="Servico Nome" placeholder="Nome serviço"><br>
 	<label for="servico_foto">Foto:</label>
@@ -7,5 +7,5 @@
 	<input id="servico_preco" type="number" step="0.01" name="Servico Preço" placeholder="R$ XX,XX" min="0"><br>
 	<label for="servico_desc">Descrição:</label>
 	<textarea id="servico_desc" type="text" name="Serviço Descrição" placeholder="Descrição do serviço"></textarea><br>
-	<input type="button" name="SubmitButton" value="Cadastrar" class="Button" onclick="addServico(0);">
+	<input id="submit_button" type="button" name="SubmitButton" value="Cadastrar" class="Button" onclick="addServico(0);">
 </form>
