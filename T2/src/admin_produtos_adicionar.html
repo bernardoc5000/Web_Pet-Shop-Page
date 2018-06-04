@@ -1,13 +1,13 @@
 <form id="add_produto" class="CadastroForm">
 	<label for="produto_nome">Nome do Produto:</label>
-	<input id="produto_nome" type="text" name="Produto Nome" placeholder="Nome do produto"><br>
+	<input id="produto_nome" type="text" name="Produto Nome" placeholder="Nome do produto" required><br>
 	<label for="produto_foto">Foto:</label>
 	<input id="produto_foto" type="file" name="Produto Foto" placeholder="C:\Fotos\foto.png"><br>
 	<label for="produto_preco">Preço:</label>
-	<input id="produto_preco" type="number" step="0.01" name="Produto Preço" placeholder="R$ XX,XX" min="0"><br>
+	<input id="produto_preco" type="number" step="0.01" name="Produto Preço" placeholder="R$ XX,XX" min="0" required><br>
 	<label for="produto_estoque">Estoque:</label>
-	<input id="produto_estoque" type="number" name="Produto Estoque" placeholder="X" min="0"><br>
+	<input id="produto_estoque" type="number" name="Produto Estoque" placeholder="X" min="0" required><br>
 	<label for="produto_desc">Descrição:</label>
-	<textarea id="produto_desc" type="text" name="Produto Descrição" placeholder="Descrição do produto"></textarea><br>
+	<textarea id="produto_desc" type="text" name="Produto Descrição" placeholder="Descrição do produto" required></textarea><br>
 	<input type="button" name="SubmitButton" value="Cadastrar" class="Button" onclick="addProduto()">
 </form>

@@ -175,8 +175,10 @@ function loadAnimais(){
 			line += "<ul class=\"Product\">";
 			line += "<li class=\"ProductImage\"><img src=\"" + pet['image'] + "\" alt=\"res/cachorro1.png\"></li>";
 			line += "<li class=\"ProductDescription\">" + pet['name'] + "</li>";
-			line += "<li class=\"ProductDescription\">" + pet['description'] + "</li>";
-			line += "<li><input type=\"button\" name=\"Ver Informações\" value=\"Ver Informações\" class=\"ProductButton\" onclick=\"showAnimal(" + pet['id'].toString() + ")\"></li>";
+			line += "<li class=\"ProductDescription\">" + pet['breed'] + "</li>";
+			line += "<li class=\"ProductDescription\">" + pet['age'] + " ano(s) de idade</li>";
+			line += "<li class=\"ProductValue\">" + pet['description']+ "</li>";
+			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Ver Informações\" value=\"Ver Informações\" class=\"ProductButton\" onclick=\"showAnimal(" + pet['id'].toString() + ")\"></li>";
 			line += "</ul>";
 			line += "</div>";
 		}
@@ -328,47 +330,53 @@ function editUser(){
 }
 
 async function addProduto(){
-	let id = parseInt(2147483648*Math.random());
-	while ((await db.products.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+	if($("#add_produto")[0].checkValidity() === false || $("#produto_foto").prop("files")[0] === undefined) alert("Dados Invalidos.");
+	else{
+		let id = parseInt(2147483648*Math.random());
+		while ((await db.products.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
 
-	reader.onloadend = function(){
-		db.products.put({
-			id: id,
-			name: $("#produto_nome").val(),
-			image: reader.result,
-			description: $("#produto_desc").val(),
-			price: parseFloat($("#produto_preco").val()),
-			inStock: parseInt($("#produto_estoque").val()),
-			sold: 0
-		}).then(function(){
+		reader.onloadend = function(){
+			db.products.put({
+				id: id,
+				name: $("#produto_nome").val(),
+				image: reader.result,
+				description: $("#produto_desc").val(),
+				price: parseFloat($("#produto_preco").val()),
+				inStock: parseInt($("#produto_estoque").val()),
+				sold: 0
+			}).then(function(){
 
-			alert("Produto adicionado com sucesso.");
-		});
+				alert("Produto adicionado com sucesso.");
+			});
+		}
+		reader.readAsDataURL($("#produto_foto").prop("files")[0]);
 	}
-	reader.readAsDataURL($("#produto_foto").prop("files")[0]);
 }
 
 async function addServico(){
-	let id = parseInt(2147483648*Math.random());
-	while ((await db.services.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
-	
-	reader.onloadend = function(){
-		db.services.put({
-			id: id,
-			name: $("#servico_nome").val(),
-			image: reader.result,
-			description: $("#servico_desc").val(),
-			price: parseFloat($("#servico_preco").val())
-		}).then(function(){
+	if($("#add_servico")[0].checkValidity() === false || $("#servico_foto").prop("files")[0] === undefined) alert("Dados Invalidos.");
+	else{
+		let id = parseInt(2147483648*Math.random());
+		while ((await db.services.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+		
+		reader.onloadend = function(){
+			db.services.put({
+				id: id,
+				name: $("#servico_nome").val(),
+				image: reader.result,
+				description: $("#servico_desc").val(),
+				price: parseFloat($("#servico_preco").val())
+			}).then(function(){
 
-			alert("Serviço adicionado com sucesso.");
-		});
+				alert("Serviço adicionado com sucesso.");
+			});
+		}
+		reader.readAsDataURL($("#servico_foto").prop("files")[0]);
 	}
-	reader.readAsDataURL($("#servico_foto").prop("files")[0]);
 }
 
 async function addUser(){
-	if($("#usuario_cadastro")[0].checkValidity() === false) alert("Dados Invalidos.");
+	if($("#usuario_cadastro")[0].checkValidity() === false || $("#usuario_foto").prop("files")[0] === undefined) alert("Dados Invalidos.");
 	else{
 		let id = parseInt(2147483648*Math.random());
 		while ((await db.clients.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
@@ -419,24 +427,27 @@ async function addAnimal(){
 }
 
 async function addAdmin(){
-	let id = parseInt(2147483648*Math.random());
-	while ((await db.admins.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
-	
-	reader.onloadend = function(){
-		db.admins.put({
-			id: id,
-			name: $("#admin_nome").val(),
-			image: reader.result,
-			tel: $("#admin_tel").val(),
-			email: $("#admin_email").val(),
-			username: $("#admin_user").val(),
-			password: $("#admin_password").val()
-		}).then(function(){
+	if($("#admin_form")[0].checkValidity() === false || $("#admin_foto").prop("files")[0] === undefined) alert("Dados Invalidos.");
+	else{
+		let id = parseInt(2147483648*Math.random());
+		while ((await db.admins.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+		
+		reader.onloadend = function(){
+			db.admins.put({
+				id: id,
+				name: $("#admin_nome").val(),
+				image: reader.result,
+				tel: $("#admin_tel").val(),
+				email: $("#admin_email").val(),
+				username: $("#admin_user").val(),
+				password: $("#admin_password").val()
+			}).then(function(){
 
-			alert("Usuário administrador criado com sucesso.");
-		});
+				alert("Usuário administrador criado com sucesso.");
+			});
+		}
+		reader.readAsDataURL($("#admin_foto").prop("files")[0]);
 	}
-	reader.readAsDataURL($("#admin_foto").prop("files")[0]);
 }
 
 async function addAppointment(){
@@ -624,8 +635,9 @@ function animaisSidebar(page){
 
 function adminCadastroSidebar(page){
 	if (page === 0){
-		$("#MainContent").load("src/usuario_cadastro.html");
-		$("#submit_button").attr('onclick', "addUser(0);");
+		$("#MainContent").load("src/usuario_cadastro.html", function(responseTxt, statusTxt, xhr){
+			$("#submit_button").attr('onclick', "addUser();");
+		});
 	}
 	else $("#MainContent").load("src/admin_cadastro_admin.html");
 }
