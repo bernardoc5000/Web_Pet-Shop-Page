@@ -2,7 +2,7 @@
 Inicializacao e abertura do
 banco de dados
 */
-Dexie.delete("petshop_database");
+//Dexie.delete("petshop_database");
 var db = new Dexie("petshop_database");
 db.version(1).stores({
 	admins: "id, name, image, tel, email, username, password",
@@ -153,6 +153,7 @@ function loadServicosOptions(){
 function loadServicosHorarios(){
 	for (let horario=8; horario<=16; horario++){
 		$("#hr_"+horario.toString()).attr('disabled', false);
+		$("#hr_"+horario.toString()).prop("checked", false);
 		$("#lb_hr_"+horario.toString()).html(horario.toString() + ":00");
 	}
 
@@ -436,21 +437,24 @@ async function addAdmin(){
 }
 
 async function addAppointment(){
-	let id = parseInt(2147483648*Math.random());
-	while ((await db.appointments.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+	if(document.getElementById("Horarios").checkValidity() === false || document.getElementById("time_form").checkValidity() === false) alert("Dados Invalidos");
+	else{
+		let id = parseInt(2147483648*Math.random());
+		while ((await db.appointments.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
 
-	db.appointments.put({
-		id: id,
-		serviceId: parseInt($("#select_servico").val()),
-		userId: sessionUser['id'],
-		petId: parseInt($("#select_animal").val()),
-		day: $("#date").val(),
-		time: $("#Horarios input[name=time_schedule]:checked").val()
-	}).then(function(){
+		db.appointments.put({
+			id: id,
+			serviceId: parseInt($("#select_servico").val()),
+			userId: sessionUser['id'],
+			petId: parseInt($("#select_animal").val()),
+			day: $("#date").val(),
+			time: $("#Horarios input[name=time_schedule]:checked").val()
+		}).then(function(){
 
-		alert("Serviço agendado com sucesso.");
-	});
-	loadServicosHorarios();
+			alert("Serviço agendado com sucesso.");
+		});
+		loadServicosHorarios();
+	}
 }
 
 function addCarrinho(id){
@@ -537,7 +541,7 @@ function login_out(in_out){
 			}
 			else{
 				db.admins.get({username: username}, function(adm){
-					if (user !== undefined && user['password'] === password){
+					if (adm !== undefined && adm['password'] === password){
 						$("#Top").load("src/logged_top.html");
 						$("#Menu").load("src/admin_menu.html");
 						changeAdminPage(0);
