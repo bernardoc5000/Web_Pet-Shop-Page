@@ -4,7 +4,8 @@ Bernardo Barcellos de Castro Cunha	9293380
 Fabrício Guedes Faria				9293522
 
 Observações:
-Utilizamos IndexedDB com o wrapper Dexie.js
-Não utilizamos o Bootstrap pois o código do trabalho anterior bastava
-Utilizamos JQuery para fazer a SPA
-Os ids sao gerados aleatoriamente na insercao. Eles sao inteiros entre 0 e (2^31)-1
+Utilizamos IndexedDB com o wrapper Dexie.js.
+Não utilizamos o Bootstrap pois o código do trabalho anterior bastava.
+Utilizamos JQuery para fazer a SPA.
+Os ids sao gerados aleatoriamente na insercao. Eles sao inteiros entre 0 e (2^31)-1. Isso é similar a como sites como o Youtube fazem, pois é difícil de alguem de fora chutar ID's válidos. Além da probabilidade de que seja necessário mais de uma verificação para ver se o id já existe é baixa.
+Todas as funcionalidades que seriam servidor foram implementadas localmente com o banco de dados local.
