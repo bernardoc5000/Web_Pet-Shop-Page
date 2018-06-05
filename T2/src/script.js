@@ -75,7 +75,7 @@ function loadProdutos(page){
 			line += "<li class=\"ProductDescription\">" + product['description'] + "</li>";
 			line += "<li class=\"ProductDescription\">R$ " + product['price'] + "</li>";
 			if (page === 0){
-				line += "<li class=\"ProductValue\">Quantidade: <input id=\"quantidade_" + product['id'].toString() + "\" type=\"number\" name=\"Quantidade\" value=\"Quantidade\" min=\"0\" required></input></li>";
+				line += "<li class=\"ProductValue\">Quantidade: <input id=\"quantidade_" + product['id'].toString() + "\" type=\"number\" name=\"Quantidade\" value=\"Quantidade\" min=\"1\" required></input></li>";
 				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(" + product['id'].toString() + ")\"></input></li>";
 			}
 			else{
