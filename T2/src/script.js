@@ -119,7 +119,7 @@ function loadServicosOptions(){
 		let line = "";
 		for (let i=0; i<services.length; i++){
 			service = services[i];
-			line += "<option value=\"" + service['id'].toString() + "\">" + service['name'] + "</option>";
+			line += "<option value=\"" + service['id'].toString() + "\">" + service['name'] + " - R$" + service['price'] + "</option>";
 		}
 		$("#select_servico").html(line);
 	});
