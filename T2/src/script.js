@@ -197,6 +197,7 @@ async function loadCarrinho(){
 function loadEditServico(id){
 	$("#MainContent").load("src/admin_servicos_adicionar.html", function(responseTxt, statusTxt, xhr){
 		$("#submit_button").attr('onclick', "editServico(" + id.toString() + ")");
+		$("#submit_button").attr('value', "Salvar");
 		$("#add_servico").append("<input type=\"button\" name=\"SubmitButton\" value=\"Cancelar\" class=\"Button\" onclick=\"loadServicos();\">");
 		loadServiceData(id);
 	});
@@ -206,6 +207,7 @@ function loadEditServico(id){
 function loadEditProduto(id){
 	$("#MainContent").load("src/admin_produtos_adicionar.html", function(responseTxt, statusTxt, xhr){
 		$("#submit_button").attr('onclick', "editProduto(" + id.toString() + ")");
+		$("#submit_button").attr('value', "Salvar");
 		$("#add_produto").append("<input type=\"button\" name=\"SubmitButton\" value=\"Cancelar\" class=\"Button\" onclick=\"loadProdutos(1);\">");
 		loadProductData(id);
 	});
