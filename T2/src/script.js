@@ -2,7 +2,7 @@
 Inicializacao e abertura do
 banco de dados
 */
-Dexie.delete("petshop_database");
+//Dexie.delete("petshop_database");
 var db = new Dexie("petshop_database");
 db.version(1).stores({
 	admins: "id, name, image, tel, email, username, password",
@@ -75,7 +75,7 @@ function loadProdutos(page){
 			line += "<li class=\"ProductDescription\">" + product['description'] + "</li>";
 			line += "<li class=\"ProductDescription\">R$ " + product['price'] + "</li>";
 			if (page === 0){
-				line += "<li class=\"ProductValue\">Quantidade: <input id=\"quantidade_" + product['id'].toString() + "\" type=\"number\" name=\"Quantidade\" value=\"Quantidade\"></input></li>";
+				line += "<li class=\"ProductValue\">Quantidade: <input id=\"quantidade_" + product['id'].toString() + "\" type=\"number\" name=\"Quantidade\" value=\"Quantidade\" min=\"0\" required></input></li>";
 				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(" + product['id'].toString() + ")\"></input></li>";
 			}
 			else{
@@ -510,10 +510,17 @@ async function addServiceSale(serviceId){
 }
 
 function addCarrinho(id){
-	if (carrinho.get(id) === undefined) carrinho.set(id, parseInt($("#quantidade_"+id.toString()).val()));
-	else carrinho.set(id, carrinho.get(id) + parseInt($("#quantidade_"+id.toString()).val()));
-
-	alert("Produtos adicionados ao carrinho com sucesso.");
+	if($("#quantidade_"+id.toString())[0].checkValidity() === false) alert("Dados Invalidos.");
+	else{
+		db.products.get(id, function(product){
+			if (carrinho.get(id) === undefined) carrinho.set(id, 0);
+			if (carrinho.get(id) + parseInt($("#quantidade_"+id.toString()).val()) <= product['inStock']){
+				carrinho.set(id, carrinho.get(id) + parseInt($("#quantidade_"+id.toString()).val()));
+				alert("Produtos adicionados ao carrinho com sucesso.");
+			}
+			else alert("Quantidade indisponível.\nQuantidade no carrinho: " + carrinho.get(id).toString() + "\nQuantidade máxima dispoível: " + product['inStock']);
+		});
+	}
 }
 
 function removeProduto(id){
@@ -591,11 +598,21 @@ function showLucros(){
 	});
 }
 
+function updateStock(id, quantity){
+	db.products.get(id, function(product){
+		db.products.update(id, {
+			inStock: product['inStock'] - quantity,
+			sold: product['sold'] + quantity
+		});
+	});
+}
+
 function confirmSale(){
 	if($("#cartao")[0].checkValidity() === false) alert("Dados Invalidos.");
 	else{
 		for (let id of carrinho.keys()){
 			addProductSale(id, carrinho.get(id));
+			updateStock(id, carrinho.get(id));
 			carrinho.delete(id);
 		}
 		loadCarrinho();
