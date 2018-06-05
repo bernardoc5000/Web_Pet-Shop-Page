@@ -28,23 +28,13 @@ Funcoes temporarias para
 inicializar o banco de dados
 */
 async function insertInitialAdmin(){
-	if ((await db.admins.get(0)) === undefined){
-		let file = document.createElement("input");
-		file.setAttribute("type", "file");
-		file.setAttribute("value", "res/manager.png");
-		let tel = document.createElement("input");
-		tel.setAttribute("type", "tel");
-		tel.setAttribute("value", "5550000");
-		let email = document.createElement("input");
-		email.setAttribute("type", "email");
-		email.setAttribute("value", "email@server.com");
-		
+	if ((await db.admins.get(0)) === undefined){		
 		db.admins.put({
 			id: 0,
 			name: "Joao",
-			image: file.value,
-			tel: tel.value,
-			email: email.value,
+			image: "res/blank.png",
+			tel: "5550000",
+			email: "email@server.com",
 			username: "admin",
 			password: "admin"
 		});
@@ -53,23 +43,13 @@ async function insertInitialAdmin(){
 
 async function insertInitialUser(){
 	if ((await db.clients.get(0)) === undefined){
-		let file = document.createElement("input");
-		file.setAttribute("type", "file");
-		file.setAttribute("value", "res/manager.png");
-		let tel = document.createElement("input");
-		tel.setAttribute("type", "tel");
-		tel.setAttribute("value", "54450000");
-		let email = document.createElement("input");
-		email.setAttribute("type", "email");
-		email.setAttribute("value", "email@server2.com");
-		
 		db.clients.put({
 			id: 0,
 			name: "Joao",
-			addr: "RUA X",
-			image: file.value,
-			tel: tel.value,
-			email: email.value,
+			addr: "Rua x",
+			image: "res/blank.png",
+			tel: "5550000",
+			email: "email@server.com",
 			username: "user",
 			password: "user"
 		});
