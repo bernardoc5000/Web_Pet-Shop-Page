@@ -597,14 +597,12 @@ function addCarrinho(id){
 	else{
 		db.products.get(id, function(product){
 			let cur = 0;
-			if (carrinho.get(id) !== undefined){
-				cur = carrinho.get(id);
-			}
+			if (carrinho.get(id) !== undefined) cur = carrinho.get(id);
 			if (cur + parseInt($("#quantidade_"+id.toString()).val()) <= product['inStock']){
 				carrinho.set(id, cur + parseInt($("#quantidade_"+id.toString()).val()));
 				alert("Produtos adicionados ao carrinho com sucesso.");
 			}
-			else alert("Quantidade indisponível.\nQuantidade no carrinho: " + carrinho.get(id).toString() + "\nQuantidade máxima dispoível: " + product['inStock']);
+			else alert("Quantidade indisponível.\nQuantidade no carrinho: " + cur.toString() + "\nQuantidade máxima dispoível: " + product['inStock']);
 		});
 	}
 }
