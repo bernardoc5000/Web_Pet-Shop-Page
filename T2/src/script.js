@@ -582,9 +582,10 @@ function addCarrinho(id){
 	if($("#quantidade_"+id.toString())[0].checkValidity() === false) alert("Dados Invalidos.");
 	else{
 		db.products.get(id, function(product){
-			if (carrinho.get(id) === undefined) carrinho.set(id, 0);
-			if (carrinho.get(id) + parseInt($("#quantidade_"+id.toString()).val()) <= product['inStock']){
-				carrinho.set(id, carrinho.get(id) + parseInt($("#quantidade_"+id.toString()).val()));
+			let cur = 0;
+			if (carrinho.get(id) !== undefined) cur = carrinho.get(id);
+			if (cur + parseInt($("#quantidade_"+id.toString()).val()) <= product['inStock']){
+				carrinho.set(id, cur + parseInt($("#quantidade_"+id.toString()).val()));
 				alert("Produtos adicionados ao carrinho com sucesso.");
 			}
 			else alert("Quantidade indisponível.\nQuantidade no carrinho: " + carrinho.get(id).toString() + "\nQuantidade máxima dispoível: " + product['inStock']);
