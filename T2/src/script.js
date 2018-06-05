@@ -159,7 +159,7 @@ function loadAnimais(){
 			pet = pets[i];
 			line += "<div class=\"Item\">";
 			line += "<ul class=\"Product\">";
-			line += "<li class=\"ProductImage\"><img src=\"" + pet['image'] + "\" alt=\"res/cachorro1.png\"></li>";
+			line += "<li class=\"ProductImage\"><img src=\"" + pet['image'] + "\" alt=\"res/blank.png\"></li>";
 			line += "<li class=\"ProductDescription\">" + pet['name'] + "</li>";
 			line += "<li class=\"ProductDescription\">" + pet['breed'] + "</li>";
 			line += "<li class=\"ProductDescription\">" + pet['age'] + " ano(s) de idade</li>";

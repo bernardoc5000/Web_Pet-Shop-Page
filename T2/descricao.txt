@@ -9,3 +9,27 @@ Não utilizamos o Bootstrap pois o código do trabalho anterior bastava.
 Utilizamos JQuery para fazer a SPA.
 Os ids sao gerados aleatoriamente na insercao. Eles sao inteiros entre 0 e (2^31)-1. Isso é similar a como sites como o Youtube fazem, pois é difícil de alguem de fora chutar ID's válidos. Além da probabilidade de que seja necessário mais de uma verificação para ver se o id já existe é baixa.
 Todas as funcionalidades que seriam servidor foram implementadas localmente com o banco de dados local.
+
+Descrição dos arquivos:
+index.html -> pagina inicial
+favicon.ico -> icone que browser fazem requisicao
+src/ -> pasta com todos o resto dos códigos do trabalho
+res/ -> pasta com algumas imagens necessarias
+style.css -> contem toda a informacao de estilo do cliente
+script.js -> contem todo o código javascript do cliente. boa parte das estruturas nas paginas e montada pelo javascript
+logged_top.html -> contem o topo com o botao de deslogar para todos os usuarios
+admin_cadastro.html -> contem a estrutura da pagina de adicao de usuarios
+admin_cadastro_admin.html -> contem a o form da adicao de um admin
+admin_lucros.html -> contem a estrutura da pagina de lucros
+admin_menu.html -> contem o menu superior do admin
+admin_produtos.html -> contem a estrutura da pagina de gerenciamento de produtos
+admin_produtos_adicionar.html -> contem o form da pagina de adicao de produtos
+admin_servicos.html -> contem a estrutura da pagina de gerenciamento de servicos
+admin_servicos_adicionar.html -> contem o form da pagina de adicao de servicos
+usuario_animais.html -> contem a estrutura da pagina de gerenciamento de animais
+usuario_animais_cadastro.html -> contem o form da pagina de adicao de animais
+usuario_info.html -> contem a estrutura da pagina de informacoes de animais
+usuario_cadastro.html -> contem o form para insercao e edicao de usuario
+usuario_carrinho.html -> contem a estrutura da pagina do carrinho
+usuario_servicos.html -> contem a estrutura e os forms da pagina de compra de servicos
+usuario_menu.html -> contem o menu superior do usuario
