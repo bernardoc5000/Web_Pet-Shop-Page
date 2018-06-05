@@ -658,6 +658,7 @@ function login_out(in_out){
 	else{
 		$("body").load("index.html");
 		sessionUser = undefined;
+		carrinho = new Map();
 	}
 }
 

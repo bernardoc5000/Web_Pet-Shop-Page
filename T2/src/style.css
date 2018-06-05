@@ -226,6 +226,12 @@ body{
 	color: #240D6D;
 	background-color: white;
 	border-collapse: collapse;
+	table-layout: fixed;
+}
+
+.Carrinho img{
+	width: 100%;
+	height: 100%;
 }
 
 .Carrinho td, .Carrinho th, .Carrinho tr{
