@@ -26,7 +26,7 @@ var reader = new FileReader();
 Funcao temporaria para
 inicializar o banco de dados
 */
-async function insertInitialValues(){
+function insertInitialValues(){
 	db.admins.put({
 		id: 0,
 		name: "Joao",
