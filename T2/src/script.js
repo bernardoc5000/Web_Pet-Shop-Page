@@ -2,7 +2,7 @@
 Inicializacao e abertura do
 banco de dados
 */
-//Dexie.delete("petshop_database");
+Dexie.delete("petshop_database");
 var db = new Dexie("petshop_database");
 db.version(1).stores({
 	admins: "id, name, image, tel, email, username, password",
@@ -229,14 +229,20 @@ function loadServicosHorarios(){
 	for (let horario=8; horario<=16; horario++){
 		$("#hr_"+horario.toString()).attr('disabled', false);
 		$("#hr_"+horario.toString()).prop("checked", false);
-		$("#lb_hr_"+horario.toString()).html(horario.toString() + ":00");
+		if (horario >= 10) $("#lb_hr_"+horario.toString()).html(horario.toString() + ":00");
+		else $("#lb_hr_"+horario.toString()).html("0" + horario.toString() + ":00");
 	}
 
 	db.appointments.where("day").equals($("#date").val()).toArray(function(occupied){
 		for (let i=0; i<occupied.length; i++){
-			let horario = occupied[i]['time'];
-			$("#hr_"+horario).attr('disabled', true);
-			$("#lb_hr_"+horario).html(horario + ":00 - Ocupado");
+			$("#hr_"+occupied[i]['time']).attr('disabled', true);
+			db.services.get(occupied[i]['serviceId'], function(service){
+				db.pets.get(occupied[i]['petId'], function(pet){
+					let timeString = occupied[i]['time'];
+					if (parseInt(timeString) < 10) timeString = "0" + timeString;
+					$("#lb_hr_"+occupied[i]['time']).html(timeString + ":00 - Ocupado   →   <img class=\"ServicoImage\" src=\"" + service['image'] + "\" alt=\"res/blank.png\">(" + service['name'] + ") para " + pet['name']);
+				});
+			});
 		}
 	});
 }

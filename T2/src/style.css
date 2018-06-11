@@ -238,6 +238,7 @@ body{
 	border: 2px solid #240D6D;
 	font-size: 20px;
 	text-align: center;
+	overflow: scroll;
 }
 
 @media (max-width: 600px) {
@@ -316,4 +317,22 @@ body{
 .InfoForm span{
 	text-align: right;
 	float: right;
+}
+
+.ServicoLabel{
+	height: 5%;
+	width: 90%;
+}
+
+.ServicoImage{
+	height: 100%;
+	width: 10%;
+	border-style: solid;
+	border-color: #240D6D;
+	border-width: 3px; 
+}
+
+#Horarios{
+	height: 90%;
+	width: 50%;
 }
