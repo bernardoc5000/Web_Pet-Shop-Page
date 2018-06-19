@@ -1,0 +1,343 @@
+body{
+	width: 100%;
+	height: 1920px;
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+
+	font-family: "Arial";
+	color: #240D6D;
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+
+#Top{
+	height: 13%;
+	background-image: url("../res/top_background.png");
+    background-size: 100% 100%;
+    text-align: right;
+}
+
+#Menu{
+	overflow: hidden;
+	color: white;
+	background-color: #240D6D;
+	display: flex;
+}
+
+.MenuItem{
+	font-size: 25px;
+	padding: 15px 20px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0px 0 white, 0 0px white, 0px 0 white, 0 0px white;
+}
+
+.MenuItem:hover{
+	background-color: gray;
+	cursor: pointer;
+}
+
+#Content{
+	width: 100%;
+	height: 89%;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
+#Sidebar{
+	color: white;
+	background-color: #240D6D;
+	display: flex;
+	flex-direction: column;
+	border-style: solid;
+	border-radius: 5px;
+	margin-top: 10px;
+	margin-left: 10px;
+	width: 15%;
+	float: left;
+}
+
+.SidebarItem{
+	font-size: 18px;
+	text-align: left;
+    text-decoration: none;
+    padding: 5px 5px 5px 5px;
+	margin: 5px;
+	display: block;
+	text-shadow: 0px 0 white, 0 0px white, 0px 0 white, 0 0px white;
+}
+
+.SidebarItem:hover{
+	background-color: gray;
+	cursor: pointer;
+}
+
+#MainContent{
+	float: right;
+	width: 84%;
+	height: 100%;
+}
+
+.CadastroForm{
+	margin: 0 auto;
+	width: 800px;
+	font-size: 20px;
+}
+
+.CadastroForm label, .edit-content label{
+	margin-top: 30px;
+	display: inline-block;
+	width: 200px;
+	text-align: right;
+}
+
+.CadastroForm input, .edit-content input{
+	margin-top: 30px;
+	font: 1em sans-serif;
+	width: 500px;
+	resize:  none;
+}
+
+.CadastroForm input[type="button"], .edit-content input[type="button"]{
+	margin-left: 200px;
+}
+
+.CadastroForm textarea, .edit-content textarea{
+	margin-top: 30px;
+	font: 1em sans-serif;
+	width: 500px;
+	resize:  none;
+	height: 200px;
+	vertical-align: top;
+}
+
+.Item{
+	width: 20%;
+	height: 32%;
+	margin-left: 3%;
+	margin-top: 2%;
+	float: left;
+}
+
+.Product{
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	border: 1px solid black;
+	margin: 0;
+	list-style-type: none;
+}
+
+.ProductImage{
+	width: 100%;
+	height: 40%;
+	padding: 4%;
+	border: none;
+	margin: none;
+	background-color: #240D6D;
+}
+
+.ProductImage img{
+	width: 100%;
+	height: 100%;
+}
+
+.ProductDescription{
+	width: 100%;
+	height: 10%;
+	padding-top: 3%;
+	border-top: 1px solid black;
+	background-color: white;
+	color: black;
+	text-align: center;
+	text-decoration: none;
+	font-size: 17px;
+	font-weight: bold;
+	overflow: scroll;
+}
+
+.ProductValue{
+	width: 100%;
+	height: 15%;
+	padding-top: 3%;
+	border-top: 1px solid black;
+	background-color: white;
+	text-align: center;
+	font-weight: bold;
+}
+
+.ProductValue input{
+	width: 80%;
+}
+
+.ProductButtonLine{
+	width: 100%;
+	height: 15%;
+	padding-top: 8%;
+	border-top: 1px solid black;
+	background-color: #240D6D;
+	text-align: center;
+	margin-left: auto;
+}
+
+.ProductButton{
+	background-color: #240D6D;
+	color: white;
+	font-size: 20px;
+	border-radius: 12px;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: 0px 0 white, 0 0px white, 0px 0 white, 0 0px white;
+	width: 80%;
+}
+
+.Button{
+	font-size: 25px;
+	background-color: #240D6D;
+	color: white;
+	border-radius: 12px;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: 0px 0 white, 0 0px white, 0px 0 white, 0 0px white;
+}
+
+.Time{
+	margin-top: 5%;
+	margin-left: 40%;
+	font-weight: bold;
+}
+
+.Schedule{
+	width: 80%;
+	height: 60%;
+	margin-top: 2%;
+	margin-left: 40%;
+	font-weight: bold;
+}
+
+.Schedule input[type="radio"]{
+	padding: 10px;
+	margin: 10px;
+	color: white;
+	font-size: 20px;
+}
+
+.Carrinho{
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+	margin-bottom: 10px; 
+	color: #240D6D;
+	background-color: white;
+	border-collapse: collapse;
+	table-layout: fixed;
+}
+
+.Carrinho img{
+	width: 100%;
+	height: 100%;
+}
+
+.Carrinho td, .Carrinho th, .Carrinho tr{
+	border: 2px solid #240D6D;
+	font-size: 20px;
+	text-align: center;
+	overflow: scroll;
+}
+
+@media (max-width: 600px) {
+	#Menu{
+		flex-direction: column;
+	}
+
+	#Top img{
+		width: 20%;
+	}
+
+	#Sidebar{
+		flex-direction: row;
+		width: auto;
+	}
+	
+	#MainContent form{
+		white-space: normal;
+	}
+
+	#MainContent form input[type="text"], textarea{
+		margin-left: 0;
+		width: 100%;
+	}
+
+	.Item{
+		width: 95%;
+		margin-left: 0;
+		margin-top: 3%;
+	}
+
+	.Weekdays li, .Days li{
+		width: 12%;
+	}
+}
+
+.LucroHeader{
+	margin: 10px;
+	text-align: center;
+}
+
+.Lucro{
+	width: 40%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 5%;
+    height: 30%;
+    font-family: monospace;
+}
+
+.FrontPage p, .FrontPage ul{
+	margin-left: 15%;
+	font-size: 20px;
+}
+
+.FrontPage h1{
+	text-align: center;
+}
+
+.TimeLabel{
+	font-size: 22px;
+}
+
+.InfoForm{
+	margin-top: 5%;
+	margin-left: 20%;
+	margin-right: 20%;
+	font-size: 24px;
+}
+
+.InfoForm label{
+	text-align: left;
+}
+
+.InfoForm span{
+	text-align: right;
+	float: right;
+}
+
+.ServicoLabel{
+	height: 5%;
+	width: 90%;
+}
+
+.ServicoImage{
+	height: 100%;
+	width: 10%;
+	border-style: solid;
+	border-color: #240D6D;
+	border-width: 3px; 
+}
+
+#Horarios{
+	height: 90%;
+	width: 50%;
+}

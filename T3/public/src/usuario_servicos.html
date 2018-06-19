@@ -1,0 +1,47 @@
+<form id="time_form" class="Time">
+	<label for="date" class="TimeLabel">Selecione o dia:</label><br>
+	<input id="date" type="date" name="date" value="2018-04-01" onchange="loadServicosHorarios()" required>
+</form>
+
+<div class="Schedule">
+	<label for="Horarios" class="TimeLabel">Selecione o horário:</label><br>
+	<form id="Horarios">
+		<input id="hr_7" type="radio" name="time_schedule" value="7" required>
+		<label class="ServicoLabel" id="lb_hr_7" for="hr_7">07:00</label><br>
+		<input id="hr_8" type="radio" name="time_schedule" value="8" required>
+		<label class="ServicoLabel" id="lb_hr_8" for="hr_8">08:00</label><br>
+		<input id="hr_9" type="radio" name="time_schedule" value="9" required>
+		<label class="ServicoLabel" id="lb_hr_9" for="hr_9">09:00</label><br>
+		<input id="hr_10" type="radio" name="time_schedule" value="10" required>
+		<label class="ServicoLabel" id="lb_hr_10" for="hr_10">10:00</label><br>
+		<input id="hr_11" type="radio" name="time_schedule" value="11" required>
+		<label class="ServicoLabel" id="lb_hr_11" for="hr_11">11:00</label><br>
+		<input id="hr_12" type="radio" name="time_schedule" value="12" required>
+		<label class="ServicoLabel" id="lb_hr_12" for="hr_12">12:00</label><br>
+		<input id="hr_13" type="radio" name="time_schedule" value="13" required>
+		<label class="ServicoLabel" id="lb_hr_13" for="hr_13">13:00</label><br>
+		<input id="hr_14" type="radio" name="time_schedule" value="14" required>
+		<label class="ServicoLabel" id="lb_hr_14" for="hr_14">14:00</label><br>
+		<input id="hr_15" type="radio" name="time_schedule" value="15" required>
+		<label class="ServicoLabel" id="lb_hr_15" for="hr_15">15:00</label><br>
+		<input id="hr_16" type="radio" name="time_schedule" value="16" required>
+		<label class="ServicoLabel" id="lb_hr_16" for="hr_16">16:00</label><br>
+		<br>
+
+		<label for="select_servico">Serviço: </label>
+		<select id="select_servico" required>
+		</select>
+		<br>
+
+		<label for="select_animal">Animal: </label>
+		<select id="select_animal" required>
+		</select>
+		<br><br>
+
+		<label for="cartao">Número do Cartão: </label>
+		<input type="text" name="cartao" id="cartao" placeholder="1234-5678-1234-5678" maxlength="16" pattern="[0-9]{16}" title="Credit Card Number" required>
+		<br><br>
+
+		<input type="button" name="Confirmar" value="Confirmar" class="Button" onclick="addAppointment()">
+	</form>
+</div>

@@ -1,0 +1,17 @@
+<form id="animal_form" class="CadastroForm">
+	<label for="animal_nome">Nome animal:</label>
+	<input id="animal_nome" type="text" name="Animal Nome" placeholder="Nome animal" required><br>
+	<label for="animal_foto">Foto:</label>
+	<input id="animal_foto" type="file" name="Animal Foto" placeholder="C:\Fotos\foto.png"><br>
+	<label for="animal_especie">Espécie animal:</label>
+	<input id="animal_especie" type="text" name="Animal Espécie" placeholder="Espécie1" required><br>
+	<label for="animal_raca">Raça animal:</label>
+	<input id="animal_raca" type="text" name="Animal Raça" placeholder="Raça1" required><br>
+	<label for="animal_idade">Idade animal:</label>
+	<input id="animal_idade" type="number" name="Animal Idade" placeholder="0" min="0" required><br>
+	<label for="animal_desc">Descrição:</label>
+	<textarea id="animal_desc" type="text" name="Animal Descrição" placeholder="Descrição do animal" required></textarea><br>
+	<label for="animal_obs">Observações animal:</label>
+	<textarea id="animal_obs" type="text" name="Animal Observações" placeholder="Observações do animal" required></textarea><br>
+	<input type="button" name="SubmitButton" value="Cadastrar" class="Button" onclick="addAnimal();">
+</form>

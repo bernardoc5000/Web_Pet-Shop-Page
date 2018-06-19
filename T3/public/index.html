@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title> Pet-Shop </title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+    <link rel="stylesheet" type="text/css" href="src/style.css">
+</head>
+
+<body>
+	<div id="Top">
+		<form>
+			<label for="User">Username:</label>
+			<input id="User" type="text" name="Username"><br>
+			<label for="Password">Password:</label>
+			<input id="Password" type="password" name="Password"><br>
+			<input type="button" name="LoginButton" value="Login" class="Button" onclick="login_out(0);">
+		</form>
+	</div>
+
+	<div id="Menu">
+		<nav class="MenuItem">Home</a>
+	</div>
+
+	<div id="Content">
+		<div class=FrontPage>
+			<h1>Pet-Shop</h1>
+
+			<p>Esta Pet-Shop é a melhor de todas!</p>
+			<p>Nós fazemos de tudo para que seu bichinho fique perfeito.</p>
+			<p>Oferecemos serviços de:</p>
+			<ul>
+				<li>Banho</li>
+				<li>Tosa</li>
+			</ul>
+
+			<p>Além de uma alta variedade de produtos para que o seu bichinho tenha uma vida saudável! Como:</p>
+			<ul>
+				<li>Caixa de areia de Gato</li>
+				<li>Ração Canina</li>
+			</ul>
+		</div>
+	</div>
+
+	<script src="src/script.js"></script>
+</body>
+
+</html>
