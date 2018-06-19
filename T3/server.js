@@ -1,3 +1,9 @@
+var express = require('express');
+var page = express();
+page.use(express.static("./public"));
+page.listen(8000);
+
+/*
 var http = require('http')
 var path = require('path')
 var fs = require('fs');
@@ -19,3 +25,4 @@ function requestHandler(req, res) {
 	});
 };
 http.createServer(requestHandler).listen(8000);
+*/
