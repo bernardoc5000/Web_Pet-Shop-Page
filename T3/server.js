@@ -14,7 +14,7 @@ nano.db.list(function(err, body){
 
 var page = express();
 page.use(express.static("./public"));
-page.use(bodyParser.json());
+page.use(bodyParser.json({limit: '10mb'}));
 
 
 
@@ -44,6 +44,15 @@ page.post("/login", function(req, res){
 				else res.send({user: undefined, type: "none"});
 			});
 		}
+	});
+});
+
+page.post("/addProduto", function(req, res){
+	let product = req.body;
+	product.sold = 0;
+	db.products.insert(product, function(err, body){
+		if (err) res.send({success: false});
+		else res.send({success: true});
 	});
 });
 

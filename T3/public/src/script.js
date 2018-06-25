@@ -27,6 +27,7 @@ function recvJSON(endpoint, onSuccess){
 }
 
 
+
 /*
 Funcoes que manipulam a pagina
 a partir do banco de dados
@@ -386,24 +387,20 @@ function editUser(){
 }
 
 //Adiciona o produto no BD
-async function addProduto(){
+function addProduto(){
 	if($("#add_produto")[0].checkValidity() === false || $("#produto_foto").prop("files")[0] === undefined) alert("Dados Invalidos.");
 	else{
-		let id = parseInt(2147483648*Math.random());
-		while ((await db.products.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
-
 		reader.onloadend = function(){
-			db.products.put({
-				id: id,
+			let product = {
 				name: $("#produto_nome").val(),
 				image: reader.result,
 				description: $("#produto_desc").val(),
 				price: parseFloat($("#produto_preco").val()),
 				inStock: parseInt($("#produto_estoque").val()),
-				sold: 0
-			}).then(function(){
-
-				alert("Produto adicionado com sucesso.");
+			};
+			sendJSON("addProduto", product, function(data){
+				if (data.success) alert("Produto adicionado com sucesso.");
+				else alert("Erro ao adicionar o produto.");
 			});
 		}
 		reader.readAsDataURL($("#produto_foto").prop("files")[0]);
