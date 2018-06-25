@@ -1,7 +1,12 @@
-var nano = require('nano')("http://couchdb:couchdb@191.205.128.212:5984");
 var express = require('express');
+var compression = require('compression');
 var bodyParser = require('body-parser');
+var page = express();
+page.use(express.static(__dirname + "/public"));
+page.use(compression());
+page.use(bodyParser.json({limit: '10mb'}));
 
+var nano = require('nano')("http://couchdb:couchdb@191.205.128.212:5984");
 var db = {};
 nano.db.list(function(err, body){
 	if (err) return;
@@ -11,10 +16,6 @@ nano.db.list(function(err, body){
 		else db[props[i]] = nano.use(props[i]);
 	}
 });
-
-var page = express();
-page.use(express.static("./public"));
-page.use(bodyParser.json({limit: '10mb'}));
 
 
 
@@ -70,4 +71,4 @@ page.get("/loadProdutos", function(req, res){
 
 
 
-page.listen(8000);
+page.listen(5985);
