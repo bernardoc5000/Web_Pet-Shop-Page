@@ -17,6 +17,14 @@ function sendJSON(endpoint, data, onSuccess){
 	});
 }
 
+function recvJSON(endpoint, onSuccess){
+	$.ajax({
+		type: 'GET',
+		contentType: 'application/json',
+		url: document.location.origin + "/" + endpoint,
+		success: onSuccess
+	});
+}
 
 
 /*
@@ -25,10 +33,10 @@ a partir do banco de dados
 */
 //Gera a lista de produtos a partir do BD para 2 paginas diferentes 
 function loadProdutos(page){
-	db.products.toArray(function(products){
+	recvJSON("loadProdutos", function(data){
 		let line = "";
-		for (let i=0; i<products.length; i++){
-			let product = products[i];
+		for (let i=0; i<data.length; i++){
+			let product = data[i];
 			line += "<div class=\"Item\">";
 			line += "<ul class=\"Product\">";
 			line += "<li class=\"ProductImage\"><img src=\"" + product['image'] + "\" alt=\"res/blank.png\"></img></li>";
@@ -36,12 +44,12 @@ function loadProdutos(page){
 			line += "<li class=\"ProductDescription\">" + product['description'] + "</li>";
 			line += "<li class=\"ProductDescription\">R$ " + product['price'] + "</li>";
 			if (page === 0){
-				line += "<li class=\"ProductValue\">Quantidade: <input id=\"quantidade_" + product['id'].toString() + "\" type=\"number\" name=\"Quantidade\" value=\"Quantidade\" min=\"1\" required></input></li>";
-				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(" + product['id'].toString() + ")\"></input></li>";
+				line += "<li class=\"ProductValue\">Quantidade: <input id=\"quantidade_" + product['_id'].toString() + "\" type=\"number\" name=\"Quantidade\" value=\"Quantidade\" min=\"1\" required></input></li>";
+				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(" + product['_id'].toString() + ")\"></input></li>";
 			}
 			else{
-				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"loadEditProduto(" + product['id'].toString() + ")\"></input></li>";
-				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeProduto(" + product['id'].toString() + ")\"></input></li>";
+				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"loadEditProduto(" + product['_id'].toString() + ")\"></input></li>";
+				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeProduto(" + product['_id'].toString() + ")\"></input></li>";
 			}
 			line += "</ul>";
 			line += "</div>";

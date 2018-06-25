@@ -4,12 +4,11 @@ var bodyParser = require('body-parser');
 
 var db = {};
 nano.db.list(function(err, body){
-	if (!err){
-		let props = ["admins", "clients", "pets", "products", "services", "appointments", "products_sales", "services_sales"];
-		for (let i=0; i<props.length; i++){
-			if(!body.includes(props[i])) nano.db.create(props[i], function(){ db[props[i]] = nano.use(props[i]); });
-			else db[props[i]] = nano.use(props[i]);
-		}
+	if (err) return;
+	let props = ["admins", "clients", "pets", "products", "services", "appointments", "products_sales", "services_sales"];
+	for (let i=0; i<props.length; i++){
+		if(!body.includes(props[i])) nano.db.create(props[i], function(){ db[props[i]] = nano.use(props[i]); });
+		else db[props[i]] = nano.use(props[i]);
 	}
 });
 
@@ -17,33 +16,49 @@ var page = express();
 page.use(express.static("./public"));
 page.use(bodyParser.json());
 
+
+
 page.post("/login", function(req, res){
 	let userdata = req.body, user;
-	db.admins.list(function(err, body){
-		let keys = [];
-		for (let i=0; i<body.rows.length; i++) keys.push(body.rows[i].key);
-		db.admins.fetch({keys: keys}, function(err, data){
-			for (let j=0; user === undefined && j<data.rows.length; j++) if (data.rows[j].doc.username === userdata.username) user = data.rows[j].doc;
-			if (user !== undefined){
-				if (user.password === userdata.password) res.send({user: user, type: "admin"});
-				else res.send({user: undefined, type: -1});
+	db.admins.list({include_docs: true}, function(err, body){
+		if (err){
+			res.send({user: undefined, type: "none"});
+			return;
+		}
+		for (let i=0; user === undefined && i<body.rows.length; i++) if (body.rows[i].doc.username === userdata.username) user = body.rows[i].doc;
+		if (user !== undefined){
+			if (user.password === userdata.password) res.send({user: user, type: "admin"});
+			else res.send({user: undefined, type: "none"});
+		}
+		else{
+			db.clients.list({include_docs: true}, function(err, body){
+			if (err){
+				res.send({user: undefined, type: "none"});
+				return;
 			}
-			else{
-				db.clients.list(function(err, body){
-					keys = [];
-					for (let i=0; i<body.rows.length; i++) keys.push(body.rows[i].key);
-					db.clients.fetch({keys: keys}, function(err, data){
-						for (let j=0; user === undefined && j<data.rows.length; j++) if (data.rows[j].doc.username === userdata.username) user = data.rows[j].doc;
-						if (user !== undefined){
-							if (user.password === userdata.password) res.send({user: user, type: "client"});
-							else res.send({user: undefined, type: -1});
-						}
-						else res.send({user: undefined, type: -1});
-					});
-				});
-			}
-		});
+			for (let i=0; user === undefined && i<body.rows.length; i++) if (body.rows[i].doc.username === userdata.username) user = body.rows[i].doc;
+				if (user !== undefined){
+					if (user.password === userdata.password) res.send({user: user, type: "client"});
+					else res.send({user: undefined, type: "none"});
+				}
+				else res.send({user: undefined, type: "none"});
+			});
+		}
 	});
 });
+
+page.get("/loadProdutos", function(req, res){
+	db.products.list({include_docs: true}, function(err, body){
+		if (err){
+			res.send([]);
+			return;
+		}
+		let products = [];
+		for (let i=0; i<body.rows.length; i++) products.push(body.rows[i].doc);
+		res.send(products);
+	});
+});
+
+
 
 page.listen(8000);
