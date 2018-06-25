@@ -1,162 +1,22 @@
 /*
-Inicializacao e abertura do
-banco de dados
+Inicializacao
 */
-//Dexie.delete("petshop_database");
-var db = new Dexie("petshop_database");
-db.version(1).stores({
-	admins: "id, name, image, tel, email, username, password",
-	clients: "id, name, addr, image, tel, email, username, password",
-	pets: "id, name, image, species, breed, age, description, notes, ownerId",
-	products: "id, name, image, description, price, inStock, sold",
-	services: "id, name, image, description, price",
-	appointments: "id, serviceId, userId, petId, day, time",
-	productsSales: "id, productId, productName, productPrice, quantity, total",
-	servicesSales: "id, serviceId, serviceName, servicePrice"
-});
-db.open();
-//insertInitialValues();
 var sessionUser = undefined;
 var carrinho = new Map();
 var reader = new FileReader();
 
 
 
-/*
-Funcao temporaria para
-inicializar o banco de dados
-
-function insertInitialValues(){
-	db.admins.put({
-		id: 0,
-		name: "Joao",
-		image: "res/blank.png",
-		tel: "5550000",
-		email: "email@server.com",
-		username: "admin",
-		password: "admin"
-	});
-	db.clients.put({
-		id: 0,
-		name: "Joao",
-		addr: "Rua x",
-		image: "res/blank.png",
-		tel: "5550000",
-		email: "email@server.com",
-		username: "user",
-		password: "user"
-	});
-	db.pets.put({
-		id: 0,
-		name: "Totó",
-		image: "res/cachorro.png",
-		species: "Dog",
-		breed: "DEABO",
-		age: 2,
-		description: "O capeta em pessoa",
-		notes: "Cuidado",
-		ownerId: 0
-	});
-	db.pets.put({
-		id: 1,
-		name: "Miau",
-		image: "res/gato.png",
-		species: "Cat",
-		breed: "Gato",
-		age: 2,
-		description: "Chato",
-		notes: "Não gosta de gente",
-		ownerId: 0
-	});
-	db.products.put({
-		id: 0,
-		name: "Caixa de areia",
-		image: "res/caixa_areia.png",
-		description: "Uma caixa de areia",
-		price: 10,
-		inStock: 10,
-		sold: 0
-	});
-	db.products.put({
-		id: 1,
-		name: "Ração canina",
-		image: "res/racao_canina.png",
-		description: "1Kg de comida para cahorro",
-		price: 100,
-		inStock: 50,
-		sold: 0
-	});
-	db.services.put({
-		id: 0,
-		name: "Tosa",
-		image: "res/tosa.png",
-		description: "Tosa...",
-		price: 30.99
-	});
-	db.services.put({
-		id: 1,
-		name: "Banho",
-		image: "res/banho.png",
-		description: "Banho...",
-		price: 34.99
-	});
-	db.appointments.put({
-		id: 0,
-		serviceId: 0,
-		userId: 0,
-		petId: 0,
-		day: "2018-04-01",
-		time: "11"
-	});
-	db.appointments.put({
-		id: 1,
-		serviceId: 1,
-		userId: 0,
-		petId: 1,
-		day: "2018-04-01",
-		time: "12"
-	});
-	db.productsSales.put({
-		id: 0,
-		productId: 0,
-		productName: "Caixa de areia",
-		productPrice: 10,
-		quantity: 5,
-		total: 50
-	});
-	db.productsSales.put({
-		id: 1,
-		productId: 1,
-		productName: "Ração canina",
-		productPrice: 100,
-		quantity: 2,
-		total: 200
-	});
-	db.servicesSales.put({
-		id: 0,
-		serviceId: 0,
-		serviceName: "Tosa",
-		servicePrice: 30.99
-	});
-	db.servicesSales.put({
-		id: 1,
-		serviceId: 1,
-		serviceName: "Banho",
-		servicePrice: 34.99
-	});
-}
-*/
-
-
-function sendJSON(endpoint, data, success){
+function sendJSON(endpoint, data, onSuccess){
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(data),
 		contentType: 'application/json',
 		url: document.location.origin + "/" + endpoint,
-		success: success
+		success: onSuccess
 	});
 }
+
 
 
 /*
@@ -788,7 +648,6 @@ de paginas na SPA
 function login_out(in_out){
 	if (in_out === 0){
 		sendJSON("login", {username: $("#User").val(), password: $("#Password").val()}, function(data) {
-			console.log(data);
 			if (data.type === "admin"){
 				$("#Top").load("src/logged_top.html");
 				$("#Menu").load("src/admin_menu.html");

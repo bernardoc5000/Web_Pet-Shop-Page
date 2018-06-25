@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var db = {};
 nano.db.list(function(err, body){
 	if (!err){
-		let props = ["admins", "clients", "pets", "products", "services", "appointments", "productsSales", "servicesSales"];
+		let props = ["admins", "clients", "pets", "products", "services", "appointments", "products_sales", "services_sales"];
 		for (let i=0; i<props.length; i++){
 			if(!body.includes(props[i])) nano.db.create(props[i], function(){ db[props[i]] = nano.use(props[i]); });
 			else db[props[i]] = nano.use(props[i]);
@@ -47,27 +47,3 @@ page.post("/login", function(req, res){
 });
 
 page.listen(8000);
-
-/*
-var http = require('http')
-var path = require('path')
-var fs = require('fs');
-
-function requestHandler(req, res) {
-	var filename = req.url;
-	if (filename === "/") filename = "./index.html";
-	var filepath = path.join(__dirname, "public", filename);
-	
-	fs.readFile(filepath, function(err, contents) {
-		if(!err){
-			res.writeHead(200);
-			res.end(contents);
-		}
-		else {
-			res.writeHead(404, {'Content-Type': 'text/html'});
-			res.end('<h1>Error 404: Page Not Found.</h1>');
-		};
-	});
-};
-http.createServer(requestHandler).listen(8000);
-*/
