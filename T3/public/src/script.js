@@ -15,7 +15,7 @@ db.version(1).stores({
 	servicesSales: "id, serviceId, serviceName, servicePrice"
 });
 db.open();
-insertInitialValues();
+//insertInitialValues();
 var sessionUser = undefined;
 var carrinho = new Map();
 var reader = new FileReader();
@@ -25,7 +25,7 @@ var reader = new FileReader();
 /*
 Funcao temporaria para
 inicializar o banco de dados
-*/
+
 function insertInitialValues(){
 	db.admins.put({
 		id: 0,
@@ -145,7 +145,18 @@ function insertInitialValues(){
 		servicePrice: 34.99
 	});
 }
+*/
 
+
+function sendJSON(endpoint, data, success){
+	$.ajax({
+		type: 'POST',
+		data: JSON.stringify(data),
+		contentType: 'application/json',
+		url: document.location.origin + "/" + endpoint,
+		success: success
+	});
+}
 
 
 /*
@@ -776,9 +787,8 @@ de paginas na SPA
 //Funcao para login e logout
 function login_out(in_out){
 	if (in_out === 0){
-		let username = $("#User").val();
-		let password = $("#Password").val();
-
+		sendJSON("login", {username: $("#User").val(), password: $("#Password").val()}, function(data) { console.log(data) });
+		/*
 		db.clients.get({username: username}, function(user){
 			if (user !== undefined && user['password'] === password){
 				$("#Top").load("src/logged_top.html");
@@ -798,6 +808,7 @@ function login_out(in_out){
 				});
 			}
 		});
+		*/
 	}
 	else{
 		$("body").load("index.html");

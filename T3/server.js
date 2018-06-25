@@ -1,44 +1,53 @@
 var nano = require('nano')("http://couchdb:couchdb@191.205.128.212:5984");
 var express = require('express');
-var delay = require('delay');
+var bodyParser = require('body-parser');
 
 var db = {};
-initializeDatabase();
-
-async function initializeDatabase(){
-	nano.db.list(function(err, body){
-		if (!err){
-			if(!body.includes("admins")) nano.db.create("admins", function(){ db.admins = nano.use("admins"); });
-			else db.admins = nano.use("admins");
-
-			if(!body.includes("clients")) nano.db.create("clients", function(){ db.clients = nano.use("clients"); });
-			else db.clients = nano.use("clients");
+nano.db.list(function(err, body){
+	if (!err){
+		let props = ["admins", "clients", "pets", "products", "services", "appointments", "productsSales", "servicesSales"];
+		for (let i=0; i<props.length; i++){
+			if(!body.includes(props[i])) nano.db.create(props[i], function(){ db[props[i]] = nano.use(props[i]); });
+			else db[props[i]] = nano.use(props[i]);
 		}
-	});
+	}
+});
 
-	/*
-	let keepGoing;
-	do{
-		keepGoing = false;
-		for (let property in db) if (db.hasOwnProperty(property) && property === undefined) keepGoing = true;
-		await delay(500);
-    }while(keepGoing);
-    console.log(db.admins);
-	console.log(db.clients);
-	*/
-}
-//var db = nano.db.use("petshop");
-//db.insert({ crazy: true }, 0);
-//db.get(0, function(err, body) {
-//  if (!err)
-//    console.log(body);
-//});
-
-/*
 var page = express();
 page.use(express.static("./public"));
+page.use(bodyParser.json());
+
+page.post("/login", function(req, res){
+	let userdata = req.body, user;
+	db.admins.list(function(err, body){
+		let keys = [];
+		for (let i=0; i<body.rows.length; i++) keys.push(body.rows[i].key);
+		db.admins.fetch({keys: keys}, function(err, data){
+			for (let j=0; user === undefined && j<data.rows.length; j++) if (data.rows[j].doc.username === userdata.username) user = data.rows[j].doc;
+			if (user !== undefined){
+				if (user.password === userdata.password) res.send({res: 0});
+				else res.send({res: -1});
+			}
+			else{
+				db.clients.list(function(err, body){
+					keys = [];
+					for (let i=0; i<body.rows.length; i++) keys.push(body.rows[i].key);
+					db.clients.fetch({keys: keys}, function(err, data){
+						for (let j=0; user === undefined && j<data.rows.length; j++) if (data.rows[j].doc.username === userdata.username) user = data.rows[j].doc;
+						if (user !== undefined){
+							if (user.password === userdata.password) res.send({res: 1});
+							else res.send(-1);
+						}
+						else res.send({res: -1});
+					});
+				});
+			}
+		});
+	});
+});
+
 page.listen(8000);
-*/
+
 /*
 var http = require('http')
 var path = require('path')
