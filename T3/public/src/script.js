@@ -787,28 +787,22 @@ de paginas na SPA
 //Funcao para login e logout
 function login_out(in_out){
 	if (in_out === 0){
-		sendJSON("login", {username: $("#User").val(), password: $("#Password").val()}, function(data) { console.log(data) });
-		/*
-		db.clients.get({username: username}, function(user){
-			if (user !== undefined && user['password'] === password){
+		sendJSON("login", {username: $("#User").val(), password: $("#Password").val()}, function(data) {
+			console.log(data);
+			if (data.type === "admin"){
+				$("#Top").load("src/logged_top.html");
+				$("#Menu").load("src/admin_menu.html");
+				changeAdminPage(0);
+				sessionUser = data.user;
+			}
+			else if (data.type === "client"){
 				$("#Top").load("src/logged_top.html");
 				$("#Menu").load("src/usuario_menu.html");
 				changeUserPage(0);
-				sessionUser = user;
+				sessionUser = data.user;
 			}
-			else{
-				db.admins.get({username: username}, function(adm){
-					if (adm !== undefined && adm['password'] === password){
-						$("#Top").load("src/logged_top.html");
-						$("#Menu").load("src/admin_menu.html");
-						changeAdminPage(0);
-						sessionUser = adm;
-					}
-					else alert("Usuário ou Senha inválidos");
-				});
-			}
+			else alert("Usuário ou Senha inválidos");
 		});
-		*/
 	}
 	else{
 		$("body").load("index.html");

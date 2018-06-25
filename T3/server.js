@@ -25,8 +25,8 @@ page.post("/login", function(req, res){
 		db.admins.fetch({keys: keys}, function(err, data){
 			for (let j=0; user === undefined && j<data.rows.length; j++) if (data.rows[j].doc.username === userdata.username) user = data.rows[j].doc;
 			if (user !== undefined){
-				if (user.password === userdata.password) res.send({res: 0});
-				else res.send({res: -1});
+				if (user.password === userdata.password) res.send({user: user, type: "admin"});
+				else res.send({user: undefined, type: -1});
 			}
 			else{
 				db.clients.list(function(err, body){
@@ -35,10 +35,10 @@ page.post("/login", function(req, res){
 					db.clients.fetch({keys: keys}, function(err, data){
 						for (let j=0; user === undefined && j<data.rows.length; j++) if (data.rows[j].doc.username === userdata.username) user = data.rows[j].doc;
 						if (user !== undefined){
-							if (user.password === userdata.password) res.send({res: 1});
-							else res.send(-1);
+							if (user.password === userdata.password) res.send({user: user, type: "client"});
+							else res.send({user: undefined, type: -1});
 						}
-						else res.send({res: -1});
+						else res.send({user: undefined, type: -1});
 					});
 				});
 			}
