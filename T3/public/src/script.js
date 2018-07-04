@@ -85,7 +85,7 @@ function loadServicos(){
 
 //Gera a lista de opcoes de servicos a partir do BD
 function loadServicosOptions(){
-	recvJSON("loadServicosOptions", function(services){
+	recvJSON("loadServicosOptionsServices", function(services){
 		let line = "";
 		for (let i=0; i<services.length; i++){
 			service = services[i];
@@ -94,11 +94,11 @@ function loadServicosOptions(){
 		$("#select_servico").html(line);
 	});
 
-	db.pets.where("ownerId").equals(sessionUser['id']).toArray(function(pets){
+	recvJSON("loadServicosOptionsPets", function(pets){
 		let line = ""
 		for (let i=0; i<pets.length; i++){
 			pet = pets[i];
-			line += "<option value=\"" + pet['id'].toString() + "\">" + pet['name'] + "</option>";
+			line += "<option value=\"" + pet['_id'].toString() + "\">" + pet['name'] + "</option>";
 		}
 		$("#select_animal").html(line);
 	});
@@ -396,7 +396,7 @@ function addProduto(){
 				image: reader.result,
 				description: $("#produto_desc").val(),
 				price: parseFloat($("#produto_preco").val()),
-				inStock: parseInt($("#produto_estoque").val()),
+				inStock: parseInt($("#produto_estoque").val())
 			};
 			sendJSON("addProduto", product, function(data){
 				if (data.success) alert("Produto adicionado com sucesso.");
@@ -408,22 +408,19 @@ function addProduto(){
 }
 
 //Adiciona o servico no BD
-async function addServico(){
+function addServico(){
 	if($("#add_servico")[0].checkValidity() === false || $("#servico_foto").prop("files")[0] === undefined) alert("Dados Invalidos.");
 	else{
-		let id = parseInt(2147483648*Math.random());
-		while ((await db.services.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
-		
 		reader.onloadend = function(){
-			db.services.put({
-				id: id,
+			let service = {
 				name: $("#servico_nome").val(),
 				image: reader.result,
 				description: $("#servico_desc").val(),
 				price: parseFloat($("#servico_preco").val())
-			}).then(function(){
-
-				alert("Serviço adicionado com sucesso.");
+			};
+			sendJSON("addServico", service, function(data){
+				if(data.success) alert("Serviço adicionado com sucesso.");
+				else alert("Erro ao adicionar o serviço.");
 			});
 		}
 		reader.readAsDataURL($("#servico_foto").prop("files")[0]);
@@ -431,15 +428,11 @@ async function addServico(){
 }
 
 //Adiciona o usuario no BD
-async function addUser(){
+function addUser(){
 	if($("#usuario_cadastro")[0].checkValidity() === false || $("#usuario_foto").prop("files")[0] === undefined) alert("Dados Invalidos.");
 	else{
-		let id = parseInt(2147483648*Math.random());
-		while ((await db.clients.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
-
 		reader.onloadend = function(){
-			db.clients.put({
-				id: id,
+			let user = {
 				name: $("#usuario_nome").val(),
 				addr: $("#usuario_endereco").val(),
 				image: reader.result,
@@ -447,9 +440,10 @@ async function addUser(){
 				email: $("#usuario_email").val(),
 				username: $("#usuario_user").val(),
 				password: $("#usuario_password").val()
-			}).then(function(){
-
-				alert("Usuário criado com sucesso.");
+			};
+			sendJSON("addUser", user, function(data){
+				if(data.success) alert("Usuário criado com sucesso.");
+				else alert("Erro ao adicionar o usuário.");
 			});
 		}
 		reader.readAsDataURL($("#usuario_foto").prop("files")[0]);
@@ -457,15 +451,11 @@ async function addUser(){
 }
 
 //Adiciona o animal no BD
-async function addAnimal(){
+function addAnimal(){
 	if($("#animal_form")[0].checkValidity() === false || $("#animal_foto").prop("files")[0] === undefined) alert("Dados Invalidos.");
 	else{
-		let id = parseInt(2147483648*Math.random());
-		while ((await db.pets.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
-
 		reader.onloadend = function(){
-			db.pets.put({
-				id: id,
+			let animal = {
 				name: $("#animal_nome").val(),
 				image: reader.result,
 				species: $("#animal_especie").val(),
@@ -474,9 +464,10 @@ async function addAnimal(){
 				description: $("#animal_desc").val(),
 				notes: $("#animal_obs").val(),
 				ownerId: sessionUser['id']
-			}).then(function(){
-
-				alert("Animal adicionado com sucesso à sua lista de animais.");
+			};
+			sendJSON("addAnimal", animal, function(data){
+				if(data.success) alert("Animal adicionado com sucesso à sua lista de animais.");
+				else alert("Erro ao adicionar o animal à sua lista de animais.");
 			});
 		}
 		reader.readAsDataURL($("#animal_foto").prop("files")[0]);
@@ -484,24 +475,21 @@ async function addAnimal(){
 }
 
 //Adiciona o administrador no BD
-async function addAdmin(){
+function addAdmin(){
 	if($("#admin_form")[0].checkValidity() === false || $("#admin_foto").prop("files")[0] === undefined) alert("Dados Invalidos.");
 	else{
-		let id = parseInt(2147483648*Math.random());
-		while ((await db.admins.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
-		
 		reader.onloadend = function(){
-			db.admins.put({
-				id: id,
+			let admin = {
 				name: $("#admin_nome").val(),
 				image: reader.result,
 				tel: $("#admin_tel").val(),
 				email: $("#admin_email").val(),
 				username: $("#admin_user").val(),
 				password: $("#admin_password").val()
-			}).then(function(){
-
-				alert("Usuário administrador criado com sucesso.");
+			};
+			sendJSON("addAdmin", admin, function(data){
+				if(data.success) alert("Usuário administrador criado com sucesso.");
+				else alert("Erro ao adicionar o usuário administrador.");
 			});
 		}
 		reader.readAsDataURL($("#admin_foto").prop("files")[0]);
@@ -509,23 +497,19 @@ async function addAdmin(){
 }
 
 //Adiciona o servico marcado no BD
-async function addAppointment(){
+function addAppointment(){
 	if($("#Horarios")[0].checkValidity() === false || $("#time_form")[0].checkValidity() === false) alert("Dados Invalidos.");
 	else{
-		let id = parseInt(2147483648*Math.random());
-		while ((await db.appointments.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
-
-		db.appointments.put({
-			id: id,
+		let appointment = {
 			serviceId: parseInt($("#select_servico").val()),
 			userId: sessionUser['id'],
 			petId: parseInt($("#select_animal").val()),
 			day: $("#date").val(),
 			time: $("#Horarios input[name=time_schedule]:checked").val()
-		}).then(function(){
-
-			addServiceSale(parseInt($("#select_servico").val()));
-			alert("Serviço agendado com sucesso.");
+		};
+		sendJSON("addAppointment", appointment, function(data){
+			if(data.success) alert("Serviço agendado com sucesso.");
+			else alert("Erro ao agendar o serviço.");
 		});
 		loadServicosHorarios();
 	}

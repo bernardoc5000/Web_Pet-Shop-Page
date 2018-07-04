@@ -57,6 +57,51 @@ page.post("/addProduto", function(req, res){
 	});
 });
 
+page.post("/addServico", function(req, res){
+	let service = req.body;
+	service.sold = 0;
+	db.services.insert(service, function(err, body){
+		if (err) res.send({success: false});
+		else res.send({success: true});
+	});
+});
+
+page.post("/addUser", function(req, res){
+	let user = req.body;
+	user.sold = 0;
+	db.clients.insert(user, function(err, body){
+		if (err) res.send({success: false});
+		else res.send({success: true});
+	});
+});
+
+page.post("/addAnimal", function(req, res){
+	let animal = req.body;
+	animal.sold = 0;
+	db.pets.insert(animal, function(err, body){
+		if (err) res.send({success: false});
+		else res.send({success: true});
+	});
+});
+
+page.post("/addAdmin", function(req, res){
+	let admin = req.body;
+	admin.sold = 0;
+	db.admins.insert(admin, function(err, body){
+		if (err) res.send({success: false});
+		else res.send({success: true});
+	});
+});
+
+page.post("/addAppointment", function(req, res){
+	let appointment = req.body;
+	appointment.sold = 0;
+	db.appointments.insert(appointment, function(err, body){
+		if (err) res.send({success: false});
+		else res.send({success: true});
+	});
+});
+
 page.get("/loadProdutos", function(req, res){
 	db.products.list({include_docs: true}, function(err, body){
 		if (err){
@@ -81,7 +126,7 @@ page.get("/loadServicos", function(req, res){
 	});
 });
 
-page.get("/loadServicosOptions", function(req, res){
+page.get("/loadServicosOptionsServices", function(req, res){
 	db.services.list({include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
@@ -90,6 +135,18 @@ page.get("/loadServicosOptions", function(req, res){
 		let services = [];
 		for (let i=0; i<body.rows.length; i++) services.push(body.rows[i].doc);
 		res.send(services);
+	});
+});
+
+page.get("/loadServicosOptionsPets", function(req, res){
+	db.pets.where("ownerId").equals(sessionUser['id']).list({include_docs: true}, function(err, body){ //obs: sessionUser
+		if (err){
+			res.send([]);
+			return;
+		}
+		let pets = [];
+		for (let i=0; i<body.rows.length; i++) pets.push(body.rows[i].doc);
+		res.send(pets);
 	});
 });
 
