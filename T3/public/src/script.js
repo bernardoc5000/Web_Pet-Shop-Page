@@ -63,7 +63,7 @@ function loadProdutos(page){
 
 //Gera a lista de servicos a partir do BD
 function loadServicos(){
-	db.services.toArray(function(services){
+	recvJSON("loadServicos", function(services){
 		let line = "";
 		for (let i=0; i<services.length; i++){
 			service = services[i];
@@ -73,8 +73,8 @@ function loadServicos(){
 			line += "<li class=\"ProductDescription\">" + service['name'] + "</li>";
 			line += "<li class=\"ProductDescription\">" + service['description'] + "</li>";
 			line += "<li class=\"ProductDescription\">R$ " + service['price'] + "</li>";
-			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"loadEditServico(" + service['id'].toString() + ")\"></input></li>";
-			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeServico(" + service['id'].toString() + ")\"></input></li>";
+			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"loadEditServico(" + service['_id'].toString() + ")\"></input></li>";
+			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeServico(" + service['_id'].toString() + ")\"></input></li>";
 			line += "</ul>";
 			line += "</div>";
 		}
@@ -85,11 +85,11 @@ function loadServicos(){
 
 //Gera a lista de opcoes de servicos a partir do BD
 function loadServicosOptions(){
-	db.services.toArray(function(services){
+	recvJSON("loadServicosOptions", function(services){
 		let line = "";
 		for (let i=0; i<services.length; i++){
 			service = services[i];
-			line += "<option value=\"" + service['id'].toString() + "\">" + service['name'] + " - R$" + service['price'] + "</option>";
+			line += "<option value=\"" + service['_id'].toString() + "\">" + service['name'] + " - R$" + service['price'] + "</option>";
 		}
 		$("#select_servico").html(line);
 	});
@@ -205,7 +205,7 @@ function loadEditProduto(id){
 
 //Mostra a pagina de lucros
 function loadLucros(){
-	db.productsSales.toArray(function(sales){
+	recvJSON("loadLucrosProductsSales", function(sales){
 		let line = "Produto\t\tQuantidade\t\tValor\n\n";
 		let tot = 0;
 		for (let i=0; i<sales.length; i++){
@@ -218,7 +218,7 @@ function loadLucros(){
 		$("#lucro_produtos").html(line);
 	});
 
-	db.servicesSales.toArray(function(sales){
+	recvJSON("loadLucrosServicesSales", function(sales){
 		let line = "Serviço\t\t\t\t\tValor\n\n";
 		let tot = 0;
 		for (let i=0; i<sales.length; i++){

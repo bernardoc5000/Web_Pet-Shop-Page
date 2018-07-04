@@ -69,6 +69,54 @@ page.get("/loadProdutos", function(req, res){
 	});
 });
 
+page.get("/loadServicos", function(req, res){
+	db.services.list({include_docs: true}, function(err, body){
+		if (err){
+			res.send([]);
+			return;
+		}
+		let services = [];
+		for (let i=0; i<body.rows.length; i++) services.push(body.rows[i].doc);
+		res.send(services);
+	});
+});
+
+page.get("/loadServicosOptions", function(req, res){
+	db.services.list({include_docs: true}, function(err, body){
+		if (err){
+			res.send([]);
+			return;
+		}
+		let services = [];
+		for (let i=0; i<body.rows.length; i++) services.push(body.rows[i].doc);
+		res.send(services);
+	});
+});
+
+page.get("/loadLucrosProductsSales", function(req, res){
+	db.products_sales.list({include_docs: true}, function(err, body){
+		if (err){
+			res.send([]);
+			return;
+		}
+		let products_sales = [];
+		for (let i=0; i<body.rows.length; i++) products_sales.push(body.rows[i].doc);
+		res.send(products_sales);
+	});
+});
+
+page.get("/loadLucrosServicesSales", function(req, res){
+	db.services_sales.list({include_docs: true}, function(err, body){
+		if (err){
+			res.send([]);
+			return;
+		}
+		let services_sales = [];
+		for (let i=0; i<body.rows.length; i++) services_sales.push(body.rows[i].doc);
+		res.send(services_sales);
+	});
+});
+
 
 
 page.listen(5985);
