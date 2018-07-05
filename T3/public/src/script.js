@@ -46,7 +46,7 @@ function loadProdutos(page){
 			line += "<li class=\"ProductDescription\">R$ " + product['price'] + "</li>";
 			if (page === 0){
 				line += "<li class=\"ProductValue\">Quantidade: <input id=\"quantidade_" + product['_id'].toString() + "\" type=\"number\" name=\"Quantidade\" value=\"Quantidade\" min=\"1\" required></input></li>";
-				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(" + product['_id'].toString() + ")\"></input></li>";
+				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(\'" + product['_id'].toString() + "\')\"></input></li>";
 			}
 			else{
 				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"loadEditProduto(\'" + product['_id'].toString() + "\')\"></input></li>";
@@ -113,11 +113,11 @@ function loadServicosHorarios(){
 		else $("#lb_hr_"+horario.toString()).html("0" + horario.toString() + ":00");
 	}
 
-	db.appointments.where("day").equals($("#date").val()).toArray(function(occupied){
+	sendJSON("loadServicosHorariosAppointment", {day: $("#date").val()}, function(occupied){
 		for (let i=0; i<occupied.length; i++){
 			$("#hr_"+occupied[i]['time']).attr('disabled', true);
-			db.services.get(occupied[i]['serviceId'], function(service){
-				db.pets.get(occupied[i]['petId'], function(pet){
+			sendJSON("loadServicosHorariosService", {serviceId: occupied[i]['serviceId']}, function(service){
+				sendJSON("loadServicosHorariosPet", {petId: occupied[i]['petId']}, function(pet){
 					let timeString = occupied[i]['time'];
 					if (parseInt(timeString) < 10) timeString = "0" + timeString;
 					$("#lb_hr_"+occupied[i]['time']).html(timeString + ":00 - Ocupado   →   <img class=\"ServicoImage\" src=\"" + service['image'] + "\" alt=\"res/blank.png\">(" + service['name'] + ") para " + pet['name']);
@@ -140,7 +140,7 @@ function loadAnimais(){
 			line += "<li class=\"ProductDescription\">" + pet['breed'] + "</li>";
 			line += "<li class=\"ProductDescription\">" + pet['age'] + " ano(s) de idade</li>";
 			line += "<li class=\"ProductValue\">" + pet['description']+ "</li>";
-			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Ver Informações\" value=\"Ver Informações\" class=\"ProductButton\" onclick=\"showAnimal(" + pet['_id'].toString() + ")\"></li>";
+			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Ver Informações\" value=\"Ver Informações\" class=\"ProductButton\" onclick=\"showAnimal(\'" + pet['_id'].toString() + "\')\"></li>";
 			line += "</ul>";
 			line += "</div>";
 		}
@@ -150,7 +150,7 @@ function loadAnimais(){
 }
 
 //Gera a tabela do carrinho a partir do mapa
-async function loadCarrinho(){
+function loadCarrinho(){
 	let tot = 0;
 	let line = 	"<tr>";
 	line += "<th>Foto</th>";
@@ -161,16 +161,17 @@ async function loadCarrinho(){
 	line += "<th>Remover</th>";
 	line += "</tr>";
 	for (let id of carrinho.keys()){
-		let product = await db.products.get(id);
-		tot += carrinho.get(id)*product['price'];
-		line += "<tr>";
-		line += "<td><img src=\"" + product['image'] + "\"></td>";
-		line += "<td>" + product['description'] + "</td>";
-		line += "<td>" + carrinho.get(id).toString() + "</td>";
-		line += "<td>" + product['price'].toString() + "</td>";
-		line += "<td>" + (carrinho.get(id)*product['price']).toString() + "</td>";
-		line += "<td><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeCarrinho(" + id.toString() +")\"></td>";
-		line += "</tr>";
+		sendJSON("loadCarrinho", {productId: id}, function(product){
+			tot += carrinho.get(id)*product['price'];
+			line += "<tr>";
+			line += "<td><img src=\"" + product['image'] + "\"></td>";
+			line += "<td>" + product['description'] + "</td>";
+			line += "<td>" + carrinho.get(id).toString() + "</td>";
+			line += "<td>" + product['price'].toString() + "</td>";
+			line += "<td>" + (carrinho.get(id)*product['price']).toString() + "</td>";
+			line += "<td><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeCarrinho(" + id.toString() +")\"></td>";
+			line += "</tr>";
+		});
 	}
 	line += "<tr>";
 	line += "<td>Total a pagar: </td>";
@@ -516,33 +517,33 @@ function addAppointment(){
 }
 
 //Adiciona a venda do produto no BD
-async function addProductSale(productId, productQuantity){
-	let id = parseInt(2147483648*Math.random());
-	while ((await db.productsSales.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+function addProductSale(productId, productQuantity){
 
-	db.products.get(productId, function(product){
-		db.productsSales.put({
-			id: id,
+	sendJSON("addProductSaleGetProduct", {productId: productId}, function(product){
+		let productSale = {
 			productId: productId,
 			productName: product['name'],
 			productPrice: product['price'],
 			quantity: productQuantity,
 			total: productQuantity *  product['price']
+		};
+		sendJSON("addProductSaleAdd", productSale, function(data){
+			if(!data.success) alert("Erro ao adicionar produto na lista de lucros");
 		});
 	});
 }
 
 //Adiciona a venda do servico no BD
-async function addServiceSale(serviceId){
-	let id = parseInt(2147483648*Math.random());
-	while ((await db.servicesSales.get(id)) !== undefined) id = parseInt(2147483648*Math.random());
+function addServiceSale(serviceId){
 
-	db.services.get(serviceId, function(service){
-		db.servicesSales.put({
-			id: id,
+	sendJSON("addServiceSaleGetService", {serviceId: serviceId}, function(service){
+		let serviceSale = {
 			serviceId: serviceId,
 			serviceName: service['name'],
-			servicePrice: service['price'],
+			servicePrice: service['price']
+		};
+		sendJSON("addServiceSaleAdd", serviceSale, function(data){
+			if(!data.success) alert("Erro ao adicionar serviço na lista de lucros");
 		});
 	});
 }
@@ -551,7 +552,7 @@ async function addServiceSale(serviceId){
 function addCarrinho(id){
 	if($("#quantidade_"+id.toString())[0].checkValidity() === false) alert("Dados Invalidos.");
 	else{
-		db.products.get(id, function(product){
+		sendJSON("addCarrinho", {productId: id}, function(product){
 			let cur = 0;
 			if (carrinho.get(id) !== undefined) cur = carrinho.get(id);
 			if (cur + parseInt($("#quantidade_"+id.toString()).val()) <= product['inStock']){
@@ -585,7 +586,7 @@ function removeCarrinho(id){
 
 //Mostra as informacoes do animal
 function showAnimal(id){
-	db.pets.get(parseInt(id), function(pet){
+	sendJSON("showAnimal", {petId: id}, function(pet){
 		$("#MainContent").load("src/usuario_animais_info.html", function(responseTxt, statusTxt, xhr){
 			$("#info_img").attr('src', pet['image']);
 			$("#info_name").html(pet['name']);

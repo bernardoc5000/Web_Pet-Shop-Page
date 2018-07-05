@@ -67,7 +67,6 @@ page.post("/addServico", function(req, res){
 
 page.post("/addUser", function(req, res){
 	let user = req.body;
-	user.sold = 0;
 	db.clients.insert(user, function(err, body){
 		if (err) res.send({success: false});
 		else res.send({success: true});
@@ -76,7 +75,6 @@ page.post("/addUser", function(req, res){
 
 page.post("/addAnimal", function(req, res){
 	let animal = req.body;
-	animal.sold = 0;
 	db.pets.insert(animal, function(err, body){
 		if (err) res.send({success: false});
 		else res.send({success: true});
@@ -85,7 +83,6 @@ page.post("/addAnimal", function(req, res){
 
 page.post("/addAdmin", function(req, res){
 	let admin = req.body;
-	admin.sold = 0;
 	db.admins.insert(admin, function(err, body){
 		if (err) res.send({success: false});
 		else res.send({success: true});
@@ -94,7 +91,6 @@ page.post("/addAdmin", function(req, res){
 
 page.post("/addAppointment", function(req, res){
 	let appointment = req.body;
-	appointment.sold = 0;
 	db.appointments.insert(appointment, function(err, body){
 		if (err) res.send({success: false});
 		else res.send({success: true});
@@ -127,7 +123,6 @@ page.post("/loadAnimais", function(req, res){
 	});
 });
 
-// VER GET EM VEZ DE LIST
 page.post("/loadProductData", function(req, res){
 	productId = req.body.productId;
 	db.products.list({ _id: productId, include_docs: true}, function(err, body){
@@ -135,14 +130,37 @@ page.post("/loadProductData", function(req, res){
 			res.send([]);
 			return;
 		}
-		let products = [];
-		for (let i=0; i<body.rows.length; i++) products.push(body.rows[i].doc);
+		let products = body.rows[0].doc;
 		res.send(products);
 	});
 });
 
-// VER GET EM VEZ DE LIST
 page.post("/loadServiceData", function(req, res){
+	serviceId = req.body.serviceId;
+	db.services.list({ _id: serviceId, include_docs: true}, function(err, body){
+		if (err){
+			res.send([]);
+			return;
+		}
+		let services = body.rows[0].doc;
+		res.send(services);
+	});
+});
+
+page.post("/loadServicosHorariosAppointment", function(req, res){
+	day = req.body.day;
+	db.appointments.list({ day: day, include_docs: true}, function(err, body){
+		if (err){
+			res.send([]);
+			return;
+		}
+		let appointments = [];
+		for (let i=0; i<body.rows.length; i++) appointments.push(body.rows[i].doc);
+		res.send(appointments);
+	});
+});
+
+page.post("/loadServicosHorariosService", function(req, res){
 	serviceId = req.body.serviceId;
 	db.services.list({ _id: serviceId, include_docs: true}, function(err, body){
 		if (err){
@@ -152,6 +170,95 @@ page.post("/loadServiceData", function(req, res){
 		let services = [];
 		for (let i=0; i<body.rows.length; i++) services.push(body.rows[i].doc);
 		res.send(services);
+	});
+});
+
+page.post("/loadServicosHorariosPet", function(req, res){
+	petId = req.body.petId;
+	db.pets.list({ _id: petId, include_docs: true}, function(err, body){
+		if (err){
+			res.send([]);
+			return;
+		}
+		let pets = [];
+		for (let i=0; i<body.rows.length; i++) pets.push(body.rows[i].doc);
+		res.send(pets);
+	});
+});
+
+page.post("/loadCarrinho", function(req, res){
+	productId = req.body.productId;
+	db.products.list({ _id: productId, include_docs: true}, function(err, body){
+		if (err){
+			res.send([]);
+			return;
+		}
+		let products = body.rows[0].doc;
+		res.send(products);
+	});
+});
+
+page.post("/addProductSaleGetProduct", function(req, res){
+	productId = req.body.productId;
+	db.products.list({ _id: productId, include_docs: true}, function(err, body){
+		if (err){
+			res.send([]);
+			return;
+		}
+		let products = body.rows[0].doc;
+		res.send(products);
+	});
+});
+
+page.post("/addProductSaleAdd", function(req, res){
+	let productSale = req.body;
+	db.products_sales.insert(productSale, function(err, body){
+		if (err) res.send({success: false});
+		else res.send({success: true});
+	});
+});
+
+page.post("/addServiceSaleGetService", function(req, res){
+	serviceId = req.body.serviceId;
+	db.services.list({ _id: serviceId, include_docs: true}, function(err, body){
+		if (err){
+			res.send([]);
+			return;
+		}
+		let services = body.rows[0].doc;
+		res.send(services);
+	});
+});
+
+page.post("/addServiceSaleAdd", function(req, res){
+	let serviceSale = req.body;
+	db.services_sales.insert(serviceSale, function(err, body){
+		if (err) res.send({success: false});
+		else res.send({success: true});
+	});
+});
+
+page.post("/addCarrinho", function(req, res){
+	productId = req.body.productId;
+	db.products.list({ _id: productId, include_docs: true}, function(err, body){
+		if (err){
+			res.send([]);
+			return;
+		}
+		let products = body.rows[0].doc;
+		res.send(products);
+	});
+});
+
+page.post("/showAnimal", function(req, res){
+	petId = req.body.petId;
+	db.pets.list({ _id: petId, include_docs: true}, function(err, body){
+		if (err){
+			res.send([]);
+			return;
+		}
+		let pets = body.rows[0].doc;
+		res.send(pets);
 	});
 });
 
