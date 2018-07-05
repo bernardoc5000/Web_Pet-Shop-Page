@@ -49,8 +49,9 @@ function loadProdutos(page){
 				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(" + product['_id'].toString() + ")\"></input></li>";
 			}
 			else{
-				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"loadEditProduto(" + product['_id'].toString() + ")\"></input></li>";
-				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeProduto(" + product['_id'].toString() + ")\"></input></li>";
+				productId = product['_id'].toString();
+				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"loadEditProduto(productId)\"></input></li>";
+				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeProduto(productId)\"></input></li>";
 			}
 			line += "</ul>";
 			line += "</div>";
@@ -73,8 +74,9 @@ function loadServicos(){
 			line += "<li class=\"ProductDescription\">" + service['name'] + "</li>";
 			line += "<li class=\"ProductDescription\">" + service['description'] + "</li>";
 			line += "<li class=\"ProductDescription\">R$ " + service['price'] + "</li>";
-			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"loadEditServico(" + service['_id'].toString() + ")\"></input></li>";
-			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeServico(" + service['_id'].toString() + ")\"></input></li>";
+			serviceId = service['_id'].toString();
+			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"loadEditServico(serviceId)\"></input></li>";
+			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeServico(serviceId)\"></input></li>";
 			line += "</ul>";
 			line += "</div>";
 		}
@@ -94,7 +96,7 @@ function loadServicosOptions(){
 		$("#select_servico").html(line);
 	});
 
-	recvJSON("loadServicosOptionsPets", function(pets){
+	sendJSON("loadServicosOptionsPets", {sessionUserId: sessionUser['id']}, function(pets){
 		let line = ""
 		for (let i=0; i<pets.length; i++){
 			pet = pets[i];
@@ -129,7 +131,7 @@ function loadServicosHorarios(){
 
 //Gera a lista de animais a partir do BD
 function loadAnimais(){
-	db.pets.where("ownerId").equals(sessionUser['id']).toArray(function(pets){
+	sendJSON("loadAnimais", {ownerId: sessionUser['id']}, function(pets){
 		let line = ""
 		for (let i=0; i<pets.length; i++){
 			pet = pets[i];
@@ -140,7 +142,7 @@ function loadAnimais(){
 			line += "<li class=\"ProductDescription\">" + pet['breed'] + "</li>";
 			line += "<li class=\"ProductDescription\">" + pet['age'] + " ano(s) de idade</li>";
 			line += "<li class=\"ProductValue\">" + pet['description']+ "</li>";
-			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Ver Informações\" value=\"Ver Informações\" class=\"ProductButton\" onclick=\"showAnimal(" + pet['id'].toString() + ")\"></li>";
+			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Ver Informações\" value=\"Ver Informações\" class=\"ProductButton\" onclick=\"showAnimal(" + pet['_id'].toString() + ")\"></li>";
 			line += "</ul>";
 			line += "</div>";
 		}
@@ -244,7 +246,7 @@ function loadUserData(){
 
 //Seta os valores do produto na pagina da edicao antes da edicao
 function loadProductData(id){
-	db.products.get(id, function(product){
+	sendJSON("loadProductData", {productId: id}, function(product){
 		$("#produto_nome").val(product['name']);
 		$("#produto_preco").val(product['price']);
 		$("#produto_estoque").val(product['inStock']);
@@ -254,7 +256,7 @@ function loadProductData(id){
 
 //Seta os valores do servico na pagina da edicao antes da edicao
 function loadServiceData(id){
-	db.services.get(id, function(service){
+	sendJSON("loadServiceData", {serviceId: id}, function(service){
 		$("#servico_nome").val(service['name']);
 		$("#servico_preco").val(service['price']);
 		$("#servico_desc").val(service['description']);

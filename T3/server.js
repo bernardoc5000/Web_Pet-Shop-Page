@@ -6,7 +6,7 @@ page.use(express.static(__dirname + "/public"));
 page.use(compression());
 page.use(bodyParser.json({limit: '10mb'}));
 
-var nano = require('nano')("http://couchdb:couchdb@152.250.46.95:5984");
+var nano = require('nano')("http://admin:couchdb@127.0.0.1:5984");
 var db = {};
 nano.db.list(function(err, body){
 	if (err) return;
@@ -16,7 +16,6 @@ nano.db.list(function(err, body){
 		else db[props[i]] = nano.use(props[i]);
 	}
 });
-
 
 
 page.post("/login", function(req, res){
@@ -102,6 +101,60 @@ page.post("/addAppointment", function(req, res){
 	});
 });
 
+page.post("/loadServicosOptionsPets", function(req, res){
+	userId = req.body.sessionUserId;
+	db.pets.list({ownerId: userId, include_docs: true}, function(err, body){
+		if (err){
+			res.send([]);
+			return;
+		}
+		let pets = [];
+		for (let i=0; i<body.rows.length; i++) pets.push(body.rows[i].doc);
+		res.send(pets);
+	});
+});
+
+page.post("/loadAnimais", function(req, res){
+	userId = req.body.sessionUserId;
+	db.pets.list({ownerId: userId, include_docs: true}, function(err, body){
+		if (err){
+			res.send([]);
+			return;
+		}
+		let pets = [];
+		for (let i=0; i<body.rows.length; i++) pets.push(body.rows[i].doc);
+		res.send(pets);
+	});
+});
+
+// VER GET EM VEZ DE LIST
+page.post("/loadProductData", function(req, res){
+	productId = req.body.productId;
+	db.products.list({ _id: productId, include_docs: true}, function(err, body){
+		if (err){
+			res.send([]);
+			return;
+		}
+		let products = [];
+		for (let i=0; i<body.rows.length; i++) products.push(body.rows[i].doc);
+		res.send(products);
+	});
+});
+
+// VER GET EM VEZ DE LIST
+page.post("/loadServiceData", function(req, res){
+	serviceId = req.body.serviceId;
+	db.services.list({ _id: serviceId, include_docs: true}, function(err, body){
+		if (err){
+			res.send([]);
+			return;
+		}
+		let services = [];
+		for (let i=0; i<body.rows.length; i++) services.push(body.rows[i].doc);
+		res.send(services);
+	});
+});
+
 page.get("/loadProdutos", function(req, res){
 	db.products.list({include_docs: true}, function(err, body){
 		if (err){
@@ -135,18 +188,6 @@ page.get("/loadServicosOptionsServices", function(req, res){
 		let services = [];
 		for (let i=0; i<body.rows.length; i++) services.push(body.rows[i].doc);
 		res.send(services);
-	});
-});
-
-page.get("/loadServicosOptionsPets", function(req, res){
-	db.pets.where("ownerId").equals(sessionUser['id']).list({include_docs: true}, function(err, body){ //obs: sessionUser
-		if (err){
-			res.send([]);
-			return;
-		}
-		let pets = [];
-		for (let i=0; i<body.rows.length; i++) pets.push(body.rows[i].doc);
-		res.send(pets);
 	});
 });
 
