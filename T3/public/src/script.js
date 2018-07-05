@@ -49,9 +49,8 @@ function loadProdutos(page){
 				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Adicionar ao Carrinho\" value=\"Adicionar ao Carrinho\" class=\"ProductButton\" onclick=\"addCarrinho(" + product['_id'].toString() + ")\"></input></li>";
 			}
 			else{
-				productId = product['_id'].toString();
-				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"loadEditProduto(productId)\"></input></li>";
-				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeProduto(productId)\"></input></li>";
+				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"loadEditProduto(\'" + product['_id'].toString() + "\')\"></input></li>";
+				line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeProduto(\'" + product['_id'].toString() + "\')\"></input></li>";
 			}
 			line += "</ul>";
 			line += "</div>";
@@ -74,9 +73,8 @@ function loadServicos(){
 			line += "<li class=\"ProductDescription\">" + service['name'] + "</li>";
 			line += "<li class=\"ProductDescription\">" + service['description'] + "</li>";
 			line += "<li class=\"ProductDescription\">R$ " + service['price'] + "</li>";
-			serviceId = service['_id'].toString();
-			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"loadEditServico(serviceId)\"></input></li>";
-			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeServico(serviceId)\"></input></li>";
+			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Editar\" value=\"Editar\" class=\"ProductButton\" onclick=\"loadEditServico(\'" + service['_id'].toString() + "\')\"></input></li>";
+			line += "<li class=\"ProductButtonLine\"><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeServico(\'" + service['_id'].toString() + "\')\"></input></li>";
 			line += "</ul>";
 			line += "</div>";
 		}
