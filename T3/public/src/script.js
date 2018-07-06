@@ -120,7 +120,7 @@ function loadServicosHorarios(){
 				sendJSON("loadServicosHorariosPet", {petId: occupied[i]['petId']}, function(pet){
 					let timeString = occupied[i]['time'];
 					if (parseInt(timeString) < 10) timeString = "0" + timeString;
-					$("#lb_hr_"+occupied[i]['time']).html(timeString + ":00 - Ocupado   →   <img class=\"ServicoImage\" src=\"" + service['image'] + "\" alt=\"res/blank.png\">(" + service['name'] + ") para " + pet['name']);
+					$("#lb_hr_"+occupied[i]['time']).html(timeString + ":00 - Ocupado   →   <img class=\"ServicoImage\" src=\"" + service['image'] + "\" alt=\"res/blank.png\">(" + service['name'] + ") para " + pet['name'] + " <img class=\"PetImage\" src=\"" + pet['image'] + "\" alt=\"res/blank.png\">");
 				});
 			});
 		}
@@ -238,6 +238,7 @@ function loadLucros(){
 function loadUserData(){
 	$("#usuario_nome").val(sessionUser['name']);
 	$("#usuario_endereco").val(sessionUser['addr']);
+	$("#usuario_img").attr('src', sessionUser['image']);
 	$("#usuario_tel").val(sessionUser['tel']);
 	$("#usuario_email").val(sessionUser['email']);
 	$("#usuario_user").val(sessionUser['username']);

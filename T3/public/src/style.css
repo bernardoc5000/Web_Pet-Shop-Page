@@ -329,9 +329,17 @@ body{
 	width: 90%;
 }
 
-.ServicoImage{
+.ServicoImage, .PetImage{
 	height: 100%;
 	width: 10%;
+	border-style: solid;
+	border-color: #240D6D;
+	border-width: 3px; 
+}
+
+#usuario_img{
+	margin-top: 20px;
+	margin-left: 100px;
 	border-style: solid;
 	border-color: #240D6D;
 	border-width: 3px; 
