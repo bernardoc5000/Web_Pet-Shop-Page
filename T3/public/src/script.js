@@ -534,11 +534,11 @@ function addAppointment(){
 		sendJSON("addAppointment", appointment, function(data){
 			if(data.success){
 				addServiceSale($("#select_servico").val());
+				loadServicosHorarios();
 				alert("Serviço agendado com sucesso.");
 			}
 			else alert("Erro ao agendar o serviço.");
 		});
-		loadServicosHorarios();
 	}
 }
 
