@@ -89,16 +89,16 @@ function loadServicosOptions(){
 		let line = "";
 		for (let i=0; i<services.length; i++){
 			service = services[i];
-			line += "<option value=\"" + service['_id'].toString() + "\">" + service['name'] + " - R$" + service['price'] + "</option>";
+			line += "<option value=\'" + service['_id'].toString() + "\'>" + service['name'] + " - R$" + service['price'] + "</option>";
 		}
 		$("#select_servico").html(line);
 	});
 
-	sendJSON("loadServicosOptionsPets", {sessionUserId: sessionUser['id']}, function(pets){
+	sendJSON("loadServicosOptionsPets", {sessionUserId: sessionUser['_id']}, function(pets){
 		let line = ""
 		for (let i=0; i<pets.length; i++){
 			pet = pets[i];
-			line += "<option value=\"" + pet['_id'].toString() + "\">" + pet['name'] + "</option>";
+			line += "<option value=\'" + pet['_id'].toString() + "\'>" + pet['name'] + "</option>";
 		}
 		$("#select_animal").html(line);
 	});
@@ -129,7 +129,7 @@ function loadServicosHorarios(){
 
 //Gera a lista de animais a partir do BD
 function loadAnimais(){
-	sendJSON("loadAnimais", {ownerId: sessionUser['id']}, function(pets){
+	sendJSON("loadAnimais", {ownerId: sessionUser['_id']}, function(pets){
 		let line = ""
 		for (let i=0; i<pets.length; i++){
 			pet = pets[i];
@@ -464,7 +464,7 @@ function addAnimal(){
 				age: parseInt($("#animal_idade").val()),
 				description: $("#animal_desc").val(),
 				notes: $("#animal_obs").val(),
-				ownerId: sessionUser['id']
+				ownerId: sessionUser['_id']
 			};
 			sendJSON("addAnimal", animal, function(data){
 				if(data.success) alert("Animal adicionado com sucesso à sua lista de animais.");
@@ -502,9 +502,9 @@ function addAppointment(){
 	if($("#Horarios")[0].checkValidity() === false || $("#time_form")[0].checkValidity() === false) alert("Dados Invalidos.");
 	else{
 		let appointment = {
-			serviceId: parseInt($("#select_servico").val()),
-			userId: sessionUser['id'],
-			petId: parseInt($("#select_animal").val()),
+			serviceId: $("#select_servico").val(),
+			userId: sessionUser['_id'],
+			petId: $("#select_animal").val(),
 			day: $("#date").val(),
 			time: $("#Horarios input[name=time_schedule]:checked").val()
 		};

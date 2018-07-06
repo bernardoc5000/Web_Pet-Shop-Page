@@ -99,114 +99,112 @@ page.post("/addAppointment", function(req, res){
 
 page.post("/loadServicosOptionsPets", function(req, res){
 	userId = req.body.sessionUserId;
-	db.pets.list({ownerId: userId, include_docs: true}, function(err, body){
+	db.pets.list({include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
 			return;
 		}
 		let pets = [];
-		for (let i=0; i<body.rows.length; i++) pets.push(body.rows[i].doc);
+		for (let i=0; i<body.rows.length; i++){
+			if(body.rows[i].doc.ownerId === userId) pets.push(body.rows[i].doc);
+		}
 		res.send(pets);
 	});
 });
 
 page.post("/loadAnimais", function(req, res){
-	userId = req.body.sessionUserId;
-	db.pets.list({ownerId: userId, include_docs: true}, function(err, body){
+	ownerId = req.body.ownerId;
+	db.pets.list({include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
 			return;
 		}
 		let pets = [];
-		for (let i=0; i<body.rows.length; i++) pets.push(body.rows[i].doc);
+		for (let i=0; i<body.rows.length; i++){
+			if(body.rows[i].doc.ownerId === ownerId) pets.push(body.rows[i].doc);
+		}
 		res.send(pets);
 	});
 });
 
 page.post("/loadProductData", function(req, res){
 	productId = req.body.productId;
-	db.products.list({ _id: productId, include_docs: true}, function(err, body){
+	db.products.get(productId, {include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
 			return;
 		}
-		let products = body.rows[0].doc;
-		res.send(products);
+		res.send(body);
 	});
 });
 
 page.post("/loadServiceData", function(req, res){
 	serviceId = req.body.serviceId;
-	db.services.list({ _id: serviceId, include_docs: true}, function(err, body){
+	db.services.get(serviceId, { include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
 			return;
 		}
-		let services = body.rows[0].doc;
-		res.send(services);
+		res.send(body);
 	});
 });
 
 page.post("/loadServicosHorariosAppointment", function(req, res){
 	day = req.body.day;
-	db.appointments.list({ day: day, include_docs: true}, function(err, body){
+	db.appointments.list({include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
 			return;
 		}
 		let appointments = [];
-		for (let i=0; i<body.rows.length; i++) appointments.push(body.rows[i].doc);
+		for (let i=0; i<body.rows.length; i++){
+			if(body.rows[i].doc.day === day) appointments.push(body.rows[i].doc);
+		}
 		res.send(appointments);
 	});
 });
 
 page.post("/loadServicosHorariosService", function(req, res){
 	serviceId = req.body.serviceId;
-	db.services.list({ _id: serviceId, include_docs: true}, function(err, body){
+	db.services.get(serviceId, {include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
 			return;
 		}
-		let services = [];
-		for (let i=0; i<body.rows.length; i++) services.push(body.rows[i].doc);
-		res.send(services);
+		res.send(body);
 	});
 });
 
 page.post("/loadServicosHorariosPet", function(req, res){
 	petId = req.body.petId;
-	db.pets.list({ _id: petId, include_docs: true}, function(err, body){
+	db.pets.get(petId, {include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
 			return;
 		}
-		let pets = [];
-		for (let i=0; i<body.rows.length; i++) pets.push(body.rows[i].doc);
-		res.send(pets);
+		res.send(body);
 	});
 });
 
 page.post("/loadCarrinho", function(req, res){
 	productId = req.body.productId;
-	db.products.list({ _id: productId, include_docs: true}, function(err, body){
+	db.products.get(productId, {include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
 			return;
 		}
-		let products = body.rows[0].doc;
-		res.send(products);
+		res.send(body);
 	});
 });
 
 page.post("/addProductSaleGetProduct", function(req, res){
 	productId = req.body.productId;
-	db.products.list({ _id: productId, include_docs: true}, function(err, body){
+	db.products.get(productId, {include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
 			return;
 		}
-		let products = body.rows[0].doc;
-		res.send(products);
+		res.send(body);
 	});
 });
 
@@ -220,13 +218,12 @@ page.post("/addProductSaleAdd", function(req, res){
 
 page.post("/addServiceSaleGetService", function(req, res){
 	serviceId = req.body.serviceId;
-	db.services.list({ _id: serviceId, include_docs: true}, function(err, body){
+	db.services.get(serviceId, {include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
 			return;
 		}
-		let services = body.rows[0].doc;
-		res.send(services);
+		res.send(body);
 	});
 });
 
@@ -240,25 +237,23 @@ page.post("/addServiceSaleAdd", function(req, res){
 
 page.post("/addCarrinho", function(req, res){
 	productId = req.body.productId;
-	db.products.list({ _id: productId, include_docs: true}, function(err, body){
+	db.products.get(productId, {include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
 			return;
 		}
-		let products = body.rows[0].doc;
-		res.send(products);
+		res.send(body);
 	});
 });
 
 page.post("/showAnimal", function(req, res){
 	petId = req.body.petId;
-	db.pets.list({ _id: petId, include_docs: true}, function(err, body){
+	db.pets.get(petId, {include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
 			return;
 		}
-		let pets = body.rows[0].doc;
-		res.send(pets);
+		res.send(body);
 	});
 });
 
