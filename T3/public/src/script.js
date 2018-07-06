@@ -169,7 +169,7 @@ function loadCarrinho(){
 			line += "<td>" + carrinho.get(id).toString() + "</td>";
 			line += "<td>" + product['price'].toString() + "</td>";
 			line += "<td>" + (carrinho.get(id)*product['price']).toString() + "</td>";
-			line += "<td><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeCarrinho(" + id.toString() +")\"></td>";
+			line += "<td><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeCarrinho(\'" + id.toString() +"\')\"></td>";
 			line += "</tr>";
 		});
 	}
@@ -182,6 +182,7 @@ function loadCarrinho(){
 	line += "<td></td>";
 	line += "</tr>";
 	$("#carrinho").html(line);
+	
 }
 
 //Mostra a pagina de edicao do servico

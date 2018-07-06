@@ -234,7 +234,7 @@ page.post("/loadServicosHorariosPet", function(req, res){
 });
 
 page.post("/loadCarrinho", function(req, res){
-	let  = req.body.productId;
+	let productId = req.body.productId;
 	db.products.get(productId, {include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
