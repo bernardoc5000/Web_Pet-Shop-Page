@@ -152,36 +152,42 @@ function loadAnimais(){
 //Gera a tabela do carrinho a partir do mapa
 function loadCarrinho(){
 	let tot = 0;
-	let line = 	"<tr>";
-	line += "<th>Foto</th>";
-	line += "<th>Produto</th>";
-	line += "<th>Quantidade</th>";
-	line += "<th>Preço unid.</th>";
-	line += "<th>Valor total</th>";
-	line += "<th>Remover</th>";
-	line += "</tr>";
-	for (let id of carrinho.keys()){
-		sendJSON("loadCarrinho", {productId: id}, function(product){
-			tot += carrinho.get(id)*product['price'];
-			line += "<tr>";
-			line += "<td><img src=\"" + product['image'] + "\"></td>";
-			line += "<td>" + product['description'] + "</td>";
-			line += "<td>" + carrinho.get(id).toString() + "</td>";
-			line += "<td>" + product['price'].toString() + "</td>";
-			line += "<td>" + (carrinho.get(id)*product['price']).toString() + "</td>";
-			line += "<td><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeCarrinho(\'" + id.toString() +"\')\"></td>";
-			line += "</tr>";
-		});
-	}
-	line += "<tr>";
-	line += "<td>Total a pagar: </td>";
-	line += "<td></td>";
-	line += "<td></td>";
-	line += "<td></td>";
-	line += "<td>" + tot.toString() + "</td>";
-	line += "<td></td>";
-	line += "</tr>";
-	$("#carrinho").html(line);
+	let line = 	"";
+	let keys = Array.from(carrinho.keys());
+	sendJSON("loadCarrinho", {keys: keys}, function(products){
+		tot = 0;
+		line = 	"<tr>";
+		line += "<th>Foto</th>";
+		line += "<th>Produto</th>";
+		line += "<th>Quantidade</th>";
+		line += "<th>Preço unid.</th>";
+		line += "<th>Valor total</th>";
+		line += "<th>Remover</th>";
+		line += "</tr>";
+		for (let i=0; i<products.length ; i++){
+			//sendJSON("loadCarrinho", {productId: id}, function(product){
+				product = products[i];
+				tot += carrinho.get(product['_id'])*product['price'];
+				line += "<tr>";
+				line += "<td><img src=\"" + product['image'] + "\"></td>";
+				line += "<td>" + product['description'] + "</td>";
+				line += "<td>" + carrinho.get(product['_id']).toString() + "</td>";
+				line += "<td>" + product['price'].toString() + "</td>";
+				line += "<td>" + (carrinho.get(product['_id'])*product['price']).toString() + "</td>";
+				line += "<td><input type=\"button\" name=\"Remover\" value=\"Remover\" class=\"ProductButton\" onclick=\"removeCarrinho(\'" + product['_id'].toString() +"\')\"></td>";
+				line += "</tr>";
+			//});
+		}
+		line += "<tr>";
+		line += "<td>Total a pagar: </td>";
+		line += "<td></td>";
+		line += "<td></td>";
+		line += "<td></td>";
+		line += "<td>" + tot.toString() + "</td>";
+		line += "<td></td>";
+		line += "</tr>";
+		$("#carrinho").html(line);
+	});
 	
 }
 

@@ -234,14 +234,19 @@ page.post("/loadServicosHorariosPet", function(req, res){
 });
 
 page.post("/loadCarrinho", function(req, res){
-	let productId = req.body.productId;
-	db.products.get(productId, {include_docs: true}, function(err, body){
+	let keys = req.body.keys;
+	db.products.list({include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
 			return;
 		}
-		res.send(body);
+		let products = [];
+		for (let i=0; i<body.rows.length; i++){
+			if(keys.includes(body.rows[i].doc['_id'])) products.push(body.rows[i].doc);
+		}
+	res.send(products);
 	});
+	
 });
 
 page.post("/addProductSaleGetProduct", function(req, res){
