@@ -187,7 +187,7 @@ function loadCarrinho(){
 //Mostra a pagina de edicao do servico
 function loadEditServico(id){
 	$("#MainContent").load("src/admin_servicos_adicionar.html", function(responseTxt, statusTxt, xhr){
-		$("#submit_button").attr('onclick', "editServico(" + id.toString() + ")");
+		$("#submit_button").attr('onclick', "editServico(\'" + id.toString() + "\')");
 		$("#submit_button").attr('value', "Salvar");
 		$("#add_servico").append("<input type=\"button\" name=\"SubmitButton\" value=\"Cancelar\" class=\"Button\" onclick=\"loadServicos();\">");
 		loadServiceData(id);
@@ -197,7 +197,7 @@ function loadEditServico(id){
 //Mostra a pagina de edicao do produto
 function loadEditProduto(id){
 	$("#MainContent").load("src/admin_produtos_adicionar.html", function(responseTxt, statusTxt, xhr){
-		$("#submit_button").attr('onclick', "editProduto(" + id.toString() + ")");
+		$("#submit_button").attr('onclick', "editProduto(\'" + id.toString() + "\')");
 		$("#submit_button").attr('value', "Salvar");
 		$("#add_produto").append("<input type=\"button\" name=\"SubmitButton\" value=\"Cancelar\" class=\"Button\" onclick=\"loadProdutos(1);\">");
 		loadProductData(id);
@@ -267,31 +267,39 @@ function editProduto(id){
 	if($("#add_produto")[0].checkValidity() === false) alert("Dados Invalidos.");
 	else{
 		if($("#produto_foto").prop("files")[0] === undefined){
-			db.products.update(id, {
+			let product = {
+				_id: id,
 				name: $("#produto_nome").val(),
 				description: $("#produto_desc").val(),
 				price: parseFloat($("#produto_preco").val()),
-				inStock: parseInt($("#produto_estoque").val()),
-			}).then(function(){
-
-				$("#MainContent").empty();
-				loadProdutos(1);
-				alert("Produto alterado com sucesso.");
+				inStock: parseInt($("#produto_estoque").val())
+			};
+			sendJSON("editProduto", product, function(data){
+				if(data.success){
+					$("#MainContent").empty();
+					loadProdutos(1);
+					alert("Produto alterado com sucesso.");
+				}
+				else alert("Erro ao alterar produto.");
 			});
 		}
 		else{
 			reader.onloadend = function(){
-				db.products.update(id, {
+				let product = {
+					_id: id,
 					name: $("#produto_nome").val(),
 					image: reader.result,
 					description: $("#produto_desc").val(),
 					price: parseFloat($("#produto_preco").val()),
-					inStock: parseInt($("#produto_estoque").val()),
-				}).then(function(){
-
-					$("#MainContent").empty();
-					loadProdutos(1);
-					alert("Produto alterado com sucesso.");
+					inStock: parseInt($("#produto_estoque").val())
+				};
+				sendJSON("editProduto", product, function(data){
+					if(data.success){
+						$("#MainContent").empty();
+						loadProdutos(1);
+						alert("Produto alterado com sucesso.");
+					}
+					else alert("Erro ao alterar produto.");
 				});
 			};
 			reader.readAsDataURL($("#produto_foto").prop("files")[0]);
@@ -304,31 +312,39 @@ function editServico(id){
 	if($("#add_servico")[0].checkValidity() === false) alert("Dados Invalidos.");
 	else{
 		if($("#servico_foto").prop("files")[0] === undefined){
-			db.services.update(id, {
+			let service = {
+				_id: id,
 				name: $("#servico_nome").val(),
 				description: $("#servico_desc").val(),
 				price: parseFloat($("#servico_preco").val())
-			}).then(function(){
-
-				$("#MainContent").empty();
-				loadServicos();
-				alert("Serviço alterado com sucesso.");
+			};
+			sendJSON("editServico", service, function(data){
+				if(data.success){
+					$("#MainContent").empty();
+					loadServicos();
+					alert("Serviço alterado com sucesso.");
+				}
+				else alert("Erro ao alterar o serviço.");
 			});
 		}
 		else{
 			reader.onloadend = function(){
-				db.services.update(id, {
+				let service = {
+					_id: id,
 					name: $("#servico_nome").val(),
 					image: reader.result,
 					description: $("#servico_desc").val(),
 					price: parseFloat($("#servico_preco").val())
-				}).then(function(){
-
-					$("#MainContent").empty();
-					loadServicos();
-					alert("Serviço alterado com sucesso.");
+				};
+				sendJSON("editServico", service, function(data){
+					if(data.success){
+						$("#MainContent").empty();
+						loadServicos();
+						alert("Serviço alterado com sucesso.");
+					}
+					else alert("Erro ao alterar o serviço.");
 				});
-			}
+			};
 			reader.readAsDataURL($("#servico_foto").prop("files")[0]);
 		}
 	}
@@ -339,29 +355,33 @@ function editUser(){
 	if($("#usuario_cadastro")[0].checkValidity() === false) alert("Dados Invalidos.");
 	else{
 		if($("#usuario_foto").prop("files")[0] === undefined){
-			db.clients.update(sessionUser['id'], {
-			name: $("#usuario_nome").val(),
-			addr: $("#usuario_endereco").val(),
-			tel: $("#usuario_tel").val(),
-			email: $("#usuario_email").val(),
-			username: $("#usuario_user").val(),
-			password: $("#usuario_password").val()
-			}).then(function(){
-
-				alert("Cadastro alterado com sucesso.");
+			let client = {
+				_id: sessionUser['_id'],
+				name: $("#usuario_nome").val(),
+				addr: $("#usuario_endereco").val(),
+				tel: $("#usuario_tel").val(),
+				email: $("#usuario_email").val(),
+				username: $("#usuario_user").val(),
+				password: $("#usuario_password").val()
+			};
+			sendJSON("editUser", client, function(data){
+				if(data.success){
+					alert("Cadastro alterado com sucesso.");
+					sessionUser['name'] = $("#usuario_nome").val();
+					sessionUser['addr'] = $("#usuario_endereco").val();
+					sessionUser['image'] = sessionUser['image'];
+					sessionUser['tel'] = $("#usuario_tel").val();
+					sessionUser['email'] = $("#usuario_email").val();
+					sessionUser['username'] = $("#usuario_user").val();
+					sessionUser['password'] = $("#usuario_password").val();
+				}
+				else alert("Erro ao alterar dados do usuário.")
 			});
-
-			sessionUser['name'] = $("#usuario_nome").val();
-			sessionUser['addr'] = $("#usuario_endereco").val();
-			sessionUser['image'] = sessionUser['image'];
-			sessionUser['tel'] = $("#usuario_tel").val();
-			sessionUser['email'] = $("#usuario_email").val();
-			sessionUser['username'] = $("#usuario_user").val();
-			sessionUser['password'] = $("#usuario_password").val();
 		}
 		else{
 			reader.onloadend = function(){
-				db.clients.update(sessionUser['id'], {
+				let client = {
+					_id: sessionUser['_id'],
 					name: $("#usuario_nome").val(),
 					addr: $("#usuario_endereco").val(),
 					image: reader.result,
@@ -369,19 +389,21 @@ function editUser(){
 					email: $("#usuario_email").val(),
 					username: $("#usuario_user").val(),
 					password: $("#usuario_password").val()
-				}).then(function(){
-					
-					alert("Cadastro alterado com sucesso.");
+				};
+				sendJSON("editUser", client, function(data){
+					if(data.success){
+						alert("Cadastro alterado com sucesso.");
+						sessionUser['name'] = $("#usuario_nome").val();
+						sessionUser['addr'] = $("#usuario_endereco").val();
+						sessionUser['image'] = sessionUser['image'];
+						sessionUser['tel'] = $("#usuario_tel").val();
+						sessionUser['email'] = $("#usuario_email").val();
+						sessionUser['username'] = $("#usuario_user").val();
+						sessionUser['password'] = $("#usuario_password").val();
+					}
+					else alert("Erro ao alterar dados do usuário.")
 				});
-
-				sessionUser['name'] = $("#usuario_nome").val();
-				sessionUser['addr'] = $("#usuario_endereco").val();
-				sessionUser['image'] = reader.result;
-				sessionUser['tel'] = $("#usuario_tel").val();
-				sessionUser['email'] = $("#usuario_email").val();
-				sessionUser['username'] = $("#usuario_user").val();
-				sessionUser['password'] = $("#usuario_password").val();
-			}
+			};
 			reader.readAsDataURL($("#usuario_foto").prop("files")[0]);
 		}
 	}
@@ -509,7 +531,10 @@ function addAppointment(){
 			time: $("#Horarios input[name=time_schedule]:checked").val()
 		};
 		sendJSON("addAppointment", appointment, function(data){
-			if(data.success) alert("Serviço agendado com sucesso.");
+			if(data.success){
+				addServiceSale($("#select_servico").val());
+				alert("Serviço agendado com sucesso.");
+			}
 			else alert("Erro ao agendar o serviço.");
 		});
 		loadServicosHorarios();
@@ -566,15 +591,17 @@ function addCarrinho(id){
 
 //Remove o produto do BD
 function removeProduto(id){
-	db.products.delete(id).then(function(){
-		loadProdutos(1);
+	sendJSON("removeProduto", {productId: id}, function(data){
+		if(data.success) loadProdutos(1);
+		else alert("Erro ao remover produto.");
 	});
 }
 
 //Remove o servico do BD
 function removeServico(id){
-	db.services.delete(id).then(function(){
-		loadServicos();
+	sendJSON("removeServico", {serviceId: id}, function(data){
+		if(data.success) loadServicos();
+		else alert("Erro ao remover serviço.");
 	});
 }
 
@@ -601,11 +628,8 @@ function showAnimal(id){
 
 //Atualiza os dados no BD apos a compra
 function updateStock(id, quantity){
-	db.products.get(id, function(product){
-		db.products.update(id, {
-			inStock: product['inStock'] - quantity,
-			sold: product['sold'] + quantity
-		});
+	sendJSON("updateStock", {productId: id, quantity: quantity}, function(data){
+		if(!data.success) alert("Erro ao atualizar estoque.");
 	});
 }
 

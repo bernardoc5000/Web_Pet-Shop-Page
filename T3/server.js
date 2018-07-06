@@ -58,7 +58,6 @@ page.post("/addProduto", function(req, res){
 
 page.post("/addServico", function(req, res){
 	let service = req.body;
-	service.sold = 0;
 	db.services.insert(service, function(err, body){
 		if (err) res.send({success: false});
 		else res.send({success: true});
@@ -98,7 +97,7 @@ page.post("/addAppointment", function(req, res){
 });
 
 page.post("/loadServicosOptionsPets", function(req, res){
-	userId = req.body.sessionUserId;
+	let userId = req.body.sessionUserId;
 	db.pets.list({include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
@@ -113,7 +112,7 @@ page.post("/loadServicosOptionsPets", function(req, res){
 });
 
 page.post("/loadAnimais", function(req, res){
-	ownerId = req.body.ownerId;
+	let ownerId = req.body.ownerId;
 	db.pets.list({include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
@@ -128,7 +127,7 @@ page.post("/loadAnimais", function(req, res){
 });
 
 page.post("/loadProductData", function(req, res){
-	productId = req.body.productId;
+	let productId = req.body.productId;
 	db.products.get(productId, {include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
@@ -139,7 +138,7 @@ page.post("/loadProductData", function(req, res){
 });
 
 page.post("/loadServiceData", function(req, res){
-	serviceId = req.body.serviceId;
+	let serviceId = req.body.serviceId;
 	db.services.get(serviceId, { include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
@@ -149,8 +148,56 @@ page.post("/loadServiceData", function(req, res){
 	});
 });
 
+page.post("/editProduto", function(req, res){
+	let product = req.body, productId = product['_id'];
+	db.products.get(productId, {include_docs: true}, function(err, body){
+		if (err){
+			res.send([]);
+			return;
+		}
+		product['_rev'] = body['_rev'];
+		if(product['image'] === undefined) product['image'] = body['image'];
+		db.products.insert(product, function(err, body){
+			if (err) res.send({success: false});
+			else res.send({success: true});
+		});
+	});
+});
+
+page.post("/editServico", function(req, res){
+	let service = req.body, serviceId = service['_id'];
+	db.services.get(serviceId, {include_docs: true}, function(err, body){
+		if (err){
+			res.send([]);
+			return;
+		}
+		service['_rev'] = body['_rev'];
+		if(service['image'] === undefined) service['image'] = body['image'];
+		db.services.insert(service, function(err, body){
+			if (err) res.send({success: false});
+			else res.send({success: true});
+		});
+	});
+});
+
+page.post("/editUser", function(req, res){
+	let client = req.body, clientId = client['_id'];
+	db.clients.get(clientId, {include_docs: true}, function(err, body){
+		if (err){
+			res.send([]);
+			return;
+		}
+		client['_rev'] = body['_rev'];
+		if(client['image'] === undefined) client['image'] = body['image'];
+		db.clients.insert(client, function(err, body){
+			if (err) res.send({success: false});
+			else res.send({success: true});
+		});
+	});
+});
+
 page.post("/loadServicosHorariosAppointment", function(req, res){
-	day = req.body.day;
+	let day = req.body.day;
 	db.appointments.list({include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
@@ -165,7 +212,7 @@ page.post("/loadServicosHorariosAppointment", function(req, res){
 });
 
 page.post("/loadServicosHorariosService", function(req, res){
-	serviceId = req.body.serviceId;
+	let serviceId = req.body.serviceId;
 	db.services.get(serviceId, {include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
@@ -176,7 +223,7 @@ page.post("/loadServicosHorariosService", function(req, res){
 });
 
 page.post("/loadServicosHorariosPet", function(req, res){
-	petId = req.body.petId;
+	let petId = req.body.petId;
 	db.pets.get(petId, {include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
@@ -187,7 +234,7 @@ page.post("/loadServicosHorariosPet", function(req, res){
 });
 
 page.post("/loadCarrinho", function(req, res){
-	productId = req.body.productId;
+	let  = req.body.productId;
 	db.products.get(productId, {include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
@@ -198,7 +245,7 @@ page.post("/loadCarrinho", function(req, res){
 });
 
 page.post("/addProductSaleGetProduct", function(req, res){
-	productId = req.body.productId;
+	let productId = req.body.productId;
 	db.products.get(productId, {include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
@@ -217,7 +264,7 @@ page.post("/addProductSaleAdd", function(req, res){
 });
 
 page.post("/addServiceSaleGetService", function(req, res){
-	serviceId = req.body.serviceId;
+	let serviceId = req.body.serviceId;
 	db.services.get(serviceId, {include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
@@ -236,7 +283,7 @@ page.post("/addServiceSaleAdd", function(req, res){
 });
 
 page.post("/addCarrinho", function(req, res){
-	productId = req.body.productId;
+	let productId = req.body.productId;
 	db.products.get(productId, {include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
@@ -246,14 +293,58 @@ page.post("/addCarrinho", function(req, res){
 	});
 });
 
+page.post("/removeProduto", function(req, res){
+	let productId = req.body.productId;
+	db.products.get(productId, {include_docs: true}, function(err, body){
+		if (err){
+			res.send({success: false});
+			return;
+		}
+		db.products.destroy(body['_id'], body['_rev'], function(err, body){
+			if (err) res.send({success: false});
+			else res.send({success: true});
+		});
+	});
+});
+
+page.post("/removeServico", function(req, res){
+	let serviceId = req.body.serviceId;
+	db.services.get(serviceId, {include_docs: true}, function(err, body){
+		if (err){
+			res.send({success: false});
+			return;
+		}
+		db.services.destroy(body['_id'], body['_rev'], function(err, body){
+			if (err) res.send({success: false});
+			else res.send({success: true});
+		});
+	});
+});
+
 page.post("/showAnimal", function(req, res){
-	petId = req.body.petId;
+	let petId = req.body.petId;
 	db.pets.get(petId, {include_docs: true}, function(err, body){
 		if (err){
 			res.send([]);
 			return;
 		}
 		res.send(body);
+	});
+});
+
+page.post("/updateStock", function(req, res){
+	let productId = req.body.productId, quantity = req.body.quantity;
+	db.products.get(productId, {include_docs: true}, function(err, body){
+		if (err){
+			res.send({success: false});
+			return;
+		}
+		body['inStock'] = body['inStock'] - quantity;
+		body['sold'] = body['sold'] + quantity;
+		db.products.insert(body, function(err, body){
+			if (err) res.send({success: false});
+			else res.send({success: true});
+		});
 	});
 });
 
