@@ -1,3 +1,5 @@
+Primeiramente ligamos o Web Server, utilizando o comando "node server.js", para que possamos acessar o site. Então abrimos o navegador e nos conectamos ao localhost na porta 5985, assim, nos conectamos à página inicial do nosso site.
+//Verificar daki pra baixo
 Ao abrir o arquivo index.html, aparece inicialmente a página inicial, temos o formulário de login ele verifica se o usuário digitado se encontra cadastrado no sistema, seja ele um usuário ou um administrador (Inicialmente são adicionados via código dois usuários iniciais, um administrador (user: admin, password: admin) e um usuário normal (user: user, password: user).
 
 Ao tentar digitar um usuário não cadastrado (user: user2, password: user2) vemos que o navegador emite um alerta dizendo que o usuário ou a senha são inválidos, não permitindo o acesso.
