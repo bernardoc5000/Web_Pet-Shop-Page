@@ -2,7 +2,8 @@
 	<label for="admin_nome">Nome:</label>
 	<input id="admin_nome" type="text" name="Admin Nome" placeholder="Seu Nome" required><br>
 	<label for="admin_foto">Foto:</label>
-	<input id="admin_foto" type="file" name="Admin Foto" placeholder="C:\Fotos\foto.png"><br>
+	<input id="admin_foto" type="file" name="Admin Foto" placeholder="C:\Fotos\foto.png" onchange="changeImage(2);"><br>
+	<img id="admin_img"  alt="Image"><br>
 	<label for="admin_tel">Telefone:</label>
 	<input id="admin_tel" type="tel" name="Admin Telefone" placeholder="(00) 0000-0000" required><br>
 	<label for="admin_email">E-mail:</label>

@@ -255,6 +255,7 @@ function loadUserData(){
 function loadProductData(id){
 	sendJSON("loadProductData", {productId: id}, function(product){
 		$("#produto_nome").val(product['name']);
+		$("#produto_img").attr('src', product['image']);
 		$("#produto_preco").val(product['price']);
 		$("#produto_estoque").val(product['inStock']);
 		$("#produto_desc").val(product['description']);
@@ -265,6 +266,7 @@ function loadProductData(id){
 function loadServiceData(id){
 	sendJSON("loadServiceData", {serviceId: id}, function(service){
 		$("#servico_nome").val(service['name']);
+		$("#servico_img").attr('src', service['image']);
 		$("#servico_preco").val(service['price']);
 		$("#servico_desc").val(service['description']);
 	});
@@ -414,6 +416,39 @@ function editUser(){
 			};
 			reader.readAsDataURL($("#usuario_foto").prop("files")[0]);
 		}
+	}
+}
+
+function changeImage(op){
+	if(op === 1){
+		reader.onloadend = function(){
+			$("#usuario_img").attr('src', reader.result);
+		}
+		reader.readAsDataURL($("#usuario_foto").prop("files")[0]);
+	}
+	else if(op === 2){
+		reader.onloadend = function(){
+			$("#admin_img").attr('src', reader.result);
+		}
+		reader.readAsDataURL($("#admin_foto").prop("files")[0]);
+	}
+	else if(op === 3){
+		reader.onloadend = function(){
+			$("#produto_img").attr('src', reader.result);
+		}
+		reader.readAsDataURL($("#produto_foto").prop("files")[0]);
+	}
+	else if(op === 4){
+		reader.onloadend = function(){
+			$("#servico_img").attr('src', reader.result);
+		}
+		reader.readAsDataURL($("#servico_foto").prop("files")[0]);
+	}
+	else if(op === 5){
+		reader.onloadend = function(){
+			$("#animal_img").attr('src', reader.result);
+		}
+		reader.readAsDataURL($("#animal_foto").prop("files")[0]);
 	}
 }
 
