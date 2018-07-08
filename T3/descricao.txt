@@ -4,13 +4,20 @@ Bernardo Barcellos de Castro Cunha	9293380
 Fabrício Guedes Faria				9293522
 
 Observações:
-Utilizamos IndexedDB com o wrapper Dexie.js.
+Utilizamos couchdb para o bd.
+Utilizamos o módulo nano para utilizar o couchdb no node.js.
+O servidor do couchdb precisa estar rodando local(127.0.0.1) na mesma máquina do servidor, na porta 5984, e com um admnistrador com usuario "admin" e senha "couchdb".
+Utilizamos o Ajax do JQuery para fazer as requisições HTTP entre o cliente e o servidor.
+Utilizamos express.js para o servidor.
+O site está sendo hosteado na porta 5985.
+Utilizamos os seguintes módulos(que devem ser instalados via npm): express, compression, body-parser, nano.
 Não utilizamos o Bootstrap pois o código do trabalho anterior bastava.
 Utilizamos JQuery para fazer a SPA.
-Os ids sao gerados aleatoriamente na insercao. Eles sao inteiros entre 0 e (2^31)-1. Isso é similar a como sites como o Youtube fazem, pois é difícil de alguem de fora chutar ID's válidos. Além da probabilidade de que seja necessário mais de uma verificação para ver se o id já existe é baixa.
-Todas as funcionalidades que seriam servidor foram implementadas localmente com o banco de dados local.
+Os ids sao gerados aleatoriamente na insercao.
 
 Descrição dos arquivos:
+server.js -> arquivo com todo o codigo node do server
+public/ -> pasta com todos os arquivos do cliente
 index.html -> pagina inicial
 favicon.ico -> icone que browser fazem requisicao
 src/ -> pasta com todos o resto dos códigos do trabalho
