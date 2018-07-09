@@ -6,7 +6,7 @@ page.use(express.static(__dirname + "/public"));
 page.use(compression());
 page.use(bodyParser.json({limit: '10mb'}));
 
-var nano = require('nano')("http://admin:couchdb@127.0.0.1:5984");
+var nano = require('nano')("http://couchdb:couchdb@192.168.0.106:5984");
 var db = {};
 nano.db.list(function(err, body){
 	if (err) return;
@@ -78,9 +78,30 @@ page.post("/addServico", function(req, res){
 
 page.post("/addUser", function(req, res){
 	let user = req.body;
-	db.clients.insert(user, function(err, body){
-		if (err) res.send({success: false});
-		else res.send({success: true});
+	let exists = false;
+	db.admins.list({include_docs: true}, function(err, body){
+		if (err){
+			res.send({success: false});
+			return;
+		}
+		for (let i=0; exists === false && i<body.rows.length; i++) if (body.rows[i].doc.username === user.username) exists = true;
+		if (exists === true) res.send({success: false});
+		else{
+			db.clients.list({include_docs: true}, function(err, body){
+				if (err){
+					res.send({success: false});
+					return;
+				}
+				for (let i=0; exists === false && i<body.rows.length; i++) if (body.rows[i].doc.username === user.username) exists = true;
+				if (exists === true) res.send({success: false});
+				else{
+					db.clients.insert(user, function(err, body){
+						if (err) res.send({success: false});
+						else res.send({success: true});
+					});
+				}
+			});
+		}
 	});
 });
 
@@ -94,9 +115,30 @@ page.post("/addAnimal", function(req, res){
 
 page.post("/addAdmin", function(req, res){
 	let admin = req.body;
-	db.admins.insert(admin, function(err, body){
-		if (err) res.send({success: false});
-		else res.send({success: true});
+	let exists = false;
+	db.admins.list({include_docs: true}, function(err, body){
+		if (err){
+			res.send({success: false});
+			return;
+		}
+		for (let i=0; exists === false && i<body.rows.length; i++) if (body.rows[i].doc.username === admin.username) exists = true;
+		if (exists === true) res.send({success: false});
+		else{
+			db.clients.list({include_docs: true}, function(err, body){
+				if (err){
+					res.send({success: false});
+					return;
+				}
+				for (let i=0; exists === false && i<body.rows.length; i++) if (body.rows[i].doc.username === admin.username) exists = true;
+				if (exists === true) res.send({success: false});
+				else{
+					db.admins.insert(admin, function(err, body){
+						if (err) res.send({success: false});
+						else res.send({success: true});
+					});
+				}
+			});
+		}
 	});
 });
 
