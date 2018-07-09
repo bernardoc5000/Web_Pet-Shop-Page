@@ -6,7 +6,7 @@ page.use(express.static(__dirname + "/public"));
 page.use(compression());
 page.use(bodyParser.json({limit: '10mb'}));
 
-var nano = require('nano')("http://couchdb:couchdb@192.168.0.106:5984");
+var nano = require('nano')("http://admin:couchdb@127.0.0.1:5984");
 var db = {};
 nano.db.list(function(err, body){
 	if (err) return;
